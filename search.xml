@@ -4,12 +4,18 @@
   
     
     <entry>
-      <title></title>
-      <link href="/2025/03/07/vbenlearn/"/>
-      <url>/2025/03/07/vbenlearn/</url>
+      <title>Java Script Learning</title>
+      <link href="/2025/03/07/typescriptlearning/"/>
+      <url>/2025/03/07/typescriptlearning/</url>
       
-        <content type="html"><![CDATA[<hr><p>title: TypeScript Learning<br>date: 2025-03-07 10:09:48<br>categories: Vben Admin Learning<br>toc: true</p><hr><p><img src="C:\Users\chenhy\AppData\Roaming\Typora\typora-user-images\image-20250307105141089.png" alt="image-20250307105141089"></p>]]></content>
+        <content type="html"><![CDATA[<p>javascript解构</p><p><img src="C:\Users\chenhy\AppData\Roaming\Typora\typora-user-images\image-20250307105715573.png" alt="image-20250307105715573"></p>]]></content>
       
+      
+      <categories>
+          
+          <category> Type Script Learning </category>
+          
+      </categories>
       
       
     </entry>

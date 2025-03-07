@@ -152,9 +152,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div class=&quot;app&quot;&gt;</span><br><span class="line">    &lt;h1&gt;你好啊！&lt;/h1&gt;</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot;&gt;</span><br><span class="line">  export default &#123;</span><br><span class="line">    name:&#x27;App&#x27; //组件名</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">  .app &#123;</span><br><span class="line">    background-color: #ddd;</span><br><span class="line">    box-shadow: 0 0 10px;</span><br><span class="line">    border-radius: 10px;</span><br><span class="line">    padding: 20px;</span><br><span class="line">  &#125;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure>
 
 <p>安装官方推荐的<code>vscode</code>插件：</p>
-<img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\volar.png" alt="Snipaste_2023-10-08_20-46-34" style="zoom:50%;" /> 
+<img src="C:\Users\chenhy\Desktop\blog\source\images\volar.png" alt="Snipaste_2023-10-08_20-46-34" style="zoom:50%;" /> 
 
-<img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\image-20231218085906380.png" alt="image-20231218085906380" style="zoom:42%;" /> 
+<img src="C:\Users\chenhy\Desktop\blog\source\images\image-20231218085906380.png" alt="image-20231218085906380" style="zoom:42%;" /> 
 
 <p>总结：</p>
 <ul>
@@ -171,9 +171,9 @@
 <li><code>Vue3</code>的<code>API</code>设计是<code>Composition</code>（组合）风格的。</li>
 </ul>
 <h3 id="Options-API-的弊端"><a href="#Options-API-的弊端" class="headerlink" title="Options API 的弊端"></a>Options API 的弊端</h3><p><code>Options</code>类型的 <code>API</code>，数据、方法、计算属性等，是分散在：<code>data</code>、<code>methods</code>、<code>computed</code>中的，若想新增或者修改一个需求，就需要分别修改：<code>data</code>、<code>methods</code>、<code>computed</code>，不便于维护和复用。</p>
-<p><img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\1696662197101-55d2b251-f6e5-47f4-b3f1-d8531bbf9279.gif" alt="1.gif" style="zoom:70%;border-radius:20px" /><img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\1696662200734-1bad8249-d7a2-423e-a3c3-ab4c110628be.gif" alt="2.gif" style="zoom:70%;border-radius:20px" /></p>
+<p><img src="C:\Users\chenhy\Desktop\blog\source\images\1696662197101-55d2b251-f6e5-47f4-b3f1-d8531bbf9279.gif" alt="1.gif" style="zoom:70%;border-radius:20px" /><img src="C:\Users\chenhy\Desktop\blog\source\images\1696662200734-1bad8249-d7a2-423e-a3c3-ab4c110628be.gif" alt="2.gif" style="zoom:70%;border-radius:20px" /></p>
 <h3 id="Composition-API-的优势"><a href="#Composition-API-的优势" class="headerlink" title="Composition API 的优势"></a>Composition API 的优势</h3><p>可以用函数的方式，更加优雅的组织代码，让相关功能的代码更加有序的组织在一起。</p>
-<p><img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\1696662249851-db6403a1-acb5-481a-88e0-e1e34d2ef53a.gif" alt="3.gif" style="height:300px;border-radius:10px"  /><img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\1696662256560-7239b9f9-a770-43c1-9386-6cc12ef1e9c0.gif" alt="4.gif" style="height:300px;border-radius:10px"  /></p>
+<p><img src="C:\Users\chenhy\Desktop\blog\source\images\1696662249851-db6403a1-acb5-481a-88e0-e1e34d2ef53a.gif" alt="3.gif" style="height:300px;border-radius:10px"  /><img src="C:\Users\chenhy\Desktop\blog\source\images\1696662256560-7239b9f9-a770-43c1-9386-6cc12ef1e9c0.gif" alt="4.gif" style="height:300px;border-radius:10px"  /></p>
 <blockquote>
 <p>说明：以上四张动图原创作者：大帅老猿</p>
 </blockquote>
@@ -252,7 +252,7 @@
 <blockquote>
 <ol>
 <li><p><code>ref</code>创建的变量必须使用<code>.value</code>（可以使用<code>volar</code>插件自动添加<code>.value</code>）。</p>
-<img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\自动补充value.png" alt="自动补充value" style="zoom:90%;border-radius:20px" /> 
+<img src="C:\Users\chenhy\Desktop\blog\source\images\自动补充value.png" alt="自动补充value" style="zoom:90%;border-radius:20px" /> 
 </li>
 <li><p><code>reactive</code>重新分配一个新对象，会<strong>失去</strong>响应式（可以使用<code>Object.assign</code>去整体替换）。</p>
 <p><code> Object.assign(car, &#123; brand: &#39;奥拓&#39;, price: 1 &#125;)</code></p>
@@ -435,7 +435,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;h2&gt;当前求和为：&#123;&#123;sum&#125;&#125;&lt;/h2&gt;</span><br><span class="line">  &lt;button @click=&quot;increment&quot;&gt;点我+1&lt;/button&gt;</span><br><span class="line">  &lt;button @click=&quot;decrement&quot;&gt;点我-1&lt;/button&gt;</span><br><span class="line">  &lt;hr&gt;</span><br><span class="line">  &lt;img v-for=&quot;(u,index) in dogList.urlList&quot; :key=&quot;index&quot; :src=&quot;(u as string)&quot;&gt; </span><br><span class="line">  &lt;span v-show=&quot;dogList.isLoading&quot;&gt;加载中......&lt;/span&gt;&lt;br&gt;</span><br><span class="line">  &lt;button @click=&quot;getDog&quot;&gt;再来一只狗&lt;/button&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script lang=&quot;ts&quot;&gt;</span><br><span class="line">  import &#123;defineComponent&#125; from &#x27;vue&#x27;</span><br><span class="line"></span><br><span class="line">  export default defineComponent(&#123;</span><br><span class="line">    name:&#x27;App&#x27;,</span><br><span class="line">  &#125;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup lang=&quot;ts&quot;&gt;</span><br><span class="line">  import useSum from &#x27;./hooks/useSum&#x27;</span><br><span class="line">  import useDog from &#x27;./hooks/useDog&#x27;</span><br><span class="line">	</span><br><span class="line">  let &#123;sum,increment,decrement&#125; = useSum()</span><br><span class="line">  let &#123;dogList,getDog&#125; = useDog()</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></li>
 </ul>
 <hr>
-<h1 id="4-路由"><a href="#4-路由" class="headerlink" title="4. 路由"></a>4. 路由</h1><h2 id="4-1-【对路由的理解】"><a href="#4-1-【对路由的理解】" class="headerlink" title="4.1. 【对路由的理解】"></a>4.1. 【对路由的理解】</h2><img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\image-20231018144351536.png" alt="image-20231018144351536" style="zoom:20%;border-radius:40px" /> 
+<h1 id="4-路由"><a href="#4-路由" class="headerlink" title="4. 路由"></a>4. 路由</h1><h2 id="4-1-【对路由的理解】"><a href="#4-1-【对路由的理解】" class="headerlink" title="4.1. 【对路由的理解】"></a>4.1. 【对路由的理解】</h2><img src="C:\Users\chenhy\Desktop\blog\source\images\image-20231018144351536.png" alt="image-20231018144351536" style="zoom:20%;border-radius:40px" /> 
 
 <h2 id="4-2-【基本切换效果】"><a href="#4-2-【基本切换效果】" class="headerlink" title="4.2. 【基本切换效果】"></a>4.2. 【基本切换效果】</h2><ul>
 <li><p><code>Vue3</code>中要使用<code>vue-router</code>的最新版本，目前是<code>4</code>版本。</p>
@@ -548,7 +548,7 @@
 <li><p>具体编码：</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">path</span>:<span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">    <span class="attr">redirect</span>:<span class="string">&#x27;/about&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h1 id="5-pinia"><a href="#5-pinia" class="headerlink" title="5. pinia"></a>5. pinia</h1><h2 id="5-1【准备一个效果】"><a href="#5-1【准备一个效果】" class="headerlink" title="5.1【准备一个效果】"></a>5.1【准备一个效果】</h2><img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\pinia_example.gif" alt="pinia_example" style="zoom:30%;border:3px solid" /> 
+<h1 id="5-pinia"><a href="#5-pinia" class="headerlink" title="5. pinia"></a>5. pinia</h1><h2 id="5-1【准备一个效果】"><a href="#5-1【准备一个效果】" class="headerlink" title="5.1【准备一个效果】"></a>5.1【准备一个效果】</h2><img src="C:\Users\chenhy\Desktop\blog\source\images\pinia_example.gif" alt="pinia_example" style="zoom:30%;border:3px solid" /> 
 
 <h2 id="5-2【搭建-pinia-环境】"><a href="#5-2【搭建-pinia-环境】" class="headerlink" title="5.2【搭建 pinia 环境】"></a>5.2【搭建 pinia 环境】</h2><p>第一步：<code>npm install pinia</code></p>
 <p>第二步：操作<code>src/main.ts</code></p>
@@ -621,7 +621,7 @@
 <li><code>$children</code>被砍掉了。</li>
 </ul>
 <p><strong>常见搭配形式：</strong></p>
-<img src="C:\Users\chenhy\Desktop\blog\source\_posts\images\image-20231119185900990.png" alt="image-20231119185900990" style="zoom:60%;" /> 
+<img src="C:\Users\chenhy\Desktop\blog\source\images\image-20231119185900990.png" alt="image-20231119185900990" style="zoom:60%;" /> 
 
 <h2 id="6-1-【props】"><a href="#6-1-【props】" class="headerlink" title="6.1. 【props】"></a>6.1. 【props】</h2><p>概述：<code>props</code>是使用频率最高的一种通信方式，常用与 ：<strong>父 ↔ 子</strong>。</p>
 <ul>

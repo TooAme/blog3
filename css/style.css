@@ -224,7 +224,8 @@ header h1{
 }
 
 .page-header h1 span.title{
-  font-weight:normal;
+  font-weight: bold;
+  font-style: italic;
   font-family: "Space Grotesk", sans-serif;
 }
 
@@ -355,7 +356,8 @@ td {
 }
 
 ul.search-result-list {
-  padding-left: 10px;
+  padding-left: 20px;
+  padding-right: 10px;
 }
 
 a.search-result-title {

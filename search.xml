@@ -4,7 +4,20 @@
   
     
     <entry>
-      <title>Vue Learning</title>
+      <title>咕咕嘎嘎</title>
+      <link href="/2025/08/15/post/"/>
+      <url>/2025/08/15/post/</url>
+      
+        <content type="html"><![CDATA[<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>这是什么？</p><p>:walking:咕咕嘎嘎</p><p><del>你好</del></p><p>‘ 说话 ‘</p><p><strong>我是谁</strong></p><p><em>你不好</em></p><blockquote><p>你玩</p><p>好的</p></blockquote><details>  <summary>点击展开</summary>  隐藏内容</details><ul><li><input checked="" disabled="" type="checkbox"> 完成任务</li><li><input disabled="" type="checkbox"> 待办任务</li></ul><table><thead><tr><th align="left">左对齐</th><th align="center">居中对齐</th><th align="right">右对齐</th></tr></thead><tbody><tr><td align="left">单元格</td><td align="center">单元格</td><td align="right">单元格</td></tr><tr><td align="left">内容</td><td align="center">内容</td><td align="right">内容</td></tr></tbody></table><table><thead><tr><th align="left">ddd</th><th>dd</th><th>d</th><th></th></tr></thead><tbody><tr><td align="left"></td><td></td><td></td><td></td></tr></tbody></table>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Vue好啊，Vue得学</title>
       <link href="/2025/03/07/vuelearning/"/>
       <url>/2025/03/07/vuelearning/</url>
       
@@ -17,9 +30,9 @@
     
     
     <entry>
-      <title>Type Script Learning</title>
-      <link href="/2025/03/06/draft/"/>
-      <url>/2025/03/06/draft/</url>
+      <title>PDF帖子测试</title>
+      <link href="/2025/03/06/typescriptlearning/"/>
+      <url>/2025/03/06/typescriptlearning/</url>
       
         <content type="html"><![CDATA[<div class="row">    <embed src="/src/typescript.pdf" width="100%" height="550" type="application/pdf"></div>]]></content>
       

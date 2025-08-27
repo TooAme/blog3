@@ -4,7 +4,7 @@ favicon: favicon.ico
 inverse_sort: false
 fold: true
 google_analytics:
-scratch_name: Scratch
+scratch_name: 疯穿箱子
 search:
   path: search.xml
   field: all

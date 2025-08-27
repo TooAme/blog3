@@ -1,4 +1,28 @@
 /* =============================================================================
+   Custom Fonts
+   ========================================================================== */
+
+@font-face {
+  font-family: 'YouYuan';
+  src: url('../fonts/youyuan/youyuan.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =============================================================================
+   container
+   ========================================================================== */
+
+@font-face {
+  font-family: 'YouYuan';
+  src: url('../fonts/youyuan.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* =============================================================================
    container
    ========================================================================== */
 
@@ -72,6 +96,7 @@ body {
 
 .page .panel-collapse .panel-body {
   padding: 9px 15px;
+  padding-bottom: 0;
   background-color: #F5F5D5;
   font-size: 16px;
   line-height: 24px;
@@ -106,6 +131,10 @@ li i {
 
 .listing-item {
   line-height: 24px;
+}
+
+.post-list-item {
+  font-weight: bold;
 }
 
 /* =============================================================================
@@ -202,14 +231,286 @@ img, video {
 #gotop span:hover{ 
   color:#cccccc; 
 } 
-#gotop span{ 
-  font-size:24px; 
-  text-align:center; 
+#gotop span{
+  font-size:24px;
+  text-align:center;
+}
+
+/* =============================================================================
+   Music Player Button
+   ========================================================================== */
+
+#music-player{
+  display:block;
+  width:50px;
+  height:50px;
+  position:fixed;
+  bottom:40px;
+  right:80px;
+  border-radius:50%;
+  text-decoration:none;
+  background-color:#292929;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+#music-player:hover {
+  background-color:#363636;
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+}
+
+#music-player span{
+  display:block;
+  color:#ffffff;
+  font-size:22px;
+  text-align:center;
+  line-height:50px;
+  transform: translateX(3%);
+  transition: font-size 0.2s ease;
+}
+
+#music-player span.pause-icon {
+  transform: translateX(-3%);
+  transform: translateY(-6%);
+  font-size: 30px; /* 22px * 1.3 ≈ 28px，放大30% */
+}
+
+#music-player.playing {
+  background-color:#292929;
+}
+
+#music-player.playing:hover {
+  background-color:#363636;
+}
+
+/* =============================================================================
+   Protected Category Styles
+   ========================================================================== */
+
+.protected-category {
+  cursor: pointer;
+}
+
+.protected-category:hover {
+  text-decoration: none;
+}
+
+.password-prompt {
+  /* background-color: #f8f9fa; */
+  border-radius: 5px;
+  margin: 5px 5px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 12px;
+  font-weight: bold;
+  font-family: "YaHei";
+}
+
+.password-prompt p {
+  display: none;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.password-input {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px 12px;
+  font-size: 14px;
+  width: 150px;
+  margin: 0;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #393939;
+  box-shadow: 0 0 0 2px rgba(0,123,255,.25);
+}
+
+.unlock-btn {
+  background-color: #2b2b2b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+  /* transform: translateY(10%); */
+}
+
+.unlock-btn:hover {
+  background-color: #393939;
+}
+
+.fa-lock {
+  color: #1863a1;
+  margin-left: 2.5px;
+  margin-right: 2.5px;
+}
+
+.fa-folder-open {
+  color: #1863a1;
+}
+
+.panel-title {
+  position: relative;
+  display: inline-block;
+  padding-right: 25px; /* 为角标留出空间 */
+}
+
+.post-count {
+  position: absolute;
+  top: -1px;
+  left: calc(67% + 8px);
+  /* background-color: #dc3545; */
+  color: #1863a1;
+  font-size: 13px;
+  font-weight: bolder;
+  padding: 1px 5px;
+  border-radius: 8px;
+  min-width: 16px;
+  height: 16px;
+  line-height: 14px;
+  text-align: left;
+  /* box-shadow: 0 1px 2px rgba(0,0,0,0.3); */
+  z-index: 10;
+}
+
+.protected-category .post-count {
+  /* background-color: #6c757d; */
+}
+
+/* 当数量为0时隐藏角标 */
+.post-count:empty,
+.post-count[data-count="0"] {
+  display: none;
+}
+
+/* =============================================================================
+   L站生成器样式
+   ========================================================================== */
+
+.lstation-generator-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.lstation-generator-container .form-group {
+  margin-bottom: 20px;
+}
+
+.lstation-generator-container label {
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.lstation-generator-container .form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.lstation-generator-container .btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.lstation-generator-container .btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.lstation-generator-container .btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.lstation-generator-container .btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.lstation-generator-container .btn:hover {
+  opacity: 0.9;
+}
+
+.lstation-generator-container .btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#progress-container {
+  margin: 20px 0;
+}
+
+.progress {
+  height: 30px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #007bff;
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+#preview-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+#preview-area {
+  margin: 20px 0;
+}
+
+#preview-canvas {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.preview-controls {
+  margin-top: 20px;
+}
+
+.help-text {
+  margin-top: 8px;
+}
+
+.help-text .text-muted {
+  color: #6c757d;
+  font-size: 12px;
 }
 
 /* =============================================================================
    Headers
    ========================================================================== */
+.brand{
+  /* font-family: 'YouYuan', "YaHei", "Space Grotesk", sans-serif; */
+}
 
 header h1{
   font-weight:normal;
@@ -224,14 +525,17 @@ header h1{
 }
 
 .page-header h1 span.title{
-  font-weight:normal;
-  font-family: "Space Grotesk", sans-serif;
+  font-weight: bolder;
+  font-style: italic;
+  font-size: 0.8em;
+  font-family: "YaHei", "Space Grotesk", sans-serif;
 }
 
 .page-header h1 span.date{
   display:inline;
   position: absolute;
   font-size: 0.7em;
+  font-weight: bold;
   color: #555;
   font-family: 'PT Sans Narrow', sans-serif;
 }
@@ -355,7 +659,8 @@ td {
 }
 
 ul.search-result-list {
-  padding-left: 10px;
+  padding-left: 20px;
+  padding-right: 10px;
 }
 
 a.search-result-title {
@@ -363,7 +668,7 @@ a.search-result-title {
 }
 
 p.search-result {
-  color=#555;
+  color: #555;
 }
 
 em.search-keyword {

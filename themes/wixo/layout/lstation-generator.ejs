@@ -1,0 +1,74 @@
+<!-- 合并的页面头部 -->
+<div class="page-header">
+  <h1><a class="brand" href="<%= config.root %>"><%= config.title %></a></h1>
+  <h2><span class="title">L站头像生成器</span></h2>
+</div>
+
+<div class="row page">
+  <div class="col-md-12">
+
+    <div class="lstation-generator-container">
+      <!-- 角色选择 -->
+      <div class="form-group">
+        <label for="character-select">选择角色：</label>
+        <select id="character-select" class="form-control">
+          <option value="">请选择角色</option>
+          <option value="祥子">祥子</option>
+          <option value="SOYO">SOYO</option>
+          <option value="爱音">爱音</option>
+          <option value="偷摸零">偷摸零</option>
+          <option value="乐奈">乐奈</option>
+        </select>
+      </div>
+
+      <!-- 昵称输入 -->
+      <div class="form-group">
+        <label for="nickname-input">输入昵称：</label>
+        <input type="text" id="nickname-input" class="form-control" placeholder="请输入你的昵称" maxlength="20">
+      </div>
+
+      <!-- 生成按钮 -->
+      <div class="form-group">
+        <button id="generate-btn" class="btn btn-primary btn-lg">生成头像</button>
+        <div class="help-text">
+          <small class="text-muted">
+            注意：如果没有对应的角色视频文件，将只生成静态动画效果
+          </small>
+        </div>
+      </div>
+
+      <!-- 进度显示 -->
+      <div id="progress-container" style="display: none;">
+        <div class="progress">
+          <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 0%">
+            <span id="progress-text">准备中...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 预览区域 -->
+      <div id="preview-container" style="display: none;">
+        <h3>预览效果：</h3>
+        <div id="preview-area">
+          <div class="preview-wrapper">
+            <canvas id="preview-canvas" width="400" height="400" style="display: none;"></canvas>
+            <img id="preview-gif" style="display: none;" />
+          </div>
+        </div>
+        <div class="preview-controls">
+          <button id="download-gif-btn" class="btn btn-success">下载GIF</button>
+          <button id="regenerate-btn" class="btn btn-secondary">重新生成</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 隐藏的canvas用于处理 -->
+<canvas id="hidden-canvas" style="display: none;"></canvas>
+
+<!-- GIF生成库 -->
+<script src="<%- config.root %>js/gif.js"></script>
+
+<!-- L站生成器专用脚本 -->
+<script src="<%- config.root %>js/lstation-generator.js"></script>

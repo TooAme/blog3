@@ -45,8 +45,24 @@ var searchFunc = function(path, search_id, content_id) {
                 }
                 // perform local searching
                 datas.forEach(function(data) {
+                    // Check if this is a protected post (from 项目记录 category)
+                    // We'll identify protected posts by checking if they're in the protected posts list
+                    var isProtectedPost = false;
+                    var protectedPosts = document.querySelectorAll('.protected-post a');
+                    for (var i = 0; i < protectedPosts.length; i++) {
+                        if (protectedPosts[i].getAttribute('href') === data.url) {
+                            isProtectedPost = true;
+                            break;
+                        }
+                    }
+
+                    // Skip protected posts in search results
+                    if (isProtectedPost) {
+                        return;
+                    }
+
                     var isMatch = true;
-                    var content_index = [];                                                       
+                    var content_index = [];
                     if (!data.title || data.title.trim() === '') {
                         data.title = "Untitled";
                     }

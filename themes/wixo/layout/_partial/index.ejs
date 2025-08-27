@@ -4,6 +4,24 @@
   } else {
       var posts = site.posts.sort('date', 1);
   }
+
+  // 从主题配置获取受保护分类列表
+  var protectedCategories = theme.protected_categories || [];
+
+  // 检查分类是否受保护的函数
+  function isProtectedCategory(categoryName) {
+    return protectedCategories.some(function(cat) {
+      return cat.name === categoryName;
+    });
+  }
+
+  // 获取分类密码的函数
+  function getCategoryPassword(categoryName) {
+    var protectedCat = protectedCategories.find(function(cat) {
+      return cat.name === categoryName;
+    });
+    return protectedCat ? protectedCat.password : '';
+  }
 %>
 
 <div class="row page">
@@ -11,37 +29,94 @@
         <input type="text" id="local-search-input" name="q" results="0" placeholder="<%= __('search') %>" class="st-search-input st-default-search-input form-control" style="margin-bottom:1em"/>
         <div id="local-search-result"></div>
 		<div class="panel-group" id="notebook">
-			<% site.categories.sort('name').each(function(cat){ %>
+			<!-- L站相关固定目录 -->
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<a class="panel-title" data-toggle="collapse" data-parent="#notebook" href="#<%= cat.name %>">
-						<i class="fa fa-folder"></i> <%= cat.name %>		  
+					<a class="panel-title" data-toggle="collapse" data-parent="#notebook" href="#L站相关">
+						<i class="fa fa-star"></i> L站相关
+					</a>
 				</div>
-				<% if (theme.fold) { %>
-				    <div id="<%= cat.name %>" class="panel-collapse collapse">
-				<% } else { %>
-					<div id="<%= cat.name %>" class="panel-collapse collapse in">
-				<% } %>
+				<div id="L站相关" class="panel-collapse collapse in">
+					<div class="panel-body">
+						<ul class="post">
+							<li class="post-list-item"><a href="<%= config.root %>lstation-generator/">头像生成器</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<% site.categories.sort('name').each(function(cat){ %>
+			<%
+				// 统计该分类下的文章数量
+				var postCount = 0;
+				posts.each(function(it){
+					if (it.categories.length == 1 && it.categories.data[0]._id == cat._id) {
+						postCount++;
+					}
+				});
+			%>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<% if (isProtectedCategory(cat.name)) { %>
+						<a class="panel-title protected-category" data-category="<%= cat.name %>" href="javascript:void(0);">
+							<i class="fa fa-lock"></i> <%= cat.name %>
+						</a>
+					<% } else { %>
+						<a class="panel-title" data-toggle="collapse" data-parent="#notebook" href="#<%= cat.name %>">
+							<i class="fa fa-folder"></i> <%= cat.name %>
+							<% if (postCount > 0) { %><span class="post-count"><%= postCount %></span><% } %>
+						</a>
+					<% } %>
+				</div>
+				<% if (isProtectedCategory(cat.name)) { %>
+					<div id="<%= cat.name %>" class="panel-collapse collapse protected-content" data-category="<%= cat.name %>">
 						<div class="panel-body">
-							<ul class="post">                                
-								<% posts.each(function(it){ %>
-								    <% if (it.categories.length == 1 && it.categories.data[0]._id == cat._id){ %>
-								        <li class="post-list-item"><a href="<%= config.root %><%= it.path %>"><%= it.title %></a></li>
-								    <% } %>
-								<% }); %>
-							</ul>
+							<div class="password-prompt">
+								<p>此分类需要密码访问</p>
+								<input type="password" class="password-input" placeholder="请输入密码">
+								<button class="unlock-btn" data-category="<%= cat.name %>">解锁</button>
+							</div>
+							<div class="protected-posts" style="display: none;">
+								<ul class="post">
+									<% posts.each(function(it){ %>
+									    <% if (it.categories.length == 1 && it.categories.data[0]._id == cat._id){ %>
+									        <li class="post-list-item protected-post" data-category="<%= cat.name %>"><a href="<%= config.root %><%= it.path %>"><%= it.title %></a></li>
+									    <% } %>
+									<% }); %>
+								</ul>
+							</div>
 						</div>
 					</div>
+				<% } else { %>
+					<% if (theme.fold) { %>
+					    <div id="<%= cat.name %>" class="panel-collapse collapse">
+					<% } else { %>
+						<div id="<%= cat.name %>" class="panel-collapse collapse in">
+					<% } %>
+							<div class="panel-body">
+								<ul class="post">
+									<% posts.each(function(it){ %>
+									    <% if (it.categories.length == 1 && it.categories.data[0]._id == cat._id){ %>
+									        <li class="post-list-item"><a href="<%= config.root %><%= it.path %>"><%= it.title %></a></li>
+									    <% } %>
+									<% }); %>
+								</ul>
+							</div>
+						</div>
+				<% } %>
 			</div>
 			<% }); %>
 			<% var has_scratch = -1 %>
+			<% var scratch_count = 0 %>
 			<% posts.each(function(it){ %>
+			<% if (it.categories.length == 0) { scratch_count++; } %>
 			<% if (has_scratch == -1 && it.categories.length == 0) { %>
 			<% has_scratch = 1 %>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<a class="panel-title" data-toggle="collapse" data-parent="#notebook" href="#<%= theme.scratch_name %>">
-						<i class="fa fa-folder"></i> <%= theme.scratch_name %>		   
+						<i class="fa fa-folder"></i> <%= theme.scratch_name %>
+						<% if (scratch_count > 0) { %><span class="post-count"><%= scratch_count %></span><% } %>
 				</div>
 				<% if (theme.fold) { %>
 					<div id="<%= theme.scratch_name %>" class="panel-collapse collapse">

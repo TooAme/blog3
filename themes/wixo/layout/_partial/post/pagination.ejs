@@ -19,15 +19,15 @@
 	<% }); %>
 	<% } %>
 	<% if (prev_post.path) { %>
-		<li class="prev"><a href="<%- url_for(prev_post.path) %>" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i><%= __('prev') %></a></li>
+		<li class="prev"><a href="<%- url_for(prev_post.path) %>" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i><%= __('上一篇') %></a></li>
 	<% } else { %>
-		<li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i><%= __('prev') %></a></li>
+		<li class="prev disabled"><a><i class="fa fa-arrow-circle-o-left"></i><%= __('没了') %></a></li>
 	<% } %>
-	<li><a href="<%- config.root %>"><i class="fa fa-archive"></i>Home</a></li>
+	<li><a href="<%- config.root %>"><i class="fa fa-archive"></i>回家</a></li>
 	<% if (next_post.path) { %>
-		<li class="next"><a href="<%- url_for(next_post.path) %>" class="alignright next"><%= __('next') %><i class="fa fa-arrow-circle-o-right"></i></a></li>
+		<li class="next"><a href="<%- url_for(next_post.path) %>" class="alignright next"><%= __('下一篇') %><i class="fa fa-arrow-circle-o-right"></i></a></li>
 	<% } else {%>
-		<li class="next disabled"><a><%= __('next') %><i class="fa fa-arrow-circle-o-right"></i></a></li>
+		<li class="next disabled"><a><%= __('没了') %><i class="fa fa-arrow-circle-o-right"></i></a></li>
 	<% } %>
 </ul>
 </div>

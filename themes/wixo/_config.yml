@@ -2,9 +2,24 @@ rss: atom.xml
 fancybox: true
 favicon: favicon.ico
 inverse_sort: false
-fold: true
+fold: false  # 默认展开所有分类
 google_analytics:
-scratch_name: Scratch
+scratch_name: 日常唠叨 # 默认分类名称
 search:
   path: search.xml
   field: all
+
+# 受保护分类配置
+protected_categories:
+  - name: 项目记录
+    password: www778899
+  - name: 开发学习
+    password: www778899
+  - name: 旅行摄影
+    password: www778899
+  - name: 日常唠叨
+    password: www778899
+  - name: 杂七杂八
+    password: www778899
+  - name: 游戏记录
+    password: www778899

@@ -1,0 +1,737 @@
+/**
+ * 文档查看器样式文件
+ * 为博客中的文档嵌入功能提供美观的样式
+ */
+
+/* 文档查看器容器 */
+.doc-viewer-container {
+    position: relative;
+    background: #fff;
+    transition: box-shadow 0.3s ease;
+}
+
+.doc-viewer-container:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* 标题栏样式 */
+.doc-viewer-title {
+    position: relative;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* 全屏按钮 */
+.doc-viewer-fullscreen {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 3px;
+    color: #6c757d;
+    transition: all 0.2s;
+}
+
+.doc-viewer-fullscreen:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+/* iframe样式优化 */
+.doc-viewer-container iframe {
+    display: block;
+    background: #fff;
+    transition: opacity 0.3s ease;
+}
+
+.doc-viewer-container iframe:not([src]) {
+    opacity: 0.5;
+}
+
+/* 加载状态 */
+.doc-viewer-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #6c757d;
+    z-index: 10;
+}
+
+.doc-viewer-loading .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 错误状态 */
+.doc-viewer-error {
+    padding: 40px 20px;
+    text-align: center;
+    color: #e74c3c;
+    background: #fdf2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.doc-viewer-error .error-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.doc-viewer-error .error-message {
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.doc-viewer-error .error-details {
+    font-size: 14px;
+    color: #7f1d1d;
+    margin-bottom: 20px;
+}
+
+/* 下载链接容器 */
+.doc-download-container {
+    transition: all 0.3s ease;
+}
+
+.doc-download-container:hover {
+    background: #f1f3f4 !important;
+    border-color: #3498db !important;
+}
+
+.doc-download-container .download-info {
+    margin-bottom: 15px;
+    color: #6c757d;
+    font-size: 14px;
+}
+
+/* 文件类型图标 */
+.file-type-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.file-type-pdf::before { content: "📕"; }
+.file-type-doc::before, 
+.file-type-docx::before { content: "📘"; }
+.file-type-xls::before, 
+.file-type-xlsx::before { content: "📗"; }
+.file-type-ppt::before, 
+.file-type-pptx::before { content: "📙"; }
+.file-type-txt::before { content: "📄"; }
+.file-type-default::before { content: "📎"; }
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .doc-viewer-container {
+        margin: 15px 0;
+    }
+    
+    .doc-viewer-title {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .doc-download-container {
+        padding: 15px;
+        margin: 15px 0;
+    }
+    
+    .doc-download-container .download-icon {
+        font-size: 36px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .doc-viewer-container {
+        border-radius: 4px;
+    }
+    
+    .doc-viewer-title {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+/* 按钮样式 */
+.doc-viewer-download-btn,
+.doc-viewer-toggle-btn {
+    transition: all 0.2s ease;
+}
+
+.doc-viewer-download-btn:hover,
+.doc-viewer-toggle-btn:hover {
+    background: #e9ecef;
+    color: #495057;
+    transform: scale(1.1);
+}
+
+/* 内容区域样式 */
+.doc-viewer-content {
+    position: relative;
+}
+
+/* 暗色主题支持 */
+@media (prefers-color-scheme: dark) {
+    .doc-viewer-container {
+        background: #2d3748;
+        border-color: #4a5568;
+    }
+    
+    .doc-viewer-title {
+        background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        color: #e2e8f0;
+        border-bottom-color: #4a5568;
+    }
+    
+    .doc-viewer-download-btn,
+    .doc-viewer-toggle-btn {
+        color: #a0aec0;
+    }
+    
+    .doc-viewer-download-btn:hover,
+    .doc-viewer-toggle-btn:hover {
+        background: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .doc-viewer-fullscreen {
+        color: #a0aec0;
+    }
+    
+    .doc-viewer-fullscreen:hover {
+        background: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .doc-viewer-loading {
+        color: #a0aec0;
+    }
+    
+    .doc-viewer-content {
+        background: #2d3748;
+    }
+    
+    .doc-viewer-container iframe {
+        background: #2d3748;
+    }
+    
+    .doc-download-container {
+        background: #2d3748 !important;
+        border-color: #4a5568 !important;
+        color: #e2e8f0;
+    }
+    
+    .doc-download-container:hover {
+        background: #4a5568 !important;
+        border-color: #3498db !important;
+    }
+    
+    .doc-download-container .download-info {
+        color: #a0aec0;
+    }
+}
+
+/* 博客主题黑夜模式适配 */
+[data-theme="dark"] .doc-viewer-container,
+.dark .doc-viewer-container,
+body.dark .doc-viewer-container {
+    background: #2d3748;
+    border-color: #4a5568;
+}
+
+[data-theme="dark"] .doc-viewer-title,
+.dark .doc-viewer-title,
+body.dark .doc-viewer-title {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: #e2e8f0;
+    border-bottom-color: #4a5568;
+}
+
+[data-theme="dark"] .doc-viewer-download-btn,
+[data-theme="dark"] .doc-viewer-toggle-btn,
+.dark .doc-viewer-download-btn,
+.dark .doc-viewer-toggle-btn,
+body.dark .doc-viewer-download-btn,
+body.dark .doc-viewer-toggle-btn {
+    color: #a0aec0;
+}
+
+[data-theme="dark"] .doc-viewer-download-btn:hover,
+[data-theme="dark"] .doc-viewer-toggle-btn:hover,
+.dark .doc-viewer-download-btn:hover,
+.dark .doc-viewer-toggle-btn:hover,
+body.dark .doc-viewer-download-btn:hover,
+body.dark .doc-viewer-toggle-btn:hover {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .doc-viewer-content,
+.dark .doc-viewer-content,
+body.dark .doc-viewer-content {
+    background: #2d3748;
+}
+
+[data-theme="dark"] .doc-viewer-container iframe,
+.dark .doc-viewer-container iframe,
+body.dark .doc-viewer-container iframe {
+    background: #2d3748;
+}
+
+/* 打印样式 */
+@media print {
+    .doc-viewer-container {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .doc-viewer-title {
+        background: #f8f9fa;
+        color: #000;
+    }
+    
+    .doc-viewer-fullscreen {
+        display: none;
+    }
+}
+
+/* 动画效果 */
+.doc-viewer-fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 工具提示 */
+.doc-viewer-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.doc-viewer-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.doc-viewer-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+    bottom: calc(100% + 5px);
+}
+
+/* WPS文档查看器界面元素暴力隐藏 */
+/* 这些样式用于暴力隐藏WPS在线文档中不需要的界面元素 */
+.et-cmb-bar-wrap,
+.component-header-wrap,
+.et-edit-bar-wrap,
+.et-toolbar-wrap,
+.et-header-wrap,
+.et-menu-bar,
+.et-status-bar,
+.toolbar-wrap,
+.header-wrap,
+.shadow,
+[class*="shadow"],
+[class^="shadow"],
+[class$="shadow"],
+[id*="shadow"],
+.et-shadow,
+.wps-shadow,
+.kdocs-shadow {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    z-index: -1 !important;
+    pointer-events: none !important;
+    transform: scale(0) !important;
+}
+
+/* 确保WPS文档内容区域占满整个空间 - 消除空白 */
+.et-content-wrap,
+.content-wrap,
+.main-content,
+.document-content,
+.et-main-wrap,
+.main-wrap,
+.workspace,
+.et-workspace {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: translateY(0) !important;
+}
+
+/* 消除iframe内的默认边距和填充 */
+iframe[src*="kdocs"] body,
+iframe[src*="kdocs"] html,
+iframe[src*="wps"] body,
+iframe[src*="wps"] html {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+}
+
+/* 针对WPS iframe的特殊样式 */
+.doc-viewer-container iframe[src*="kdocs.cn"],
+.doc-viewer-container iframe[src*="wps.cn"] {
+    /* 确保WPS iframe能够正确显示 */
+    min-height: 500px;
+    background: #ffffff;
+}
+
+/* 隐藏可能出现的WPS广告或推广元素 */
+.et-ad-wrap,
+.ad-wrap,
+.promotion-wrap,
+.et-promotion-wrap {
+    display: none !important;
+    visibility: hidden !important;
+}
+
+/* 优化WPS文档的滚动条样式 */
+.doc-viewer-container iframe[src*="kdocs.cn"] ::-webkit-scrollbar,
+.doc-viewer-container iframe[src*="wps.cn"] ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.doc-viewer-container iframe[src*="kdocs.cn"] ::-webkit-scrollbar-track,
+.doc-viewer-container iframe[src*="wps.cn"] ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.doc-viewer-container iframe[src*="kdocs.cn"] ::-webkit-scrollbar-thumb,
+.doc-viewer-container iframe[src*="wps.cn"] ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.doc-viewer-container iframe[src*="kdocs.cn"] ::-webkit-scrollbar-thumb:hover,
+.doc-viewer-container iframe[src*="wps.cn"] ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 暴力隐藏模式：创建覆盖层遮挡WPS界面元素 */
+.doc-viewer-container {
+    position: relative;
+}
+
+.doc-viewer-container iframe[src*="kdocs.cn"],
+.doc-viewer-container iframe[src*="wps.cn"] {
+    position: relative;
+}
+
+/* 移除伪元素覆盖层以避免空白 */
+/* 注释掉伪元素覆盖层，改用JavaScript动态处理 */
+/*
+.doc-viewer-container iframe[src*="kdocs.cn"]::after,
+.doc-viewer-container iframe[src*="wps.cn"]::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, #ffffff 0%, #ffffff 70%, rgba(255,255,255,0.8) 100%);
+    z-index: 9999;
+    pointer-events: none;
+    border-bottom: 1px solid #e0e0e0;
+}
+*/
+
+/* 持续暴力隐藏：通过CSS动画不断隐藏元素 */
+@keyframes bruteForceHide {
+    0%, 25%, 50%, 75%, 100% {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        width: 0 !important;
+        transform: scale(0) !important;
+        position: absolute !important;
+        left: -10000px !important;
+        top: -10000px !important;
+        z-index: -9999 !important;
+    }
+}
+
+/* 应用持续动画到所有可能的WPS界面元素 */
+iframe[src*="kdocs.cn"] .et-cmb-bar-wrap,
+iframe[src*="kdocs.cn"] .component-header-wrap,
+iframe[src*="kdocs.cn"] .et-edit-bar-wrap,
+iframe[src*="kdocs.cn"] .et-toolbar-wrap,
+iframe[src*="kdocs.cn"] .et-header-wrap,
+iframe[src*="kdocs.cn"] .et-menu-bar,
+iframe[src*="kdocs.cn"] .et-status-bar,
+iframe[src*="kdocs.cn"] .toolbar-wrap,
+iframe[src*="kdocs.cn"] .header-wrap,
+iframe[src*="kdocs.cn"] .shadow,
+iframe[src*="kdocs.cn"] [class*="shadow"],
+iframe[src*="kdocs.cn"] [class^="shadow"],
+iframe[src*="kdocs.cn"] [class$="shadow"],
+iframe[src*="kdocs.cn"] [id*="shadow"],
+iframe[src*="wps.cn"] .et-cmb-bar-wrap,
+iframe[src*="wps.cn"] .component-header-wrap,
+iframe[src*="wps.cn"] .et-edit-bar-wrap,
+iframe[src*="wps.cn"] .et-toolbar-wrap,
+iframe[src*="wps.cn"] .et-header-wrap,
+iframe[src*="wps.cn"] .et-menu-bar,
+iframe[src*="wps.cn"] .et-status-bar,
+iframe[src*="wps.cn"] .toolbar-wrap,
+iframe[src*="wps.cn"] .header-wrap,
+iframe[src*="wps.cn"] .shadow,
+iframe[src*="wps.cn"] [class*="shadow"],
+iframe[src*="wps.cn"] [class^="shadow"],
+iframe[src*="wps.cn"] [class$="shadow"],
+iframe[src*="wps.cn"] [id*="shadow"] {
+    animation: bruteForceHide 0.05s infinite !important;
+}
+
+/* 额外的持续隐藏规则 */
+iframe[src*="kdocs"] *[class*="bar"]:not([class*="scroll"]):not([class*="progress"]),
+iframe[src*="kdocs"] *[class*="header"]:not([class*="content"]),
+iframe[src*="kdocs"] *[class*="toolbar"],
+iframe[src*="kdocs"] *[class*="menu"]:not([class*="context"]),
+iframe[src*="kdocs"] *[class*="shadow"],
+iframe[src*="wps"] *[class*="bar"]:not([class*="scroll"]):not([class*="progress"]),
+iframe[src*="wps"] *[class*="header"]:not([class*="content"]),
+iframe[src*="wps"] *[class*="toolbar"],
+iframe[src*="wps"] *[class*="menu"]:not([class*="context"]),
+iframe[src*="wps"] *[class*="shadow"] {
+    animation: bruteForceHide 0.05s infinite !important;
+}
+
+/* 额外的暴力隐藏：通过多重选择器 */
+iframe[src*="kdocs"] *[class*="bar"],
+iframe[src*="kdocs"] *[class*="header"],
+iframe[src*="kdocs"] *[class*="toolbar"],
+iframe[src*="kdocs"] *[class*="menu"],
+iframe[src*="kdocs"] *[class*="shadow"],
+iframe[src*="wps"] *[class*="bar"],
+iframe[src*="wps"] *[class*="header"],
+iframe[src*="wps"] *[class*="toolbar"],
+iframe[src*="wps"] *[class*="menu"],
+iframe[src*="wps"] *[class*="shadow"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -10000px !important;
+    top: -10000px !important;
+}
+
+/* 终极暴力模式：确保iframe占满整个容器而不留空白 */
+.doc-viewer-container.brute-force-mode {
+    overflow: hidden;
+}
+
+.doc-viewer-container.brute-force-mode iframe {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* WPS纯净内容样式 */
+.wps-clean-content {
+    width: 100% !important;
+    height: 100% !important;
+    overflow: auto !important;
+    background: #ffffff !important;
+    position: relative !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 15px !important;
+    box-sizing: border-box !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft YaHei', sans-serif !important;
+    line-height: 1.6 !important;
+    color: #333 !important;
+}
+
+.wps-clean-content * {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.wps-clean-content table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 10px 0 !important;
+    border: 1px solid #ddd !important;
+}
+
+.wps-clean-content table td,
+.wps-clean-content table th {
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+    text-align: left !important;
+}
+
+.wps-clean-content table th {
+    background-color: #f5f5f5 !important;
+    font-weight: bold !important;
+}
+
+.wps-clean-content img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+    margin: 10px auto !important;
+}
+
+.wps-clean-content p {
+    margin: 8px 0 !important;
+    line-height: 1.6 !important;
+}
+
+.wps-clean-content h1,
+.wps-clean-content h2,
+.wps-clean-content h3,
+.wps-clean-content h4,
+.wps-clean-content h5,
+.wps-clean-content h6 {
+    margin: 15px 0 10px 0 !important;
+    font-weight: bold !important;
+    color: #2c3e50 !important;
+}
+
+.wps-clean-content ul,
+.wps-clean-content ol {
+    margin: 10px 0 !important;
+    padding-left: 20px !important;
+}
+
+.wps-clean-content li {
+    margin: 5px 0 !important;
+}
+
+/* 滚动条样式 */
+.wps-clean-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.wps-clean-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.wps-clean-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.wps-clean-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 暗色主题支持 */
+@media (prefers-color-scheme: dark) {
+    .wps-clean-content {
+        background: #2d3748 !important;
+        color: #e2e8f0 !important;
+    }
+
+    .wps-clean-content table {
+        border-color: #4a5568 !important;
+    }
+
+    .wps-clean-content table td,
+    .wps-clean-content table th {
+        border-color: #4a5568 !important;
+    }
+
+    .wps-clean-content table th {
+        background-color: #4a5568 !important;
+        color: #e2e8f0 !important;
+    }
+
+    .wps-clean-content h1,
+    .wps-clean-content h2,
+    .wps-clean-content h3,
+    .wps-clean-content h4,
+    .wps-clean-content h5,
+    .wps-clean-content h6 {
+        color: #63b3ed !important;
+    }
+}
+
+/* 移除可能造成空白的覆盖层 */
+/*
+.doc-viewer-container.brute-force-mode::before {
+    content: '';
+    position: absolute;
+    top: 45px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: white;
+    z-index: 10000;
+    pointer-events: none;
+    border-bottom: 1px solid #ddd;
+}
+*/

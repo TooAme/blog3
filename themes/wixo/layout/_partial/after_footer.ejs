@@ -1,7 +1,18 @@
 
-<a id="gotop" href="#">   
-  <span>▲</span> 
+<a id="gotop" href="#">
+  <span>▲</span>
 </a>
+
+<!-- Music Player Button -->
+<button id="music-player" type="button">
+  <span id="music-icon">▶</span>
+</button>
+
+<!-- Hidden Audio Element -->
+<audio id="background-music" loop preload="auto">
+  <source src="<%- config.root %>src/lovesakisong.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
 <script src="<%- config.root %>js/jquery.imagesloaded.min.js"></script>
 <script src="<%- config.root %>js/gallery.js"></script>
@@ -9,7 +20,185 @@
 <script src="<%- config.root %>js/jquery.tableofcontents.min.js"></script>
 <script src="<%- config.root %>js/tocgenerator.min.js"></script>
 <script src="<%- config.root %>js/main.js"></script>
-<script src="<%- config.root %>js/search.js"></script> 
+<script src="<%- config.root %>js/search.js"></script>
+
+<!-- Music Player Script -->
+<script type="text/javascript">
+(function() {
+  var musicPlayer = document.getElementById('music-player');
+  var backgroundMusic = document.getElementById('background-music');
+  var musicIcon = document.getElementById('music-icon');
+  var isPlaying = false;
+
+  // Initialize music player
+  function initMusicPlayer() {
+    // Set initial volume
+    backgroundMusic.volume = 0.3;
+
+    // Music player click event
+    musicPlayer.addEventListener('click', function() {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+
+    // Handle music ended event (though it's set to loop)
+    backgroundMusic.addEventListener('ended', function() {
+      isPlaying = false;
+      musicIcon.innerHTML = '▶';
+      musicIcon.classList.remove('pause-icon');
+      musicPlayer.classList.remove('playing');
+    });
+
+    // Handle music error
+    backgroundMusic.addEventListener('error', function() {
+      console.log('Error loading music file');
+      musicPlayer.style.display = 'none';
+    });
+  }
+
+  function playMusic() {
+    backgroundMusic.play().then(function() {
+      isPlaying = true;
+      musicIcon.innerHTML = '⏸';
+      musicIcon.classList.add('pause-icon');
+      musicPlayer.classList.add('playing');
+    }).catch(function(error) {
+      console.log('Error playing music:', error);
+    });
+  }
+
+  function pauseMusic() {
+    backgroundMusic.pause();
+    isPlaying = false;
+    musicIcon.innerHTML = '▶';
+    musicIcon.classList.remove('pause-icon');
+    musicPlayer.classList.remove('playing');
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicPlayer);
+  } else {
+    initMusicPlayer();
+  }
+})();
+</script>
+
+<!-- Protected Category Script -->
+<script type="text/javascript">
+(function() {
+  // 受保护分类的密码配置
+  var protectedPasswords = {
+    <% if (theme.protected_categories) { %>
+      <% theme.protected_categories.forEach(function(cat, index) { %>
+        '<%= cat.name %>': '<%= cat.password %>'<% if (index < theme.protected_categories.length - 1) { %>,<% } %>
+      <% }); %>
+    <% } %>
+  };
+  var unlockedCategories = new Set();
+
+  // Initialize protected category functionality
+  function initProtectedCategories() {
+    // Handle protected category clicks
+    document.querySelectorAll('.protected-category').forEach(function(element) {
+      element.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+
+        if (unlockedCategories.has(category)) {
+          // Already unlocked, toggle normally
+          if (panel.classList.contains('in')) {
+            panel.classList.remove('in');
+          } else {
+            panel.classList.add('in');
+          }
+        } else {
+          // Show password prompt
+          panel.classList.add('in');
+          var passwordInput = panel.querySelector('.password-input');
+          if (passwordInput) {
+            passwordInput.focus();
+          }
+        }
+      });
+    });
+
+    // Handle unlock button clicks
+    document.querySelectorAll('.unlock-btn').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+        var passwordInput = panel.querySelector('.password-input');
+        var password = passwordInput.value;
+
+        if (password === protectedPasswords[category]) {
+          // Correct password
+          unlockedCategories.add(category);
+          panel.querySelector('.password-prompt').style.display = 'none';
+          panel.querySelector('.protected-posts').style.display = 'block';
+
+          // Change icon to unlocked
+          var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+          if (categoryLink) {
+            categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+          }
+
+          // Store unlock status in session
+          sessionStorage.setItem('unlocked_' + category, 'true');
+        } else {
+          // Wrong password
+          passwordInput.value = '';
+          passwordInput.style.borderColor = '#ff6b6b';
+          passwordInput.placeholder = '密码错误，请重试';
+
+          setTimeout(function() {
+            passwordInput.style.borderColor = '';
+            passwordInput.placeholder = '请输入密码';
+          }, 2000);
+        }
+      });
+    });
+
+    // Handle Enter key in password input
+    document.querySelectorAll('.password-input').forEach(function(input) {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          var category = this.closest('.protected-content').getAttribute('data-category');
+          var unlockBtn = document.querySelector('.unlock-btn[data-category="' + category + '"]');
+          if (unlockBtn) {
+            unlockBtn.click();
+          }
+        }
+      });
+    });
+
+    // Restore unlock status from session
+    document.querySelectorAll('.protected-content').forEach(function(panel) {
+      var category = panel.getAttribute('data-category');
+      if (sessionStorage.getItem('unlocked_' + category) === 'true') {
+        unlockedCategories.add(category);
+        panel.querySelector('.password-prompt').style.display = 'none';
+        panel.querySelector('.protected-posts').style.display = 'block';
+
+        var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+        if (categoryLink) {
+          categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+        }
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProtectedCategories);
+  } else {
+    initProtectedCategories();
+  }
+})();
+</script>
 
 <% if (config.disqus_shortname){ %>
 <script type="text/javascript">

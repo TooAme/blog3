@@ -3,7 +3,7 @@ title: Vue好啊，Vue得学
 date: 2025-03-07 16:16:53
 author: TooAme
 categories:
-  - 学习
+  - 开发学习
 tags:
   - Vue.js
   - 前端开发

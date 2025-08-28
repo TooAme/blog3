@@ -3,7 +3,7 @@ title: PDF帖子测试
 date: 2025-03-06 15:51:08
 author: TooAme
 categories:
-  - 学习
+  - 开发学习
 tags:
   - TypeScript
   - PDF

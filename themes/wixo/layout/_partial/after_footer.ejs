@@ -30,10 +30,65 @@
   var musicIcon = document.getElementById('music-icon');
   var isPlaying = false;
 
+  // 音乐状态管理
+  var MUSIC_STATE_KEY = 'hexo_music_state';
+  var MUSIC_TIME_KEY = 'hexo_music_time';
+
+  // 保存音乐状态到localStorage
+  function saveMusicState() {
+    try {
+      localStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
+        isPlaying: isPlaying,
+        currentTime: backgroundMusic.currentTime,
+        volume: backgroundMusic.volume
+      }));
+    } catch (e) {
+      console.log('无法保存音乐状态:', e);
+    }
+  }
+
+  // 从localStorage恢复音乐状态
+  function restoreMusicState() {
+    try {
+      var savedState = localStorage.getItem(MUSIC_STATE_KEY);
+      if (savedState) {
+        var state = JSON.parse(savedState);
+        backgroundMusic.volume = state.volume || 0.3;
+
+        // 恢复播放位置
+        if (state.currentTime) {
+          backgroundMusic.currentTime = state.currentTime;
+        }
+
+        // 恢复播放状态
+        if (state.isPlaying) {
+          // 延迟一点再播放，确保音频已加载
+          setTimeout(function() {
+            playMusic();
+          }, 100);
+        }
+      }
+    } catch (e) {
+      console.log('无法恢复音乐状态:', e);
+    }
+  }
+
   // Initialize music player
   function initMusicPlayer() {
     // Set initial volume
     backgroundMusic.volume = 0.3;
+
+    // 定期保存播放进度
+    setInterval(function() {
+      if (isPlaying) {
+        saveMusicState();
+      }
+    }, 5000); // 每5秒保存一次
+
+    // 页面卸载时保存状态
+    window.addEventListener('beforeunload', function() {
+      saveMusicState();
+    });
 
     // Music player click event
     musicPlayer.addEventListener('click', function() {
@@ -50,12 +105,18 @@
       musicIcon.innerHTML = '▶';
       musicIcon.classList.remove('pause-icon');
       musicPlayer.classList.remove('playing');
+      saveMusicState();
     });
 
     // Handle music error
     backgroundMusic.addEventListener('error', function() {
       console.log('Error loading music file');
       musicPlayer.style.display = 'none';
+    });
+
+    // 音频加载完成后恢复状态
+    backgroundMusic.addEventListener('loadedmetadata', function() {
+      restoreMusicState();
     });
   }
 
@@ -65,6 +126,7 @@
       musicIcon.innerHTML = '⏸';
       musicIcon.classList.add('pause-icon');
       musicPlayer.classList.add('playing');
+      saveMusicState();
     }).catch(function(error) {
       console.log('Error playing music:', error);
     });
@@ -76,6 +138,7 @@
     musicIcon.innerHTML = '▶';
     musicIcon.classList.remove('pause-icon');
     musicPlayer.classList.remove('playing');
+    saveMusicState();
   }
 
   // Initialize when DOM is ready

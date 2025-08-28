@@ -138,10 +138,17 @@
                 <input type="text" class="angle-value" id="angle-value" value="90" readonly>
               </div>
             </div>
-            <!-- 昵称预览 -->
-            <div class="nickname-preview-container">
-              <label>预览：</label>
-              <div class="nickname-preview" id="nickname-preview">昵称</div>
+          </div>
+        </div>
+
+        <!-- 独立的预览栏 -->
+        <div class="form-group">
+          <label>预览与布局调整：</label>
+          <div class="layout-preview-container">
+            <canvas id="layout-preview-canvas" width="400" height="400"></canvas>
+            <div class="preview-controls">
+              <button type="button" id="reset-layout-btn" class="btn btn-secondary btn-sm">重置布局</button>
+              <small class="help-text">拖拽元素调整位置，生成时将使用当前布局</small>
             </div>
           </div>
         </div>
@@ -208,7 +215,7 @@
 <script src="/js/gif.js"></script>
 
 <!-- L站生成器专用脚本 -->
-<script src="/js/lstation-generator.js?v=1756365218030"></script>
+<script src="/js/lstation-generator.js?v=1756373480762"></script>
 
 	</div>
   </div>

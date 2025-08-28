@@ -1,5 +1,5 @@
-// L站头像生成器 - 修复null元素错误版本 v12.5
-console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
+// L站头像生成器 - 可拖拽布局预览版本 v13.0
+console.log('L站头像生成器加载 - 可拖拽布局预览版本 v13.0');
 
 (function() {
     'use strict';
@@ -38,7 +38,8 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
     const angleIndicator = document.getElementById('angle-indicator');
     const angleValue = document.getElementById('angle-value');
     const fontSelect = document.getElementById('font-select');
-    const nicknamePreview = document.getElementById('nickname-preview');
+    const layoutPreviewCanvas = document.getElementById('layout-preview-canvas');
+    const resetLayoutBtn = document.getElementById('reset-layout-btn');
 
     // 颜色相关变量
     let colorMode = 'single'; // 'single' 或 'gradient'
@@ -46,6 +47,16 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
     let nicknameColor2 = '#88D5FB'; // 默认浅蓝色 (136, 213, 251)
     let gradientAngle = 90; // 默认90度（从上到下）
     let selectedFont = 'Microsoft YaHei'; // 默认字体
+
+    // 布局相关变量
+    let layoutElements = {
+        logo: { x: 80, y: 150, width: 120, height: 120, dragging: false },
+        linuxdo: { x: 210, y: 150, width: 150, height: 30, dragging: false },
+        nickname: { x: 200, y: 300, width: 200, height: 40, dragging: false }
+    };
+    let dragOffset = { x: 0, y: 0 };
+    let isDragging = false;
+    let dragElement = null;
 
     // 初始化
     function init() {
@@ -79,7 +90,7 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
             nickname = this.value; // 保存原始值，在检查时再trim
             updateSelectionStatus();
             checkInputs();
-            updateNicknamePreview();
+            updateLayoutPreview();
         });
 
         // 颜色选择器事件
@@ -92,22 +103,25 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
 
         color1Input.addEventListener('input', function() {
             nicknameColor1 = this.value;
-            updateNicknamePreview();
+            updateLayoutPreview();
         });
 
         color2Input.addEventListener('input', function() {
             nicknameColor2 = this.value;
-            updateNicknamePreview();
+            updateLayoutPreview();
         });
 
         // 字体选择事件
         fontSelect.addEventListener('change', function() {
             selectedFont = this.value;
-            updateNicknamePreview();
+            updateLayoutPreview();
         });
 
         // 角度选择器事件
         initAngleSelector();
+
+        // 布局预览事件
+        initLayoutPreview();
 
         generateBtn.addEventListener('click', generateAvatar);
         downloadBtn.addEventListener('click', downloadGif);
@@ -141,7 +155,101 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
     // 初始化颜色选择器
     function initializeColorSelector() {
         updateColorMode();
-        updateNicknamePreview();
+        updateLayoutPreview();
+    }
+
+    // 初始化布局预览
+    function initLayoutPreview() {
+        if (!layoutPreviewCanvas) return;
+
+        const canvas = layoutPreviewCanvas;
+
+        // 鼠标按下事件
+        canvas.addEventListener('mousedown', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // 检查点击的是哪个元素
+            for (const [key, element] of Object.entries(layoutElements)) {
+                if (isPointInElement(x, y, element, key)) {
+                    isDragging = true;
+                    dragElement = key;
+                    element.dragging = true;
+                    dragOffset.x = x - element.x;
+                    dragOffset.y = y - element.y;
+                    canvas.style.cursor = 'grabbing';
+                    updateLayoutPreview();
+                    break;
+                }
+            }
+        });
+
+        // 鼠标移动事件
+        canvas.addEventListener('mousemove', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (isDragging && dragElement) {
+                const element = layoutElements[dragElement];
+                element.x = x - dragOffset.x;
+                element.y = y - dragOffset.y;
+
+                // 限制在画布范围内
+                element.x = Math.max(0, Math.min(canvas.width - element.width, element.x));
+                element.y = Math.max(0, Math.min(canvas.height - element.height, element.y));
+
+                updateLayoutPreview();
+            } else {
+                // 检查鼠标悬停
+                let hovering = false;
+                for (const [key, element] of Object.entries(layoutElements)) {
+                    if (isPointInElement(x, y, element, key)) {
+                        hovering = true;
+                        break;
+                    }
+                }
+                canvas.style.cursor = hovering ? 'grab' : 'default';
+            }
+        });
+
+        // 鼠标释放事件
+        canvas.addEventListener('mouseup', function() {
+            if (isDragging && dragElement) {
+                layoutElements[dragElement].dragging = false;
+                isDragging = false;
+                dragElement = null;
+                canvas.style.cursor = 'default';
+                updateLayoutPreview();
+            }
+        });
+
+        // 重置布局按钮
+        resetLayoutBtn.addEventListener('click', function() {
+            layoutElements = {
+                logo: { x: 80, y: 150, width: 120, height: 120, dragging: false },
+                linuxdo: { x: 210, y: 150, width: 150, height: 30, dragging: false },
+                nickname: { x: 200, y: 300, width: 200, height: 40, dragging: false }
+            };
+            updateLayoutPreview();
+        });
+
+        // 初始绘制
+        updateLayoutPreview();
+    }
+
+    // 检查点是否在元素内
+    function isPointInElement(x, y, element, elementType) {
+        if (elementType === 'nickname') {
+            // 昵称以中心点为基准
+            return x >= element.x - element.width/2 && x <= element.x + element.width/2 &&
+                   y >= element.y - element.height/2 && y <= element.y + element.height/2;
+        } else {
+            // logo和linuxdo以左上角为基准
+            return x >= element.x && x <= element.x + element.width &&
+                   y >= element.y && y <= element.y + element.height;
+        }
     }
 
     // 更新颜色模式显示
@@ -153,74 +261,92 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
             color2Group.style.display = 'none';
             gradientAngleGroup.style.display = 'none';
         }
-        // 预览始终显示，更新预览内容
-        updateNicknamePreview();
+        // 更新布局预览
+        updateLayoutPreview();
     }
 
-    // 更新昵称预览
-    function updateNicknamePreview() {
-        console.log('更新昵称预览:', nickname); // 调试信息
-        const displayText = nickname.trim() || '昵称';
+    // 更新布局预览
+    function updateLayoutPreview() {
+        if (!layoutPreviewCanvas) return;
 
-        // 确保预览元素存在
-        if (!nicknamePreview) {
-            console.error('预览元素不存在');
-            return;
+        const ctx = layoutPreviewCanvas.getContext('2d');
+        const canvas = layoutPreviewCanvas;
+
+        // 清空画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 绘制logo
+        drawLayoutElement(ctx, 'logo');
+
+        // 绘制LINUX DO文字
+        drawLayoutElement(ctx, 'linuxdo');
+
+        // 绘制昵称
+        drawLayoutElement(ctx, 'nickname');
+    }
+
+    // 绘制布局元素
+    function drawLayoutElement(ctx, elementType) {
+        const element = layoutElements[elementType];
+
+        if (elementType === 'logo') {
+            // 绘制logo占位框
+            ctx.strokeStyle = element.dragging ? '#007bff' : '#ddd';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(element.x, element.y, element.width, element.height);
+
+            // 绘制logo文字
+            ctx.fillStyle = '#666';
+            ctx.font = '14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('LOGO', element.x + element.width/2, element.y + element.height/2);
+
+        } else if (elementType === 'linuxdo') {
+            // 绘制LINUX DO文字
+            ctx.fillStyle = '#000000';
+            ctx.font = `bold ${Math.round(24 * 1.5)}px Arial`;
+            ctx.textAlign = 'left';
+            ctx.fillText('LINUX DO', element.x, element.y + 20);
+
+            // 绘制选择框
+            if (element.dragging) {
+                ctx.strokeStyle = '#007bff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(element.x - 5, element.y - 5, element.width + 10, element.height + 10);
+            }
+
+        } else if (elementType === 'nickname') {
+            const displayText = nickname.trim() || '昵称';
+
+            // 根据颜色模式设置填充样式
+            if (colorMode === 'gradient') {
+                const angleRad = (gradientAngle * Math.PI) / 180;
+                const x1 = element.x - Math.cos(angleRad) * 100;
+                const y1 = element.y - Math.sin(angleRad) * 30;
+                const x2 = element.x + Math.cos(angleRad) * 100;
+                const y2 = element.y + Math.sin(angleRad) * 30;
+
+                const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                gradient.addColorStop(0, nicknameColor1);
+                gradient.addColorStop(1, nicknameColor2);
+                ctx.fillStyle = gradient;
+            } else {
+                ctx.fillStyle = nicknameColor1;
+            }
+
+            ctx.font = `bold ${Math.round(32 * 1.5)}px "${selectedFont}", Arial`;
+            ctx.textAlign = 'center';
+            ctx.fillText(displayText, element.x, element.y + 25);
+
+            // 绘制选择框
+            if (element.dragging) {
+                ctx.strokeStyle = '#007bff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(element.x - element.width/2 - 5, element.y - 5, element.width + 10, element.height + 10);
+            }
         }
-
-        // 创建临时canvas来渲染预览
-        const tempCanvas = document.createElement('canvas');
-        const tempCtx = tempCanvas.getContext('2d');
-
-        // 设置canvas尺寸
-        tempCanvas.width = 300;
-        tempCanvas.height = 60;
-
-        // 设置字体
-        const fontSize = 22;
-        tempCtx.font = `bold ${fontSize}px "${selectedFont}", sans-serif`;
-        tempCtx.textAlign = 'center';
-        tempCtx.textBaseline = 'middle';
-
-        // 根据颜色模式设置填充样式
-        if (colorMode === 'gradient') {
-            // 创建与Canvas渲染相同的渐变
-            const angleRad = (gradientAngle * Math.PI) / 180;
-            const x1 = tempCanvas.width / 2 - Math.cos(angleRad) * 75;
-            const y1 = tempCanvas.height / 2 - Math.sin(angleRad) * 20;
-            const x2 = tempCanvas.width / 2 + Math.cos(angleRad) * 75;
-            const y2 = tempCanvas.height / 2 + Math.sin(angleRad) * 20;
-
-            const gradient = tempCtx.createLinearGradient(x1, y1, x2, y2);
-            gradient.addColorStop(0, nicknameColor1);
-            gradient.addColorStop(1, nicknameColor2);
-            tempCtx.fillStyle = gradient;
-        } else {
-            // 单色模式
-            tempCtx.fillStyle = nicknameColor1;
-        }
-
-        // 绘制文字
-        tempCtx.fillText(displayText, tempCanvas.width / 2, tempCanvas.height / 2);
-
-        // 将canvas转换为图片并设置为预览背景
-        const dataURL = tempCanvas.toDataURL();
-
-        // 清空预览文字，使用背景图片显示
-        nicknamePreview.textContent = '';
-        nicknamePreview.style.backgroundImage = `url(${dataURL})`;
-        nicknamePreview.style.backgroundSize = 'contain';
-        nicknamePreview.style.backgroundRepeat = 'no-repeat';
-        nicknamePreview.style.backgroundPosition = 'center';
-        nicknamePreview.style.color = 'transparent';
-
-        // 清除可能的CSS渐变样式
-        nicknamePreview.style.background = `url(${dataURL}) center/contain no-repeat`;
-        nicknamePreview.style.webkitBackgroundClip = 'initial';
-        nicknamePreview.style.webkitTextFillColor = 'initial';
-        nicknamePreview.style.backgroundClip = 'initial';
-
-        console.log('预览更新完成'); // 调试信息
     }
 
     // 初始化角度选择器
@@ -256,7 +382,7 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
                     const newAngle = calculateAngleFromPosition(e.clientX);
                     gradientAngle = newAngle;
                     updateAngleIndicator();
-                    updateNicknamePreview();
+                    updateLayoutPreview();
 
                     clickCount = 0;
                 }, 300);
@@ -277,7 +403,7 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
                 const newAngle = calculateAngleFromPosition(e.clientX);
                 gradientAngle = newAngle;
                 updateAngleIndicator();
-                updateNicknamePreview();
+                updateLayoutPreview();
             }
         });
 
@@ -301,7 +427,7 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
             gradientAngle = value;
             this.readOnly = true;
             updateAngleIndicator();
-            updateNicknamePreview();
+            updateLayoutPreview();
         });
 
         angleValue.addEventListener('keydown', function(e) {
@@ -429,33 +555,32 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // 第一排：logo和LINUX DO文字
-            const firstRowY = 160;
+            // 使用布局位置绘制元素
 
-            // 绘制logo (左侧) - 放大1.6倍
+            // 绘制logo - 使用布局位置
             if (logoImage && logoImage.complete) {
-                const logoSize = Math.round(80 * 1.5); // 80 * 1.6 = 128
-                const logoX = 50; // 再左移一点以适应更大的logo
-                ctx.drawImage(logoImage, logoX, firstRowY - logoSize/2, logoSize, logoSize);
+                const logoLayout = layoutElements.logo;
+                ctx.drawImage(logoImage, logoLayout.x, logoLayout.y, logoLayout.width, logoLayout.height);
             }
 
-            // 绘制LINUX DO文字 (右侧) - 放大1.6倍
+            // 绘制LINUX DO文字 - 使用布局位置
+            const linuxdoLayout = layoutElements.linuxdo;
             ctx.fillStyle = '#0b0b0bff';
-            ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`; // 24 * 1.6 = 38.4 ≈ 38
+            ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
             ctx.textAlign = 'left';
-            ctx.fillText('LINUX DO',185, firstRowY + 15);
+            ctx.fillText('LINUX DO', linuxdoLayout.x, linuxdoLayout.y + 20);
 
-            // 第二排：用户昵称 (居中，使用选择的颜色) - 放大1.6倍
-            const secondRowY = 300;
+            // 绘制用户昵称 - 使用布局位置和选择的颜色
+            const nicknameLayout = layoutElements.nickname;
 
             // 根据颜色模式设置填充样式
             if (colorMode === 'gradient') {
                 // 创建带角度的渐变
                 const angleRad = (gradientAngle * Math.PI) / 180;
-                const x1 = canvas.width / 2 - Math.cos(angleRad) * 100;
-                const y1 = secondRowY - Math.sin(angleRad) * 30;
-                const x2 = canvas.width / 2 + Math.cos(angleRad) * 100;
-                const y2 = secondRowY + Math.sin(angleRad) * 30;
+                const x1 = nicknameLayout.x - Math.cos(angleRad) * 100;
+                const y1 = nicknameLayout.y - Math.sin(angleRad) * 30;
+                const x2 = nicknameLayout.x + Math.cos(angleRad) * 100;
+                const y2 = nicknameLayout.y + Math.sin(angleRad) * 30;
 
                 const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
                 gradient.addColorStop(0, nicknameColor1);
@@ -468,9 +593,7 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
 
             ctx.font = `bold ${Math.round(32 * 1.6)}px "${selectedFont}", YaHei`; // 使用选择的字体
             ctx.textAlign = 'center';
-            // 向左移动10%（canvas.width * 0.1）
-            const nicknameX = (canvas.width / 2) + (canvas.width * 0.01);
-            ctx.fillText(nickname, nicknameX, secondRowY);
+            ctx.fillText(nickname, nicknameLayout.x, nicknameLayout.y + 25);
             
             // 转换为图片数据
             canvas.toBlob(resolve, 'image/png');
@@ -801,35 +924,32 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
         });
     }
 
-    // 绘制静态内容（logo + 昵称）
+    // 绘制静态内容（logo + 昵称）- 使用布局位置
     function drawStaticContent(ctx) {
-        // 第一排：logo和LINUX DO文字
-        const firstRowY = 160;
-
-        // 绘制logo (左侧) - 放大1.6倍
+        // 绘制logo - 使用布局位置
         if (logoImage && logoImage.complete) {
-            const logoSize = Math.round(80 * 1.5); // 128px
-            const logoX = 50;
-            ctx.drawImage(logoImage, logoX, firstRowY - logoSize/2, logoSize, logoSize);
+            const logoLayout = layoutElements.logo;
+            ctx.drawImage(logoImage, logoLayout.x, logoLayout.y, logoLayout.width, logoLayout.height);
         }
 
-        // 绘制LINUX DO文字 (右侧) - 放大1.6倍
+        // 绘制LINUX DO文字 - 使用布局位置
+        const linuxdoLayout = layoutElements.linuxdo;
         ctx.fillStyle = '#0b0b0bff';
-        ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`; // 38px
+        ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
         ctx.textAlign = 'left';
-        ctx.fillText('LINUX DO', 185, firstRowY + 15);
+        ctx.fillText('LINUX DO', linuxdoLayout.x, linuxdoLayout.y + 20);
 
-        // 第二排：用户昵称 (居中，使用选择的颜色) - 放大1.6倍
-        const secondRowY = 300;
+        // 绘制用户昵称 - 使用布局位置和选择的颜色
+        const nicknameLayout = layoutElements.nickname;
 
         // 根据颜色模式设置填充样式
         if (colorMode === 'gradient') {
             // 创建带角度的渐变
             const angleRad = (gradientAngle * Math.PI) / 180;
-            const x1 = ctx.canvas.width / 2 - Math.cos(angleRad) * 100;
-            const y1 = secondRowY - Math.sin(angleRad) * 30;
-            const x2 = ctx.canvas.width / 2 + Math.cos(angleRad) * 100;
-            const y2 = secondRowY + Math.sin(angleRad) * 30;
+            const x1 = nicknameLayout.x - Math.cos(angleRad) * 100;
+            const y1 = nicknameLayout.y - Math.sin(angleRad) * 30;
+            const x2 = nicknameLayout.x + Math.cos(angleRad) * 100;
+            const y2 = nicknameLayout.y + Math.sin(angleRad) * 30;
 
             const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
             gradient.addColorStop(0, nicknameColor1);
@@ -842,9 +962,7 @@ console.log('L站头像生成器加载 - 修复null元素错误版本 v12.5');
 
         ctx.font = `bold ${Math.round(32 * 1.6)}px "${selectedFont}", YaHei`; // 使用选择的字体
         ctx.textAlign = 'center';
-        // 向左移动10%（canvas.width * 0.1）
-        const nicknameX = (ctx.canvas.width / 2) + (ctx.canvas.width * 0.01);
-        ctx.fillText(nickname, nicknameX, secondRowY);
+        ctx.fillText(nickname, nicknameLayout.x, nicknameLayout.y + 25);
     }
     
 

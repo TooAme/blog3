@@ -958,40 +958,40 @@ img, video {
 
 
 
-/* 昵称预览容器 */
-.nickname-preview-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #e0e0e0;
-  width: 350px;
+/* 布局预览容器 */
+.layout-preview-container {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #fafafa;
 }
 
-.nickname-preview-container label {
-  min-width: 60px;
-  font-size: 14px;
-  margin-bottom: 0;
-}
-
-.nickname-preview {
-  flex: 1;
-  min-height: 60px;
-  padding: 8px 12px;
+#layout-preview-canvas {
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
   border: 2px solid #ddd;
   border-radius: 6px;
-  background-color: #fff !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: bold;
-  color: #25A5D0;
-  font-family: "Microsoft YaHei", sans-serif;
-  transition: all 0.3s ease;
+  background-color: #fff;
+  cursor: grab;
+  display: block;
+  margin: 0 auto;
+}
+
+#layout-preview-canvas:active {
+  cursor: grabbing;
+}
+
+.preview-controls {
+  margin-top: 10px;
   text-align: center;
-  word-break: break-all;
+}
+
+.preview-controls .help-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
 }
 
 /* 参数选择区域过渡效果 */

@@ -1,5 +1,5 @@
-// L站头像生成器 - 修复logo预览版本 v13.1
-console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
+// L站头像生成器 - 消除空白区域版本 v14.8
+console.log('L站头像生成器加载 - 消除空白区域版本 v14.8');
 
 (function() {
     'use strict';
@@ -40,6 +40,10 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
     const fontSelect = document.getElementById('font-select');
     const layoutPreviewCanvas = document.getElementById('layout-preview-canvas');
     const resetLayoutBtn = document.getElementById('reset-layout-btn');
+    const customBgBtn = document.getElementById('custom-bg-btn');
+    const addStickerBtn = document.getElementById('add-sticker-btn');
+    const bgFileInput = document.getElementById('bg-file-input');
+    const stickerFileInput = document.getElementById('sticker-file-input');
 
     // 颜色相关变量
     let colorMode = 'single'; // 'single' 或 'gradient'
@@ -50,13 +54,21 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
 
     // 布局相关变量
     let layoutElements = {
-        logo: { x: 80, y: 150, width: 120, height: 120, dragging: false },
-        linuxdo: { x: 210, y: 150, width: 150, height: 30, dragging: false },
-        nickname: { x: 200, y: 300, width: 200, height: 40, dragging: false }
+        logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false },
+        linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false },
+        nickname: { x: 202, y: 275, width: 200, height: 40, rotation: 0, scale: 1, dragging: false }
     };
     let dragOffset = { x: 0, y: 0 };
     let isDragging = false;
     let dragElement = null;
+    let selectedElement = null; // 当前选中的元素
+    let mouseDownPos = { x: 0, y: 0 }; // 鼠标按下位置
+    let hasMoved = false; // 是否发生了拖拽移动
+
+    // 背景和贴图相关变量
+    let customBackground = null; // 自定义背景图片
+    let stickers = []; // 贴图数组
+    let stickerCounter = 0; // 贴图计数器
 
     // 初始化
     function init() {
@@ -127,6 +139,18 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
         // 布局预览事件
         initLayoutPreview();
 
+        // 背景和贴图按钮事件
+        customBgBtn.addEventListener('click', function() {
+            bgFileInput.click();
+        });
+
+        addStickerBtn.addEventListener('click', function() {
+            stickerFileInput.click();
+        });
+
+        bgFileInput.addEventListener('change', handleBackgroundUpload);
+        stickerFileInput.addEventListener('change', handleStickerUpload);
+
         generateBtn.addEventListener('click', generateAvatar);
         downloadBtn.addEventListener('click', downloadGif);
         regenerateBtn.addEventListener('click', resetGenerator);
@@ -174,17 +198,31 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
+            // 记录鼠标按下位置
+            mouseDownPos.x = x;
+            mouseDownPos.y = y;
+            hasMoved = false;
+
             // 检查点击的是哪个元素
+            let clickedElement = null;
             for (const [key, element] of Object.entries(layoutElements)) {
                 if (isPointInElement(x, y, element, key)) {
+                    clickedElement = key;
                     isDragging = true;
                     dragElement = key;
                     element.dragging = true;
                     dragOffset.x = x - element.x;
                     dragOffset.y = y - element.y;
                     canvas.style.cursor = 'grabbing';
-                    updateLayoutPreview();
                     break;
+                }
+            }
+
+            // 如果没有点击到任何元素，取消选中
+            if (!clickedElement) {
+                if (selectedElement) {
+                    selectedElement = null;
+                    updateLayoutPreview();
                 }
             }
         });
@@ -196,15 +234,31 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
             const y = e.clientY - rect.top;
 
             if (isDragging && dragElement) {
-                const element = layoutElements[dragElement];
-                element.x = x - dragOffset.x;
-                element.y = y - dragOffset.y;
+                // 检测是否真正开始拖拽（移动距离超过阈值）
+                const moveDistance = Math.sqrt(
+                    Math.pow(x - mouseDownPos.x, 2) + Math.pow(y - mouseDownPos.y, 2)
+                );
 
-                // 限制在画布范围内
-                element.x = Math.max(0, Math.min(canvas.width - element.width, element.x));
-                element.y = Math.max(0, Math.min(canvas.height - element.height, element.y));
+                if (moveDistance > 5) { // 5像素的拖拽阈值
+                    hasMoved = true;
 
-                updateLayoutPreview();
+                    const element = layoutElements[dragElement];
+                    element.x = x - dragOffset.x;
+                    element.y = y - dragOffset.y;
+
+                    // 根据元素类型设置边界限制
+                    // if (dragElement === 'nickname') {
+                    //     // 昵称以中心点为基准，限制在画布范围内
+                    //     element.x = Math.max(element.width/2, Math.min(canvas.width - element.width/2, element.x));
+                    //     element.y = Math.max(element.height/2, Math.min(canvas.height - element.height/2, element.y));
+                    // } else {
+                    //     // 其他元素以左上角为基准，限制在画布范围内
+                    //     element.x = Math.max(0, Math.min(canvas.width - element.width, element.x));
+                    //     element.y = Math.max(0, Math.min(canvas.height - element.height, element.y));
+                    // }
+
+                    updateLayoutPreview();
+                }
             } else {
                 // 检查鼠标悬停
                 let hovering = false;
@@ -222,6 +276,21 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
         canvas.addEventListener('mouseup', function() {
             if (isDragging && dragElement) {
                 layoutElements[dragElement].dragging = false;
+
+                // 如果没有发生拖拽移动，则是点击选中
+                if (!hasMoved) {
+                    // 取消之前选中的元素
+                    if (selectedElement && selectedElement !== dragElement) {
+                        // 之前选中的元素不再高亮
+                    }
+
+                    // 选中当前元素
+                    selectedElement = dragElement;
+                    console.log('选中元素:', selectedElement);
+                } else {
+                    // 发生了拖拽移动，不改变选中状态
+                }
+
                 isDragging = false;
                 dragElement = null;
                 canvas.style.cursor = 'default';
@@ -231,16 +300,180 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
 
         // 重置布局按钮
         resetLayoutBtn.addEventListener('click', function() {
+            // 重置基本布局元素
             layoutElements = {
-                logo: { x: 80, y: 150, width: 120, height: 120, dragging: false },
-                linuxdo: { x: 210, y: 150, width: 150, height: 30, dragging: false },
-                nickname: { x: 200, y: 300, width: 200, height: 40, dragging: false }
+                logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false },
+                linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false },
+                nickname: { x: 202, y: 275, width: 200, height: 40, rotation: 0, scale: 1, dragging: false }
             };
+
+            // 清除背景和贴图
+            customBackground = null;
+            stickers = [];
+            stickerCounter = 0;
+
+            // 清除选中状态
+            selectedElement = null;
+
             updateLayoutPreview();
+            console.log('布局已重置');
+        });
+
+        // 键盘事件监听（旋转和缩放）
+        document.addEventListener('keydown', function(e) {
+            if (!selectedElement) return;
+
+            const element = layoutElements[selectedElement];
+            let updated = false;
+
+            switch(e.key) {
+                case 'q':
+                case 'Q':
+                    // Q键：逆时针旋转15度
+                    element.rotation = (element.rotation - 1.5) % 360;
+                    updated = true;
+                    break;
+                case 'e':
+                case 'E':
+                    // E键：顺时针旋转15度
+                    element.rotation = (element.rotation + 1.5) % 360;
+                    updated = true;
+                    break;
+                case '=':
+                case '+':
+                    // +键：放大10%
+                    element.scale = Math.min(3, element.scale * 1.1);
+                    updated = true;
+                    break;
+                case '-':
+                case '_':
+                    // -键：缩小10%
+                    element.scale = Math.max(0.2, element.scale * 0.9);
+                    updated = true;
+                    break;
+                case 'r':
+                case 'R':
+                    // R键：重置旋转和缩放
+                    element.rotation = 0;
+                    element.scale = 1;
+                    updated = true;
+                    break;
+                case 'Delete':
+                case 'Backspace':
+                    // Delete/Backspace键：删除贴图
+                    if (selectedElement.startsWith('sticker')) {
+                        deleteSticker(selectedElement);
+                        return; // 删除后直接返回，不需要更新预览
+                    }
+                    break;
+            }
+
+            if (updated) {
+                updateLayoutPreview();
+                e.preventDefault();
+            }
         });
 
         // 初始绘制
         updateLayoutPreview();
+    }
+
+    // 裁剪模式绘制图片（类似CSS的object-fit: cover）
+    function drawImageCover(ctx, img, x, y, width, height) {
+        const imgRatio = img.width / img.height;
+        const canvasRatio = width / height;
+
+        let drawWidth, drawHeight, offsetX, offsetY;
+
+        if (imgRatio > canvasRatio) {
+            // 图片更宽，以高度为准
+            drawHeight = height;
+            drawWidth = height * imgRatio;
+            offsetX = (width - drawWidth) / 2;
+            offsetY = 0;
+        } else {
+            // 图片更高，以宽度为准
+            drawWidth = width;
+            drawHeight = width / imgRatio;
+            offsetX = 0;
+            offsetY = (height - drawHeight) / 2;
+        }
+
+        ctx.drawImage(img, x + offsetX, y + offsetY, drawWidth, drawHeight);
+    }
+
+    // 带裁剪的元素绘制函数（只绘制画布内的部分）
+    function drawElementWithClipping(ctx, elementType, element, image = null) {
+        ctx.save();
+
+        // 设置裁剪区域为画布范围
+        ctx.beginPath();
+        ctx.rect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        ctx.clip();
+
+        if (elementType === 'logo') {
+            // 应用变换
+            const centerX = element.x + element.width / 2;
+            const centerY = element.y + element.height / 2;
+            ctx.translate(centerX, centerY);
+            ctx.rotate((element.rotation * Math.PI) / 180);
+            ctx.scale(element.scale, element.scale);
+            ctx.translate(-element.width / 2, -element.height / 2);
+
+            if (image) {
+                ctx.drawImage(image, 0, 0, element.width, element.height);
+            }
+        } else if (elementType === 'linuxdo') {
+            // 应用变换
+            const centerX = element.x + element.width / 2;
+            const centerY = element.y + element.height / 2;
+            ctx.translate(centerX, centerY);
+            ctx.rotate((element.rotation * Math.PI) / 180);
+            ctx.scale(element.scale, element.scale);
+
+            ctx.fillStyle = '#0b0b0bff';
+            ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('LINUX DO', 0, 0);
+        } else if (elementType === 'nickname') {
+            // 应用变换
+            ctx.translate(element.x, element.y);
+            ctx.rotate((element.rotation * Math.PI) / 180);
+            ctx.scale(element.scale, element.scale);
+
+            // 根据颜色模式设置填充样式
+            if (colorMode === 'gradient') {
+                const angleRad = (gradientAngle * Math.PI) / 180;
+                const x1 = -Math.cos(angleRad) * 100;
+                const y1 = -Math.sin(angleRad) * 30;
+                const x2 = Math.cos(angleRad) * 100;
+                const y2 = Math.sin(angleRad) * 30;
+
+                const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                gradient.addColorStop(0, nicknameColor1);
+                gradient.addColorStop(1, nicknameColor2);
+                ctx.fillStyle = gradient;
+            } else {
+                ctx.fillStyle = nicknameColor1;
+            }
+
+            ctx.font = `bold ${Math.round(32 * 1.6)}px "${selectedFont}", YaHei`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(nickname, 0, 0);
+        } else if (elementType.startsWith('sticker')) {
+            // 应用变换
+            ctx.translate(element.x, element.y);
+            ctx.rotate((element.rotation * Math.PI) / 180);
+            ctx.scale(element.scale, element.scale);
+
+            if (image) {
+                ctx.drawImage(image, -element.width/2, -element.height/2, element.width, element.height);
+            }
+        }
+
+        ctx.restore();
     }
 
     // 检查点是否在元素内
@@ -249,11 +482,100 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
             // 昵称以中心点为基准
             return x >= element.x - element.width/2 && x <= element.x + element.width/2 &&
                    y >= element.y - element.height/2 && y <= element.y + element.height/2;
+        } else if (elementType.startsWith('sticker')) {
+            // 贴图以中心点为基准
+            return x >= element.x - element.width/2 && x <= element.x + element.width/2 &&
+                   y >= element.y - element.height/2 && y <= element.y + element.height/2;
         } else {
             // logo和linuxdo以左上角为基准
             return x >= element.x && x <= element.x + element.width &&
                    y >= element.y && y <= element.y + element.height;
         }
+    }
+
+    // 处理背景图片上传
+    function handleBackgroundUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                customBackground = img;
+                updateLayoutPreview();
+                console.log('背景图片已加载');
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        // 清空文件输入，允许重复选择同一文件
+        event.target.value = '';
+    }
+
+    // 处理贴图上传
+    function handleStickerUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                // 创建新贴图
+                const stickerId = 'sticker' + (++stickerCounter);
+                const newSticker = {
+                    id: stickerId,
+                    image: img,
+                    x: 200, // 默认位置
+                    y: 200,
+                    width: Math.min(100, img.width), // 默认大小，最大100px
+                    height: Math.min(100, img.height),
+                    rotation: 0, // 旋转角度
+                    scale: 1, // 缩放比例
+                    dragging: false
+                };
+
+                // 添加到布局元素中
+                layoutElements[stickerId] = newSticker;
+                stickers.push(newSticker);
+
+                updateLayoutPreview();
+                console.log('贴图已添加:', stickerId);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        // 清空文件输入，允许重复选择同一文件
+        event.target.value = '';
+    }
+
+    // 删除贴图函数
+    function deleteSticker(stickerId) {
+        if (!stickerId || !stickerId.startsWith('sticker')) {
+            console.warn('无效的贴图ID:', stickerId);
+            return;
+        }
+
+        // 从布局元素中删除
+        if (layoutElements[stickerId]) {
+            delete layoutElements[stickerId];
+        }
+
+        // 从贴图数组中删除
+        stickers = stickers.filter(sticker => sticker.id !== stickerId);
+
+        // 清除选中状态
+        if (selectedElement === stickerId) {
+            selectedElement = null;
+        }
+
+        // 更新预览
+        updateLayoutPreview();
+
+        console.log('贴图已删除:', stickerId);
     }
 
     // 更新颜色模式显示
@@ -281,6 +603,13 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+        // 绘制自定义背景（透明度0.3，裁剪模式）
+        if (customBackground) {
+            ctx.globalAlpha = 0.3;
+            drawImageCover(ctx, customBackground, 0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 1.0;
+        }
+
         // 绘制logo
         drawLayoutElement(ctx, 'logo');
 
@@ -289,6 +618,11 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
 
         // 绘制昵称
         drawLayoutElement(ctx, 'nickname');
+
+        // 绘制所有贴图（在最上层）
+        stickers.forEach(sticker => {
+            drawLayoutElement(ctx, sticker.id);
+        });
     }
 
     // 绘制布局元素
@@ -296,53 +630,84 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
         const element = layoutElements[elementType];
 
         if (elementType === 'logo') {
+            ctx.save();
+
+            // 应用变换（旋转和缩放）
+            const centerX = element.x + element.width / 2;
+            const centerY = element.y + element.height / 2;
+            ctx.translate(centerX, centerY);
+            ctx.rotate((element.rotation * Math.PI) / 180);
+            ctx.scale(element.scale, element.scale);
+            ctx.translate(-element.width / 2, -element.height / 2);
+
             // 如果logo图片已加载，绘制实际图片
             if (logoImage && logoImage.complete && logoImage.naturalWidth > 0) {
-                ctx.drawImage(logoImage, element.x, element.y, element.width, element.height);
+                ctx.drawImage(logoImage, 0, 0, element.width, element.height);
             } else {
                 // 否则绘制占位框
                 ctx.fillStyle = '#f0f0f0';
-                ctx.fillRect(element.x, element.y, element.width, element.height);
+                ctx.fillRect(0, 0, element.width, element.height);
 
                 // 绘制logo文字
                 ctx.fillStyle = '#666';
                 ctx.font = '14px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText('LOGO', element.x + element.width/2, element.y + element.height/2);
+                ctx.fillText('LOGO', element.width/2, element.height/2);
             }
 
-            // 绘制选择框
-            if (element.dragging) {
-                ctx.strokeStyle = '#007bff';
-                ctx.lineWidth = 2;
+            ctx.restore();
+
+            // 绘制选择框（拖拽时或选中时）
+            if (element.dragging || selectedElement === elementType) {
+                ctx.strokeStyle = selectedElement === elementType ? '#ff6b35' : '#007bff';
+                ctx.lineWidth = selectedElement === elementType ? 3 : 2;
                 ctx.strokeRect(element.x - 2, element.y - 2, element.width + 4, element.height + 4);
             }
 
         } else if (elementType === 'linuxdo') {
+            ctx.save();
+
+            // 应用变换（旋转和缩放）
+            const centerX = element.x + element.width / 2;
+            const centerY = element.y + element.height / 2;
+            ctx.translate(centerX, centerY);
+            ctx.rotate((element.rotation * Math.PI) / 180);
+            ctx.scale(element.scale, element.scale);
+
             // 绘制LINUX DO文字
             ctx.fillStyle = '#000000';
             ctx.font = `bold ${Math.round(24 * 1.5)}px Arial`;
-            ctx.textAlign = 'left';
-            ctx.fillText('LINUX DO', element.x, element.y + 20);
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('LINUX DO', 0, 0);
 
-            // 绘制选择框
-            if (element.dragging) {
-                ctx.strokeStyle = '#007bff';
-                ctx.lineWidth = 2;
+            ctx.restore();
+
+            // 绘制选择框（拖拽时或选中时）
+            if (element.dragging || selectedElement === elementType) {
+                ctx.strokeStyle = selectedElement === elementType ? '#ff6b35' : '#007bff';
+                ctx.lineWidth = selectedElement === elementType ? 3 : 2;
                 ctx.strokeRect(element.x - 5, element.y - 5, element.width + 10, element.height + 10);
             }
 
         } else if (elementType === 'nickname') {
             const displayText = nickname.trim() || '昵称';
 
+            ctx.save();
+
+            // 应用变换（旋转和缩放）
+            ctx.translate(element.x, element.y);
+            ctx.rotate((element.rotation * Math.PI) / 180);
+            ctx.scale(element.scale, element.scale);
+
             // 根据颜色模式设置填充样式
             if (colorMode === 'gradient') {
                 const angleRad = (gradientAngle * Math.PI) / 180;
-                const x1 = element.x - Math.cos(angleRad) * 100;
-                const y1 = element.y - Math.sin(angleRad) * 30;
-                const x2 = element.x + Math.cos(angleRad) * 100;
-                const y2 = element.y + Math.sin(angleRad) * 30;
+                const x1 = -Math.cos(angleRad) * 100;
+                const y1 = -Math.sin(angleRad) * 30;
+                const x2 = Math.cos(angleRad) * 100;
+                const y2 = Math.sin(angleRad) * 30;
 
                 const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
                 gradient.addColorStop(0, nicknameColor1);
@@ -354,13 +719,43 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
 
             ctx.font = `bold ${Math.round(32 * 1.5)}px "${selectedFont}", Arial`;
             ctx.textAlign = 'center';
-            ctx.fillText(displayText, element.x, element.y + 25);
+            ctx.textBaseline = 'middle';
+            ctx.fillText(displayText, 0, 0);
 
-            // 绘制选择框
-            if (element.dragging) {
-                ctx.strokeStyle = '#007bff';
-                ctx.lineWidth = 2;
-                ctx.strokeRect(element.x - element.width/2 - 5, element.y - 5, element.width + 10, element.height + 10);
+            ctx.restore();
+
+            // 绘制选择框（拖拽时或选中时）
+            if (element.dragging || selectedElement === elementType) {
+                ctx.strokeStyle = selectedElement === elementType ? '#ff6b35' : '#007bff';
+                ctx.lineWidth = selectedElement === elementType ? 3 : 2;
+                ctx.strokeRect(element.x - element.width/2 - 5, element.y - element.height/2 - 5, element.width + 10, element.height + 10);
+            }
+        } else if (elementType.startsWith('sticker')) {
+            // 绘制贴图
+            const sticker = layoutElements[elementType];
+            if (sticker && sticker.image) {
+                ctx.save();
+
+                // 应用变换（旋转和缩放）
+                ctx.translate(sticker.x, sticker.y);
+                ctx.rotate((sticker.rotation * Math.PI) / 180);
+                ctx.scale(sticker.scale, sticker.scale);
+
+                ctx.drawImage(sticker.image,
+                    -sticker.width/2,
+                    -sticker.height/2,
+                    sticker.width,
+                    sticker.height);
+
+                ctx.restore();
+
+                // 绘制选择框（拖拽时或选中时）
+                if (sticker.dragging || selectedElement === elementType) {
+                    ctx.strokeStyle = selectedElement === elementType ? '#ff6b35' : '#28a745';
+                    ctx.lineWidth = selectedElement === elementType ? 3 : 2;
+                    ctx.strokeRect(sticker.x - sticker.width/2 - 2, sticker.y - sticker.height/2 - 2,
+                                 sticker.width + 4, sticker.height + 4);
+                }
             }
         }
     }
@@ -508,8 +903,17 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
         }
 
         try {
-            // 隐藏参数选择区域，显示加载动画
+            // 隐藏参数选择区域和预览布局调整栏，显示加载动画
+            const mainContainer = document.querySelector('.lstation-generator-container');
+            if (mainContainer) {
+                mainContainer.style.display = 'none';
+                mainContainer.style.padding = '0';
+            }
             parameterSection.style.display = 'none';
+            const layoutPreviewSection = document.querySelector('.generator-right-panel .preview-section');
+            if (layoutPreviewSection) {
+                layoutPreviewSection.style.display = 'none';
+            }
             showLoading('准备生成图片...');
             previewContainer.style.display = 'none';
 
@@ -570,7 +974,14 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
             // 白色背景
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
+
+            // 绘制自定义背景（透明度0.3，裁剪模式）
+            if (customBackground) {
+                ctx.globalAlpha = 0.3;
+                drawImageCover(ctx, customBackground, 0, 0, canvas.width, canvas.height);
+                ctx.globalAlpha = 1.0;
+            }
+
             // 使用布局位置绘制元素
 
             // 绘制logo - 使用布局位置
@@ -610,7 +1021,18 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
             ctx.font = `bold ${Math.round(32 * 1.6)}px "${selectedFont}", YaHei`; // 使用选择的字体
             ctx.textAlign = 'center';
             ctx.fillText(nickname, nicknameLayout.x, nicknameLayout.y + 25);
-            
+
+            // 绘制所有贴图（在最上层）
+            stickers.forEach(sticker => {
+                if (sticker.image) {
+                    ctx.drawImage(sticker.image,
+                        sticker.x - sticker.width/2,
+                        sticker.y - sticker.height/2,
+                        sticker.width,
+                        sticker.height);
+                }
+            });
+
             // 转换为图片数据
             canvas.toBlob(resolve, 'image/png');
         });
@@ -942,6 +1364,14 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
 
     // 绘制静态内容（logo + 昵称）- 使用布局位置
     function drawStaticContent(ctx) {
+        // 绘制自定义背景（透明度0.3，裁剪模式）
+        if (customBackground) {
+            const currentAlpha = ctx.globalAlpha;
+            ctx.globalAlpha = currentAlpha * 0.3;
+            drawImageCover(ctx, customBackground, 0, 0, ctx.canvas.width, ctx.canvas.height);
+            ctx.globalAlpha = currentAlpha;
+        }
+
         // 绘制logo - 使用布局位置
         if (logoImage && logoImage.complete) {
             const logoLayout = layoutElements.logo;
@@ -979,6 +1409,17 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
         ctx.font = `bold ${Math.round(32 * 1.6)}px "${selectedFont}", YaHei`; // 使用选择的字体
         ctx.textAlign = 'center';
         ctx.fillText(nickname, nicknameLayout.x, nicknameLayout.y + 25);
+
+        // 绘制所有贴图（在最上层）
+        stickers.forEach(sticker => {
+            if (sticker.image) {
+                ctx.drawImage(sticker.image,
+                    sticker.x - sticker.width/2,
+                    sticker.y - sticker.height/2,
+                    sticker.width,
+                    sticker.height);
+            }
+        });
     }
     
 
@@ -1104,6 +1545,13 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
             previewGif.style.display = 'none';
         }
 
+        // 确保主容器隐藏，只显示预览结果
+        const mainContainer = document.querySelector('.lstation-generator-container');
+        if (mainContainer) {
+            mainContainer.style.display = 'none';
+            mainContainer.style.padding = '0';
+        }
+
         previewContainer.style.display = 'block';
     }
 
@@ -1177,8 +1625,12 @@ console.log('L站头像生成器加载 - 修复logo预览版本 v13.1');
         nickname = '';
         generatedGif = null;
 
-        // 重新显示参数选择区域
+        // 重新显示参数选择区域和预览布局调整栏
         parameterSection.style.display = 'block';
+        const layoutPreviewSection = document.querySelector('.generator-right-panel .preview-section');
+        if (layoutPreviewSection) {
+            layoutPreviewSection.style.display = 'block';
+        }
         previewContainer.style.display = 'none';
         hideLoading();
 

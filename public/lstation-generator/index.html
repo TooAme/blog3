@@ -54,8 +54,10 @@
   <div class="col-md-12">
 
     <div class="lstation-generator-container">
-      <!-- 参数选择区域 -->
-      <div id="parameter-section">
+      <!-- 左侧面板：参数设置 -->
+      <div class="generator-left-panel">
+        <!-- 参数选择区域 -->
+        <div id="parameter-section">
         <!-- 角色选择 -->
       <div class="form-group">
         <label for="character-select">选择角色：</label>
@@ -141,68 +143,61 @@
           </div>
         </div>
 
-        <!-- 独立的预览栏 -->
+        <!-- 生成按钮 -->
         <div class="form-group">
+          <button id="generate-btn" class="btn btn-primary btn-lg generate-btn">开始生成</button>
+        </div>
+        </div> <!-- 关闭parameter-section -->
+      </div> <!-- 关闭generator-left-panel -->
+
+      <!-- 右侧面板：预览与布局调整 -->
+      <div class="generator-right-panel">
+        <!-- 布局预览 -->
+        <div class="form-group preview-section">
           <label>预览与布局调整：</label>
           <div class="layout-preview-container">
             <canvas id="layout-preview-canvas" width="400" height="400"></canvas>
             <div class="preview-controls">
+              <button type="button" id="custom-bg-btn" class="btn btn-info btn-sm">自定义背景</button>
+              <button type="button" id="add-sticker-btn" class="btn btn-success btn-sm">添加贴图</button>
               <button type="button" id="reset-layout-btn" class="btn btn-secondary btn-sm">重置布局</button>
-              <small class="help-text">拖拽元素调整位置，生成时将使用当前布局</small>
+              <input type="file" id="bg-file-input" accept="image/*" style="display: none;">
+              <input type="file" id="sticker-file-input" accept="image/*" style="display: none;">
+              <small class="help-text">拖拽元素调整位置，单击选中元素后：Q/E旋转 +/-缩放 R重置</small>
             </div>
           </div>
-        </div>
-      </div>
+        </div> <!-- 关闭form-group preview-section -->
 
-      <!-- 选择状态显示 -->
-      <!-- <div id="selection-status" class="form-group" style="display: none;">
-        <div class="alert alert-info">
-          <strong>已选择：</strong><span id="selected-info"></span>
-        </div>
-      </div> -->
-
-
-
-        <!-- 生成按钮 -->
-        <div class="form-group">
-          <button id="generate-btn" class="btn btn-primary btn-lg generate-btn">开始生成</button>
-          <!-- <div class="help-text">
-            <small class="text-muted">
-              选择角色后将生成包含角色视频的动态头像
-            </small>
-          </div> -->
-        </div>
-      </div> <!-- 关闭参数选择区域 -->
-
-      <!-- 加载动画 -->
-      <div id="loading-container" style="display: none;">
-        <div class="loading-wrapper">
-          <div class="loader">
-            <div class="loader-square"></div>
-            <div class="loader-square"></div>
-            <div class="loader-square"></div>
-            <div class="loader-square"></div>
-            <div class="loader-square"></div>
-            <div class="loader-square"></div>
-            <div class="loader-square"></div>
+        <!-- 预览区域 -->
+        <div id="preview-container" style="display: none;">
+          <p class="preview-text">预览</p>
+          <div id="preview-area">
+            <div class="preview-wrapper">
+              <canvas id="preview-canvas" width="400" height="400" style="display: none;"></canvas>
+              <img id="preview-gif" style="display: none;" />
+            </div>
           </div>
-          <div id="loading-text">准备中...</div>
-        </div>
-      </div>
-
-      <!-- 预览区域 -->
-      <div id="preview-container" style="display: none;">
-        <p class="preview-text">预览</p>
-        <div id="preview-area">
-          <div class="preview-wrapper">
-            <canvas id="preview-canvas" width="400" height="400" style="display: none;"></canvas>
-            <img id="preview-gif" style="display: none;" />
+          <div class="preview-controls">
+            <button id="download-gif-btn" class="btn btn-success">下载GIF</button>
+            <button id="regenerate-btn" class="btn btn-secondary">重新生成</button>
           </div>
         </div>
-        <div class="preview-controls">
-          <button id="download-gif-btn" class="btn btn-success">下载GIF</button>
-          <button id="regenerate-btn" class="btn btn-secondary">重新生成</button>
+      </div> <!-- 关闭右侧面板 -->
+    </div> <!-- 关闭主容器 -->
+
+    <!-- 加载动画 -->
+    <div id="loading-container" style="display: none;">
+      <div class="loading-wrapper">
+        <div class="loader">
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
         </div>
+        <div id="loading-text">准备中...</div>
       </div>
     </div>
   </div>
@@ -215,7 +210,7 @@
 <script src="/js/gif.js"></script>
 
 <!-- L站生成器专用脚本 -->
-<script src="/js/lstation-generator.js?v=1756373480762"></script>
+<script src="/js/lstation-generator.js?v=1756436705451"></script>
 
 	</div>
   </div>

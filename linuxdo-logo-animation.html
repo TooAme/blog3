@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinuxDO 动态Logo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            border-radius: 50%;
+            border: 3.9px solid rgb(240,240,240);
+            overflow: hidden;
+            background-color: rgb(240,240,240);
+            /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); */
+            animation: containerRotate 10s ease-in-out infinite;
+        }
+
+        /* 上半部分 - 黄色 */
+        .top-section {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            background-color: rgb(255,176,3);
+            border-radius: 0;
+            animation: topSection 10s ease-in-out infinite;
+        }
+
+        /* 下半部分 - 黑色 */
+        .bottom-section {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: rgb(28,28,30);
+            border-radius: 0;
+            animation: bottomSection 10s ease-in-out infinite;
+        }
+
+        /* 白色分割条 */
+        .white-divider {
+            position: absolute;
+            top: 32.5%;
+            left: -100%;
+            width: 100%;
+            height: 35%;
+            background-color: rgb(240,240,240);
+            z-index: 10;
+            border-radius: 0 50px 50px 0;
+            animation: whiteDivider 10s ease-in-out infinite;
+        }
+
+        /* LinuxDO 文字 */
+        .logo-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 27px;
+            font-weight: bold;
+            color: #000000;
+            z-index: 20;
+            opacity: 0;
+            white-space: nowrap;
+            animation: logoText 10s ease-in-out infinite;
+        }
+
+        /* 容器旋转动画 */
+        @keyframes containerRotate {
+            0%, 20% {
+                transform: rotate(0deg);
+            }
+            30% {
+                transform: rotate(180deg);
+            }
+            70% {
+                transform: rotate(180deg);
+            }
+            80%, 100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 上半部分动画 */
+        @keyframes topSection {
+            0% {
+                height: 50%;
+            }
+            10% {
+                height: 25%;
+            }
+            20% {
+                height: 75%;
+            }
+            30% {
+                height: 50%;
+            }
+            40% {
+                height: 32.5%;
+            }
+            60% {
+                height: 32.5%;
+            }
+            70% {
+                height: 50%;
+            }
+            80% {
+                height: 75%;
+            }
+            90% {
+                height: 25%;
+            }
+            100% {
+                height: 50%;
+            }
+        }
+
+        /* 下半部分动画 */
+        @keyframes bottomSection {
+            0% {
+                height: 50%;
+            }
+            10% {
+                height: 75%;
+            }
+            20% {
+                height: 25%;
+            }
+            30% {
+                height: 50%;
+            }
+            40% {
+                height: 32.5%;
+            }
+            60% {
+                height: 32.5%;
+            }
+            70% {
+                height: 50%;
+            }
+            80% {
+                height: 25%;
+            }
+            90% {
+                height: 75%;
+            }
+            100% {
+                height: 50%;
+            }
+        }
+
+        /* 白色分割条动画 */
+        @keyframes whiteDivider {
+            0%, 30% {
+                left: -100%;
+                border-radius: 0 20px 20px 0;
+                height: 33.33%;
+                top: 33.33%;
+            }
+            32% {
+                left: -60%;
+                border-radius: 0 15px 15px 0;
+                height: 30%;
+                top: 35%;
+            }
+            35% {
+                left: -20%;
+                border-radius: 0 8px 8px 0;
+                height: 25%;
+                top: 37.5%;
+            }
+            40% {
+                left: 0%;
+                border-radius: 0;
+                height: 33.33%;
+                top: 33.33%;
+            }
+            65% {
+                left: 20%;
+                border-radius: 8px 0 0 8px;
+                height: 25%;
+                top: 37.5%;
+            }
+            68% {
+                left: 60%;
+                border-radius: 15px 0 0 15px;
+                height: 30%;
+                top: 35%;
+            }
+            70% {
+                left: 100%;
+                border-radius: 20px 0 0 20px;
+                height: 33.33%;
+                top: 33.33%;
+            }
+            100% {
+                left: 100%;
+                border-radius: 20px 0 0 20px;
+                height: 33.33%;
+                top: 33.33%;
+            }
+        }
+
+        /* 文字动画 */
+        @keyframes logoText {
+            0%, 35% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8) rotate(180deg);
+            }
+            40% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(180deg);
+            }
+            60% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1) rotate(180deg);
+            }
+            65%, 100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8) rotate(180deg);
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .logo-container {
+                width: 150px;
+                height: 150px;
+            }
+
+            .logo-text {
+                font-size: 18px;
+            }
+        }
+
+        /* 圆形logo装饰效果 */
+        .logo-container::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            /* background: linear-gradient(45deg, rgb(255,176,3), rgb(240,240,240), rgb(28,28,30)); */
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.4;
+            animation: borderGlow 10s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <div class="top-section"></div>
+        <div class="bottom-section"></div>
+        <div class="white-divider"></div>
+        <div class="logo-text"> LINUX  DO</div>
+    </div>
+</body>
+</html>

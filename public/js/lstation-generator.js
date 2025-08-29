@@ -1,5 +1,5 @@
-// L站头像生成器 - 修复LINUX DO位置版本 v14.9
-console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
+// L站头像生成器 - 贴图无限制缩放版本 v15.0
+console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
 
 (function() {
     'use strict';
@@ -44,6 +44,9 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
     const addStickerBtn = document.getElementById('add-sticker-btn');
     const bgFileInput = document.getElementById('bg-file-input');
     const stickerFileInput = document.getElementById('sticker-file-input');
+    const bgOpacityControl = document.getElementById('bg-opacity-control');
+    const bgOpacitySlider = document.getElementById('bg-opacity-slider');
+    const bgOpacityValue = document.getElementById('bg-opacity-value');
 
     // 颜色相关变量
     let colorMode = 'single'; // 'single' 或 'gradient'
@@ -67,6 +70,7 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
 
     // 背景和贴图相关变量
     let customBackground = null; // 自定义背景图片
+    let backgroundOpacity = 1.0; // 背景透明度 (0-1)
     let stickers = []; // 贴图数组
     let stickerCounter = 0; // 贴图计数器
 
@@ -150,6 +154,13 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
 
         bgFileInput.addEventListener('change', handleBackgroundUpload);
         stickerFileInput.addEventListener('change', handleStickerUpload);
+
+        // 背景透明度滑块事件
+        bgOpacitySlider.addEventListener('input', function() {
+            backgroundOpacity = this.value / 100;
+            bgOpacityValue.textContent = this.value + '%';
+            updateLayoutPreview();
+        });
 
         generateBtn.addEventListener('click', generateAvatar);
         downloadBtn.addEventListener('click', downloadGif);
@@ -309,6 +320,10 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
 
             // 清除背景和贴图
             customBackground = null;
+            backgroundOpacity = 1.0;
+            bgOpacityControl.style.display = 'none';
+            bgOpacitySlider.value = 100;
+            bgOpacityValue.textContent = '100%';
             stickers = [];
             stickerCounter = 0;
 
@@ -342,13 +357,25 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
                 case '=':
                 case '+':
                     // +键：放大10%
-                    element.scale = Math.min(3, element.scale * 1.1);
+                    if (selectedElement.startsWith('sticker')) {
+                        // 贴图无缩放限制
+                        element.scale = element.scale * 1.1;
+                    } else {
+                        // 其他元素保持原有限制
+                        element.scale = Math.min(3, element.scale * 1.1);
+                    }
                     updated = true;
                     break;
                 case '-':
                 case '_':
                     // -键：缩小10%
-                    element.scale = Math.max(0.2, element.scale * 0.9);
+                    if (selectedElement.startsWith('sticker')) {
+                        // 贴图无缩放限制，但设置最小值防止完全消失
+                        element.scale = Math.max(0.01, element.scale * 0.9);
+                    } else {
+                        // 其他元素保持原有限制
+                        element.scale = Math.max(0.2, element.scale * 0.9);
+                    }
                     updated = true;
                     break;
                 case 'r':
@@ -503,6 +530,8 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
             const img = new Image();
             img.onload = function() {
                 customBackground = img;
+                // 显示透明度控件
+                bgOpacityControl.style.display = 'block';
                 updateLayoutPreview();
                 console.log('背景图片已加载');
             };
@@ -603,9 +632,9 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 绘制自定义背景（透明度0.3，裁剪模式）
+        // 绘制自定义背景（使用用户设置的透明度，裁剪模式）
         if (customBackground) {
-            ctx.globalAlpha = 0.3;
+            ctx.globalAlpha = backgroundOpacity;
             drawImageCover(ctx, customBackground, 0, 0, canvas.width, canvas.height);
             ctx.globalAlpha = 1.0;
         }
@@ -975,9 +1004,9 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
             ctx.fillStyle = '#ffffff';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // 绘制自定义背景（透明度0.3，裁剪模式）
+            // 绘制自定义背景（使用用户设置的透明度，裁剪模式）
             if (customBackground) {
-                ctx.globalAlpha = 0.3;
+                ctx.globalAlpha = backgroundOpacity;
                 drawImageCover(ctx, customBackground, 0, 0, canvas.width, canvas.height);
                 ctx.globalAlpha = 1.0;
             }
@@ -1361,10 +1390,10 @@ console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
 
     // 绘制静态内容（logo + 昵称）- 使用布局位置
     function drawStaticContent(ctx) {
-        // 绘制自定义背景（透明度0.3，裁剪模式）
+        // 绘制自定义背景（使用用户设置的透明度，裁剪模式）
         if (customBackground) {
             const currentAlpha = ctx.globalAlpha;
-            ctx.globalAlpha = currentAlpha * 0.3;
+            ctx.globalAlpha = currentAlpha * backgroundOpacity;
             drawImageCover(ctx, customBackground, 0, 0, ctx.canvas.width, ctx.canvas.height);
             ctx.globalAlpha = currentAlpha;
         }

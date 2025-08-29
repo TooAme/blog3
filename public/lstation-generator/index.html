@@ -64,8 +64,9 @@
         <select id="character-select" class="form-control">
           <option value=""></option>
           <option value="小祥">小祥</option>
-          <option value="soyorin1">SOYO - 竖屏</option>
-          <option value="soyorin2">SOYO - 横屏</option>
+          <option value="小祥（联动版）">小祥 - 联动</option>
+          <option value="soyorin1">素世 - 竖屏</option>
+          <option value="soyorin2">素世 - 横屏</option>
           <option value="乐奈">乐奈</option>
           <option value="偷摸零">偷摸零</option>
           <option value="喵梦">喵梦</option>
@@ -78,6 +79,27 @@
           <option value="睦子米2">睦子米 - 竖屏</option>
           <option value="立希">立希</option>
           <option value="黄毛大狗">黄毛大狗</option>
+          <option value="波奇">波奇</option>
+          <option value="虹夏">虹夏</option>
+          <option value="糖糖">糖糖</option>
+          <option value="仓田真白">仓田真白</option>
+          <option value="赛飞儿">赛飞儿</option>
+          <option value="流萤">流萤</option>
+          <option value="圣园未花">圣园未花</option>
+          <option value="魔理沙">魔理沙</option>
+          <option value="藤田琴音">藤田琴音</option>
+          <option value="安和昂">安和昂</option>
+          <option value="薇薇安">薇薇安</option>
+          <option value="立华奏">立华奏</option>
+          <option value="八奈见杏菜">八奈见杏菜</option>
+          <option value="琪露诺">琪露诺</option>
+          <option value="塔菲">塔菲</option>
+          <option value="丛雨">丛雨</option>
+          <option value="喜多">喜多</option>
+          <option value="雫るる">雫るる</option>
+          <option value="荧">荧</option>
+          <option value="平泽唯">平泽唯</option>
+          <option value="凉宫春日">凉宫春日</option>
         </select>
       </div>
 
@@ -149,6 +171,7 @@
         </div>
         </div> <!-- 关闭parameter-section -->
       </div> <!-- 关闭generator-left-panel -->
+    </div>
 
       <!-- 右侧面板：预览与布局调整 -->
       <div class="generator-right-panel">
@@ -163,27 +186,27 @@
               <button type="button" id="reset-layout-btn" class="btn btn-secondary btn-sm">重置布局</button>
               <input type="file" id="bg-file-input" accept="image/*" style="display: none;">
               <input type="file" id="sticker-file-input" accept="image/*" style="display: none;">
-              <small class="help-text">拖拽元素调整位置，单击选中元素后：Q/E旋转 +/-缩放 R重置</small>
+              <small class="help-text">拖拽元素调整位置，单击选中元素后：Q/E旋转 +/-缩放 R重置 Delete删除贴图</small>
             </div>
           </div>
         </div> <!-- 关闭form-group preview-section -->
-
-        <!-- 预览区域 -->
-        <div id="preview-container" style="display: none;">
-          <p class="preview-text">预览</p>
-          <div id="preview-area">
-            <div class="preview-wrapper">
-              <canvas id="preview-canvas" width="400" height="400" style="display: none;"></canvas>
-              <img id="preview-gif" style="display: none;" />
-            </div>
-          </div>
-          <div class="preview-controls">
-            <button id="download-gif-btn" class="btn btn-success">下载GIF</button>
-            <button id="regenerate-btn" class="btn btn-secondary">重新生成</button>
-          </div>
-        </div>
       </div> <!-- 关闭右侧面板 -->
     </div> <!-- 关闭主容器 -->
+
+    <!-- 预览区域（居中显示） -->
+    <div id="preview-container" style="display: none;">
+      <p class="preview-text">预览</p>
+      <div id="preview-area">
+        <div class="preview-wrapper">
+          <canvas id="preview-canvas" width="400" height="400" style="display: none;"></canvas>
+          <img id="preview-gif" style="display: none;" />
+        </div>
+      </div>
+      <div class="preview-controls">
+        <button id="download-gif-btn" class="btn btn-success">下载GIF</button>
+        <button id="regenerate-btn" class="btn btn-secondary">重新生成</button>
+      </div>
+    </div>
 
     <!-- 加载动画 -->
     <div id="loading-container" style="display: none;">
@@ -210,7 +233,7 @@
 <script src="/js/gif.js"></script>
 
 <!-- L站生成器专用脚本 -->
-<script src="/js/lstation-generator.js?v=1756436705451"></script>
+<script src="/js/lstation-generator.js?v=1756447533896"></script>
 
 	</div>
   </div>

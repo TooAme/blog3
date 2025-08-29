@@ -1,5 +1,5 @@
-// L站头像生成器 - 左右分栏布局版本 v14.4
-console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
+// L站头像生成器 - 修复LINUX DO位置版本 v14.9
+console.log('L站头像生成器加载 - 修复LINUX DO位置版本 v14.9');
 
 (function() {
     'use strict';
@@ -247,15 +247,15 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
                     element.y = y - dragOffset.y;
 
                     // 根据元素类型设置边界限制
-                    if (dragElement === 'nickname') {
-                        // 昵称以中心点为基准，限制在画布范围内
-                        element.x = Math.max(element.width/2, Math.min(canvas.width - element.width/2, element.x));
-                        element.y = Math.max(element.height/2, Math.min(canvas.height - element.height/2, element.y));
-                    } else {
-                        // 其他元素以左上角为基准，限制在画布范围内
-                        element.x = Math.max(0, Math.min(canvas.width - element.width, element.x));
-                        element.y = Math.max(0, Math.min(canvas.height - element.height, element.y));
-                    }
+                    // if (dragElement === 'nickname') {
+                    //     // 昵称以中心点为基准，限制在画布范围内
+                    //     element.x = Math.max(element.width/2, Math.min(canvas.width - element.width/2, element.x));
+                    //     element.y = Math.max(element.height/2, Math.min(canvas.height - element.height/2, element.y));
+                    // } else {
+                    //     // 其他元素以左上角为基准，限制在画布范围内
+                    //     element.x = Math.max(0, Math.min(canvas.width - element.width, element.x));
+                    //     element.y = Math.max(0, Math.min(canvas.height - element.height, element.y));
+                    // }
 
                     updateLayoutPreview();
                 }
@@ -330,13 +330,13 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
                 case 'q':
                 case 'Q':
                     // Q键：逆时针旋转15度
-                    element.rotation = (element.rotation - 15) % 360;
+                    element.rotation = (element.rotation - 1.5) % 360;
                     updated = true;
                     break;
                 case 'e':
                 case 'E':
                     // E键：顺时针旋转15度
-                    element.rotation = (element.rotation + 15) % 360;
+                    element.rotation = (element.rotation + 1.5) % 360;
                     updated = true;
                     break;
                 case '=':
@@ -357,6 +357,14 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
                     element.rotation = 0;
                     element.scale = 1;
                     updated = true;
+                    break;
+                case 'Delete':
+                case 'Backspace':
+                    // Delete/Backspace键：删除贴图
+                    if (selectedElement.startsWith('sticker')) {
+                        deleteSticker(selectedElement);
+                        return; // 删除后直接返回，不需要更新预览
+                    }
                     break;
             }
 
@@ -544,6 +552,32 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
         event.target.value = '';
     }
 
+    // 删除贴图函数
+    function deleteSticker(stickerId) {
+        if (!stickerId || !stickerId.startsWith('sticker')) {
+            console.warn('无效的贴图ID:', stickerId);
+            return;
+        }
+
+        // 从布局元素中删除
+        if (layoutElements[stickerId]) {
+            delete layoutElements[stickerId];
+        }
+
+        // 从贴图数组中删除
+        stickers = stickers.filter(sticker => sticker.id !== stickerId);
+
+        // 清除选中状态
+        if (selectedElement === stickerId) {
+            selectedElement = null;
+        }
+
+        // 更新预览
+        updateLayoutPreview();
+
+        console.log('贴图已删除:', stickerId);
+    }
+
     // 更新颜色模式显示
     function updateColorMode() {
         if (colorMode === 'gradient') {
@@ -643,7 +677,7 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
 
             // 绘制LINUX DO文字
             ctx.fillStyle = '#000000';
-            ctx.font = `bold ${Math.round(24 * 1.5)}px Arial`;
+            ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('LINUX DO', 0, 0);
@@ -869,8 +903,17 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
         }
 
         try {
-            // 隐藏参数选择区域，显示加载动画
+            // 隐藏参数选择区域和预览布局调整栏，显示加载动画
+            const mainContainer = document.querySelector('.lstation-generator-container');
+            if (mainContainer) {
+                mainContainer.style.display = 'none';
+                mainContainer.style.padding = '0';
+            }
             parameterSection.style.display = 'none';
+            const layoutPreviewSection = document.querySelector('.generator-right-panel .preview-section');
+            if (layoutPreviewSection) {
+                layoutPreviewSection.style.display = 'none';
+            }
             showLoading('准备生成图片...');
             previewContainer.style.display = 'none';
 
@@ -949,10 +992,7 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
 
             // 绘制LINUX DO文字 - 使用布局位置
             const linuxdoLayout = layoutElements.linuxdo;
-            ctx.fillStyle = '#0b0b0bff';
-            ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
-            ctx.textAlign = 'left';
-            ctx.fillText('LINUX DO', linuxdoLayout.x, linuxdoLayout.y + 20);
+            drawElementWithClipping(ctx, 'linuxdo', linuxdoLayout);
 
             // 绘制用户昵称 - 使用布局位置和选择的颜色
             const nicknameLayout = layoutElements.nickname;
@@ -1335,12 +1375,9 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
             ctx.drawImage(logoImage, logoLayout.x, logoLayout.y, logoLayout.width, logoLayout.height);
         }
 
-        // 绘制LINUX DO文字 - 使用布局位置
+        // 绘制LINUX DO文字 - 使用布局位置（带裁剪）
         const linuxdoLayout = layoutElements.linuxdo;
-        ctx.fillStyle = '#0b0b0bff';
-        ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
-        ctx.textAlign = 'left';
-        ctx.fillText('LINUX DO', linuxdoLayout.x, linuxdoLayout.y + 20);
+        drawElementWithClipping(ctx, 'linuxdo', linuxdoLayout);
 
         // 绘制用户昵称 - 使用布局位置和选择的颜色
         const nicknameLayout = layoutElements.nickname;
@@ -1502,6 +1539,13 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
             previewGif.style.display = 'none';
         }
 
+        // 确保主容器隐藏，只显示预览结果
+        const mainContainer = document.querySelector('.lstation-generator-container');
+        if (mainContainer) {
+            mainContainer.style.display = 'none';
+            mainContainer.style.padding = '0';
+        }
+
         previewContainer.style.display = 'block';
     }
 
@@ -1575,8 +1619,12 @@ console.log('L站头像生成器加载 - 左右分栏布局版本 v14.4');
         nickname = '';
         generatedGif = null;
 
-        // 重新显示参数选择区域
+        // 重新显示参数选择区域和预览布局调整栏
         parameterSection.style.display = 'block';
+        const layoutPreviewSection = document.querySelector('.generator-right-panel .preview-section');
+        if (layoutPreviewSection) {
+            layoutPreviewSection.style.display = 'block';
+        }
         previewContainer.style.display = 'none';
         hideLoading();
 

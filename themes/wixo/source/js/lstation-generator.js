@@ -1,5 +1,5 @@
-// L站头像生成器 - 消除空白区域版本 v14.8
-console.log('L站头像生成器加载 - 消除空白区域版本 v14.8');
+// L站头像生成器 - 贴图无限制缩放版本 v15.0
+console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
 
 (function() {
     'use strict';
@@ -342,13 +342,25 @@ console.log('L站头像生成器加载 - 消除空白区域版本 v14.8');
                 case '=':
                 case '+':
                     // +键：放大10%
-                    element.scale = Math.min(3, element.scale * 1.1);
+                    if (selectedElement.startsWith('sticker')) {
+                        // 贴图无缩放限制
+                        element.scale = element.scale * 1.1;
+                    } else {
+                        // 其他元素保持原有限制
+                        element.scale = Math.min(3, element.scale * 1.1);
+                    }
                     updated = true;
                     break;
                 case '-':
                 case '_':
                     // -键：缩小10%
-                    element.scale = Math.max(0.2, element.scale * 0.9);
+                    if (selectedElement.startsWith('sticker')) {
+                        // 贴图无缩放限制，但设置最小值防止完全消失
+                        element.scale = Math.max(0.01, element.scale * 0.9);
+                    } else {
+                        // 其他元素保持原有限制
+                        element.scale = Math.max(0.2, element.scale * 0.9);
+                    }
                     updated = true;
                     break;
                 case 'r':
@@ -677,7 +689,7 @@ console.log('L站头像生成器加载 - 消除空白区域版本 v14.8');
 
             // 绘制LINUX DO文字
             ctx.fillStyle = '#000000';
-            ctx.font = `bold ${Math.round(24 * 1.5)}px Arial`;
+            ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText('LINUX DO', 0, 0);
@@ -992,10 +1004,7 @@ console.log('L站头像生成器加载 - 消除空白区域版本 v14.8');
 
             // 绘制LINUX DO文字 - 使用布局位置
             const linuxdoLayout = layoutElements.linuxdo;
-            ctx.fillStyle = '#0b0b0bff';
-            ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
-            ctx.textAlign = 'left';
-            ctx.fillText('LINUX DO', linuxdoLayout.x, linuxdoLayout.y + 20);
+            drawElementWithClipping(ctx, 'linuxdo', linuxdoLayout);
 
             // 绘制用户昵称 - 使用布局位置和选择的颜色
             const nicknameLayout = layoutElements.nickname;
@@ -1378,12 +1387,9 @@ console.log('L站头像生成器加载 - 消除空白区域版本 v14.8');
             ctx.drawImage(logoImage, logoLayout.x, logoLayout.y, logoLayout.width, logoLayout.height);
         }
 
-        // 绘制LINUX DO文字 - 使用布局位置
+        // 绘制LINUX DO文字 - 使用布局位置（带裁剪）
         const linuxdoLayout = layoutElements.linuxdo;
-        ctx.fillStyle = '#0b0b0bff';
-        ctx.font = `700 ${Math.round(24 * 1.6)}px Arial`;
-        ctx.textAlign = 'left';
-        ctx.fillText('LINUX DO', linuxdoLayout.x, linuxdoLayout.y + 20);
+        drawElementWithClipping(ctx, 'linuxdo', linuxdoLayout);
 
         // 绘制用户昵称 - 使用布局位置和选择的颜色
         const nicknameLayout = layoutElements.nickname;

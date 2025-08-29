@@ -1,0 +1,557 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>【对日开发】结合测试式样书（2） | 遠雨</title>
+  <meta name="author" content="TooAme">
+  
+  <meta name="description" content="结合测试式样书（2）在单体测试之后，要将各模块组装进行结合测试。主要是测试各功能结合起来后是否会出问题、模块与模块之间的交互等等。
+【语法】（1）～まま　仍旧，原封不动，如实　　连体形、（体言+の）+まま，表示保持原状不变地做某件事情。常用ままに的形式，表示任意的行为状态，可译为“任意”“任凭”。
+">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="【对日开发】结合测试式样书（2）"/>
+  <meta property="og:site_name" content="遠雨"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="遠雨" type="application/atom+xml">
+  
+  
+    <link href="/favicon.ico" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">		
+  <h1><a class="brand" href="/">遠雨</a><span class="split"></span><span class="title">【对日开发】结合测试式样书（2）</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2025-08-15</span></h1>
+</div>		
+
+<div class="row page">
+  <!-- cols -->	
+  
+  
+
+  
+	<div class="col-md-12">
+	  
+
+	  <!-- content -->
+	  <h1 id="结合测试式样书（2）"><a href="#结合测试式样书（2）" class="headerlink" title="结合测试式样书（2）"></a>结合测试式样书（2）</h1><p>在单体测试之后，要将各模块组装进行结合测试。主要是测试各功能结合起来后是否会出问题、模块与模块之间的交互等等。</p>
+<h2 id="【语法】"><a href="#【语法】" class="headerlink" title="【语法】"></a><strong>【语法】</strong></h2><p>（1）～まま　仍旧，原封不动，如实<br>　　连体形、（体言+の）+まま，表示保持原状不变地做某件事情。常用ままに的形式，表示任意的行为状态，可译为“任意”“任凭”。</p>
+<p>　　項目が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E7%A9%BA%E6%AC%84">空欄</a>のままでは<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%B5%E3%83%96%E3%83%9F%E3%83%83%E3%83%88">サブミット</a>できません。　项目仍为空栏时不能提交。<br>　　問題点を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%94%BE%E7%BD%AE&type=jc">放置する</a>ままではいけません。　问题点不能置之不理。</p>
+<p>（2）～ず　不～<br>　　ず是文语否定助动词，前接用言未然形，相当于口语中的ない。</p>
+<p>　　忘れずに<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%90%E3%83%83%E3%82%AF%E3%82%A2%E3%83%83%E3%83%97">バックアップ</a>を実施します。　不要忘记做备份。<br>　　ほかに<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%BD%B1%E9%9F%BF">影響</a>を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E4%B8%8E%E3%81%88%E3%82%8B&type=jc">与えず</a>変更点のみを修正します。　不影响其他部分，只修改变更点。</p>
+<h2 id="【实例】"><a href="#【实例】" class="headerlink" title="【实例】"></a><strong>【实例】</strong></h2><p>（1）期間が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E9%80%86%E8%BB%A2">逆転</a>している（過去に<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%81%95%E3%81%8B%E3%81%AE%E3%81%BC%E3%82%8B&type=jc">さかのぼった</a>日付で入力されている）まま、「登録·変更」ボタンを押した場合、エラーを<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E9%80%9A%E7%9F%A5">通知</a>することを確認。</p>
+<p>　　在期间颠倒的状态下（输入了过去的日期），按下“保存&#x2F;变更”按钮时，确认是否通知出错。</p>
+<p>（2）自動<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E8%A8%88%E7%AE%97">計算</a>された「<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%AE%8B%E9%A1%8D">残額</a>」の値が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%9E%E3%82%A4%E3%83%8A%E3%82%B9">マイナス</a>の場合、数字が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E8%B5%A4%E8%89%B2">赤色</a>になることを確認します。</p>
+<p>　　自动计算出来的“余额”值为负数时，确认数字是否变成红色。</p>
+<p>（3）<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%9E%E3%83%BC%E3%82%AF">マーク</a>の表示が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%B9%E3%82%AF%E3%83%AD%E3%83%BC%E3%83%AB">スクロール</a>に<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E9%80%A3%E5%8B%95">連動</a>せずに元の表示のままであること。</p>
+<p>　　标记的表示不会因滚动条的滚动而随之改变，仍旧按照原状态表示。</p>
+<h2 id="【作业】"><a href="#【作业】" class="headerlink" title="【作业】"></a><strong>【作业】</strong></h2><p>翻译下面的句子^^</p>
+<p>（1）データベースから正しい「使用額」の値を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%8F%96%E5%BE%97">取得</a>していることを確認します。</p>
+<p>（2）妥当性を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%88%A4%E6%96%AD">判断</a>せず言われたままに<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E8%A1%8C%E5%8B%95">行動</a>してもだめです。</p>
+<p>（3）<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E7%94%BB%E5%83%8F">画像</a>生成は<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%AD%E3%83%A3%E3%83%B3%E3%82%BB%E3%83%AB">キャンセル</a>されずに<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E7%B6%9A%E8%A1%8C">続行</a>することを<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%AD%E3%82%B0">ログ</a>にて確認してください。</p>
+<h2 id="【答案】"><a href="#【答案】" class="headerlink" title="【答案】"></a><strong>【答案】</strong></h2><p>（1）确认是否从数据库中取得了正确的“使用额”值。</p>
+<p>（2）不对合理性作判断而完全依照对方所说的来做，这也是不行的。</p>
+<p>（3）请在log中确认图像生成（处理）未被取消仍旧在执行。</p>
+<h2 id="【每期一句】"><a href="#【每期一句】" class="headerlink" title="【每期一句】"></a><strong>【每期一句】</strong></h2><p><a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%BA%96%E5%82%99">準備</a>が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%A4%A7%E4%BA%8B">大事</a>。　准备工作尤为重要。</p>
+<p>事先安排、做好准备，可以事半功倍哦～</p>
+	  
+
+	  <div>
+  		<center>
+		  <div class="pagination">
+<ul class="pagination">
+	
+	
+	
+	
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+			
+		
+	
+		
+	
+		
+	
+	
+	
+		<li class="prev"><a href="/2025/08/15/%E9%97%AE%E9%A2%98%E7%82%B9%E7%AE%A1%E7%90%86%E8%A1%A8/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一篇</a></li>
+	
+	<li><a href="/"><i class="fa fa-archive"></i>回家</a></li>
+	
+		<li class="next disabled"><a>没了<i class="fa fa-arrow-circle-o-right"></i></a></li>
+	
+</ul>
+</div>
+
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
+
+	</div>
+  </div>
+  
+<a id="gotop" href="#">
+  <span>▲</span>
+</a>
+
+<!-- Music Player Button -->
+<button id="music-player" type="button">
+  <span id="music-icon">▶</span>
+</button>
+
+<!-- Hidden Audio Element -->
+<audio id="background-music" loop preload="auto">
+  <source src="/src/lovesakisong.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.tableofcontents.min.js"></script>
+<script src="/js/tocgenerator.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+<!-- Music Player Script -->
+<script type="text/javascript">
+(function() {
+  var musicPlayer = document.getElementById('music-player');
+  var backgroundMusic = document.getElementById('background-music');
+  var musicIcon = document.getElementById('music-icon');
+  var isPlaying = false;
+
+  // 音乐状态管理
+  var MUSIC_STATE_KEY = 'hexo_music_state';
+  var MUSIC_TIME_KEY = 'hexo_music_time';
+
+  // 保存音乐状态到localStorage
+  function saveMusicState() {
+    try {
+      localStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
+        isPlaying: isPlaying,
+        currentTime: backgroundMusic.currentTime,
+        volume: backgroundMusic.volume
+      }));
+    } catch (e) {
+      console.log('无法保存音乐状态:', e);
+    }
+  }
+
+  // 从localStorage恢复音乐状态
+  function restoreMusicState() {
+    try {
+      var savedState = localStorage.getItem(MUSIC_STATE_KEY);
+      if (savedState) {
+        var state = JSON.parse(savedState);
+        backgroundMusic.volume = state.volume || 0.3;
+
+        // 恢复播放位置
+        if (state.currentTime) {
+          backgroundMusic.currentTime = state.currentTime;
+        }
+
+        // 恢复播放状态
+        if (state.isPlaying) {
+          // 延迟一点再播放，确保音频已加载
+          setTimeout(function() {
+            playMusic();
+          }, 100);
+        }
+      }
+    } catch (e) {
+      console.log('无法恢复音乐状态:', e);
+    }
+  }
+
+  // Initialize music player
+  function initMusicPlayer() {
+    // Set initial volume
+    backgroundMusic.volume = 0.3;
+
+    // 定期保存播放进度
+    setInterval(function() {
+      if (isPlaying) {
+        saveMusicState();
+      }
+    }, 5000); // 每5秒保存一次
+
+    // 页面卸载时保存状态
+    window.addEventListener('beforeunload', function() {
+      saveMusicState();
+    });
+
+    // Music player click event
+    musicPlayer.addEventListener('click', function() {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+
+    // Handle music ended event (though it's set to loop)
+    backgroundMusic.addEventListener('ended', function() {
+      isPlaying = false;
+      musicIcon.innerHTML = '▶';
+      musicIcon.classList.remove('pause-icon');
+      musicPlayer.classList.remove('playing');
+      saveMusicState();
+    });
+
+    // Handle music error
+    backgroundMusic.addEventListener('error', function() {
+      console.log('Error loading music file');
+      musicPlayer.style.display = 'none';
+    });
+
+    // 音频加载完成后恢复状态
+    backgroundMusic.addEventListener('loadedmetadata', function() {
+      restoreMusicState();
+    });
+  }
+
+  function playMusic() {
+    backgroundMusic.play().then(function() {
+      isPlaying = true;
+      musicIcon.innerHTML = '⏸';
+      musicIcon.classList.add('pause-icon');
+      musicPlayer.classList.add('playing');
+      saveMusicState();
+    }).catch(function(error) {
+      console.log('Error playing music:', error);
+    });
+  }
+
+  function pauseMusic() {
+    backgroundMusic.pause();
+    isPlaying = false;
+    musicIcon.innerHTML = '▶';
+    musicIcon.classList.remove('pause-icon');
+    musicPlayer.classList.remove('playing');
+    saveMusicState();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicPlayer);
+  } else {
+    initMusicPlayer();
+  }
+})();
+</script>
+
+<!-- Protected Category Script -->
+<script type="text/javascript">
+(function() {
+  // 受保护分类的密码配置
+  var protectedPasswords = {
+    
+      
+        '项目记录': 'www778899',
+      
+        '开发学习': 'www778899',
+      
+        '旅行摄影': 'www778899',
+      
+        '日常唠叨': 'www778899',
+      
+        '杂七杂八': 'www778899',
+      
+        '游戏记录': 'www778899'
+      
+    
+  };
+  var unlockedCategories = new Set();
+
+  // Initialize protected category functionality
+  function initProtectedCategories() {
+    // Handle protected category clicks
+    document.querySelectorAll('.protected-category').forEach(function(element) {
+      element.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+
+        if (unlockedCategories.has(category)) {
+          // Already unlocked, toggle normally
+          if (panel.classList.contains('in')) {
+            panel.classList.remove('in');
+          } else {
+            panel.classList.add('in');
+          }
+        } else {
+          // Show password prompt
+          panel.classList.add('in');
+          var passwordInput = panel.querySelector('.password-input');
+          if (passwordInput) {
+            passwordInput.focus();
+          }
+        }
+      });
+    });
+
+    // Handle unlock button clicks
+    document.querySelectorAll('.unlock-btn').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+        var passwordInput = panel.querySelector('.password-input');
+        var password = passwordInput.value;
+
+        if (password === protectedPasswords[category]) {
+          // Correct password
+          unlockedCategories.add(category);
+          panel.querySelector('.password-prompt').style.display = 'none';
+          panel.querySelector('.protected-posts').style.display = 'block';
+
+          // Change icon to unlocked
+          var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+          if (categoryLink) {
+            categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+          }
+
+          // Store unlock status in session
+          sessionStorage.setItem('unlocked_' + category, 'true');
+        } else {
+          // Wrong password
+          passwordInput.value = '';
+          passwordInput.style.borderColor = '#ff6b6b';
+          passwordInput.placeholder = '密码错误，请重试';
+
+          setTimeout(function() {
+            passwordInput.style.borderColor = '';
+            passwordInput.placeholder = '请输入密码';
+          }, 2000);
+        }
+      });
+    });
+
+    // Handle Enter key in password input
+    document.querySelectorAll('.password-input').forEach(function(input) {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          var category = this.closest('.protected-content').getAttribute('data-category');
+          var unlockBtn = document.querySelector('.unlock-btn[data-category="' + category + '"]');
+          if (unlockBtn) {
+            unlockBtn.click();
+          }
+        }
+      });
+    });
+
+    // Restore unlock status from session
+    document.querySelectorAll('.protected-content').forEach(function(panel) {
+      var category = panel.getAttribute('data-category');
+      if (sessionStorage.getItem('unlocked_' + category) === 'true') {
+        unlockedCategories.add(category);
+        panel.querySelector('.password-prompt').style.display = 'none';
+        panel.querySelector('.protected-posts').style.display = 'block';
+
+        var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+        if (categoryLink) {
+          categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+        }
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProtectedCategories);
+  } else {
+    initProtectedCategories();
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+</body>
+</html>

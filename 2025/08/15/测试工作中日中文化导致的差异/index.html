@@ -1,0 +1,550 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>【对日开发】测试工作中日中文化导致的差异 | 遠雨</title>
+  <meta name="author" content="TooAme">
+  
+  <meta name="description" content="测试工作中日中文化导致的差异下面是一位中国软件工程技术人员演讲中的节选：
+　バグには、システムに重大な影響を及ばすもの、例えば、システムが止まったり、データを壊すようなものから、画面の文字表示が少しずれているといったシステムの稼働にはほとんど影響がない軽いものまで、幾つかのレベルがあります。
+　こう">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="【对日开发】测试工作中日中文化导致的差异"/>
+  <meta property="og:site_name" content="遠雨"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="遠雨" type="application/atom+xml">
+  
+  
+    <link href="/favicon.ico" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">		
+  <h1><a class="brand" href="/">遠雨</a><span class="split"></span><span class="title">【对日开发】测试工作中日中文化导致的差异</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2025-08-15</span></h1>
+</div>		
+
+<div class="row page">
+  <!-- cols -->	
+  
+  
+
+  
+	<div class="col-md-12">
+	  
+
+	  <!-- content -->
+	  <h1 id="测试工作中日中文化导致的差异"><a href="#测试工作中日中文化导致的差异" class="headerlink" title="测试工作中日中文化导致的差异"></a>测试工作中日中文化导致的差异</h1><p>下面是一位中国软件工程技术人员演讲中的节选：</p>
+<p>　<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%90%E3%82%B0">バグ</a>には、システムに重大な影響を及ばすもの、例えば、システムが止まったり、データを壊すようなものから、画面の文字表示が少し<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%81%9A%E3%82%8C%E3%82%8B&type=jc">ずれて</a>いるといったシステムの<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E7%A8%BC%E5%83%8D">稼働</a>にはほとんど影響がない<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E8%BB%BD%E3%81%84">軽い</a>ものまで、幾つかの<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%AC%E3%83%99%E3%83%AB">レベル</a>があります。</p>
+<p>　こうした、幾つかのレベルのバグがあったとき、重要なバグから修正するのは、中日共通の考え方です。</p>
+<p>　しかし、軽いバグに対する認識の<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%BA%A6%E5%90%88%E3%81%84">度合い</a>は、中日で少し違うように思います。日本人は、中国人から見ると不必要に思えるくらい、軽いバグも気にします。これは、以下の理由によると思います。</p>
+<p>　日本人は、画面の文字表示が少し<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%81%8A%E3%81%8B%E3%81%97%E3%81%84">おかしい</a>といった軽いバグがあると、すぐ見つかるはずなのに、こんなことも気付かないようでは、<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%9B%B4%E3%81%AB">更に</a>重大なバグも隠れているに違いないと考えます。</p>
+<p>　このように考えるのは、安全確保に関する「ハインリッヒの法則」、つまり、小さな事故を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%92%B2%E6%BB%85">撲滅</a>することが、安全の<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E7%A2%BA%E4%BF%9D">確保</a>に効果があるという考え方に基づいた<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%93%81%E8%B3%AA">品質</a>の見方をするためであります。このような考え方から、軽いバグも重要視するわけです。</p>
+<p>　また、日本人には、物事を判断する際、まず<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%A4%96%E8%A6%8B">外見</a>で判断する傾向があり、外見が駄目なら全体を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%90%A6%E5%AE%9A">否定</a>する傾向があります。従って、外見を重要視します。</p>
+<p>　……</p>
+<p>　このような日本人の外見を重要視する考えは、システムの評価の<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E4%BB%95%E6%96%B9">仕方</a>にも現れています。外見上の問題があると、それで、システムの全体を判断してしまう傾向があります。従って、システムを作るとき、<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E8%A6%8B%E6%A0%84%E3%81%88">見栄え</a>が重要ということになります。システム設計時の画面<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%AC%E3%82%A4%E3%82%A2%E3%82%A6%E3%83%88">レイアウト</a>などには特に注意を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%89%95%E3%81%86">払う</a>必要があります。</p>
+<p>※ハインリッヒの法則（Heinrich’s Law）１件の重大災害の裏には29件の軽い災害と300件のひやりミス体験があるという労働災害の頻度を示す法則。</p>
+<h2 id="【作业】"><a href="#【作业】" class="headerlink" title="【作业】"></a><strong>【作业】</strong></h2><p>这位软件工程技术人员主要叙述了什么问题？<br>其中，日中有差异的地方在哪里？为什么日本人会有这样的判断呢？</p>
+<p>结合自己的工作情况或感受谈谈也可以，开放式讨论，不用隐藏～</p>
+<p>PS：上面的文章不是很难，大家需要中文翻译么？如果能看懂，我就偷懒不翻了，呵呵~~如果觉得有困难，我再打上来。大意可参考欣然个人的感受，回复可见。</p>
+	  
+
+	  <div>
+  		<center>
+		  <div class="pagination">
+<ul class="pagination">
+	
+	
+	
+	
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+			
+			
+		
+	
+		
+			
+			
+			
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+	
+	
+		<li class="prev"><a href="/2025/08/15/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A06/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一篇</a></li>
+	
+	<li><a href="/"><i class="fa fa-archive"></i>回家</a></li>
+	
+		<li class="next"><a href="/2025/08/15/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A08/" class="alignright next">下一篇<i class="fa fa-arrow-circle-o-right"></i></a></li>
+	
+</ul>
+</div>
+
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
+
+	</div>
+  </div>
+  
+<a id="gotop" href="#">
+  <span>▲</span>
+</a>
+
+<!-- Music Player Button -->
+<button id="music-player" type="button">
+  <span id="music-icon">▶</span>
+</button>
+
+<!-- Hidden Audio Element -->
+<audio id="background-music" loop preload="auto">
+  <source src="/src/lovesakisong.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.tableofcontents.min.js"></script>
+<script src="/js/tocgenerator.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+<!-- Music Player Script -->
+<script type="text/javascript">
+(function() {
+  var musicPlayer = document.getElementById('music-player');
+  var backgroundMusic = document.getElementById('background-music');
+  var musicIcon = document.getElementById('music-icon');
+  var isPlaying = false;
+
+  // 音乐状态管理
+  var MUSIC_STATE_KEY = 'hexo_music_state';
+  var MUSIC_TIME_KEY = 'hexo_music_time';
+
+  // 保存音乐状态到localStorage
+  function saveMusicState() {
+    try {
+      localStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
+        isPlaying: isPlaying,
+        currentTime: backgroundMusic.currentTime,
+        volume: backgroundMusic.volume
+      }));
+    } catch (e) {
+      console.log('无法保存音乐状态:', e);
+    }
+  }
+
+  // 从localStorage恢复音乐状态
+  function restoreMusicState() {
+    try {
+      var savedState = localStorage.getItem(MUSIC_STATE_KEY);
+      if (savedState) {
+        var state = JSON.parse(savedState);
+        backgroundMusic.volume = state.volume || 0.3;
+
+        // 恢复播放位置
+        if (state.currentTime) {
+          backgroundMusic.currentTime = state.currentTime;
+        }
+
+        // 恢复播放状态
+        if (state.isPlaying) {
+          // 延迟一点再播放，确保音频已加载
+          setTimeout(function() {
+            playMusic();
+          }, 100);
+        }
+      }
+    } catch (e) {
+      console.log('无法恢复音乐状态:', e);
+    }
+  }
+
+  // Initialize music player
+  function initMusicPlayer() {
+    // Set initial volume
+    backgroundMusic.volume = 0.3;
+
+    // 定期保存播放进度
+    setInterval(function() {
+      if (isPlaying) {
+        saveMusicState();
+      }
+    }, 5000); // 每5秒保存一次
+
+    // 页面卸载时保存状态
+    window.addEventListener('beforeunload', function() {
+      saveMusicState();
+    });
+
+    // Music player click event
+    musicPlayer.addEventListener('click', function() {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+
+    // Handle music ended event (though it's set to loop)
+    backgroundMusic.addEventListener('ended', function() {
+      isPlaying = false;
+      musicIcon.innerHTML = '▶';
+      musicIcon.classList.remove('pause-icon');
+      musicPlayer.classList.remove('playing');
+      saveMusicState();
+    });
+
+    // Handle music error
+    backgroundMusic.addEventListener('error', function() {
+      console.log('Error loading music file');
+      musicPlayer.style.display = 'none';
+    });
+
+    // 音频加载完成后恢复状态
+    backgroundMusic.addEventListener('loadedmetadata', function() {
+      restoreMusicState();
+    });
+  }
+
+  function playMusic() {
+    backgroundMusic.play().then(function() {
+      isPlaying = true;
+      musicIcon.innerHTML = '⏸';
+      musicIcon.classList.add('pause-icon');
+      musicPlayer.classList.add('playing');
+      saveMusicState();
+    }).catch(function(error) {
+      console.log('Error playing music:', error);
+    });
+  }
+
+  function pauseMusic() {
+    backgroundMusic.pause();
+    isPlaying = false;
+    musicIcon.innerHTML = '▶';
+    musicIcon.classList.remove('pause-icon');
+    musicPlayer.classList.remove('playing');
+    saveMusicState();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicPlayer);
+  } else {
+    initMusicPlayer();
+  }
+})();
+</script>
+
+<!-- Protected Category Script -->
+<script type="text/javascript">
+(function() {
+  // 受保护分类的密码配置
+  var protectedPasswords = {
+    
+      
+        '项目记录': 'www778899',
+      
+        '开发学习': 'www778899',
+      
+        '旅行摄影': 'www778899',
+      
+        '日常唠叨': 'www778899',
+      
+        '杂七杂八': 'www778899',
+      
+        '游戏记录': 'www778899'
+      
+    
+  };
+  var unlockedCategories = new Set();
+
+  // Initialize protected category functionality
+  function initProtectedCategories() {
+    // Handle protected category clicks
+    document.querySelectorAll('.protected-category').forEach(function(element) {
+      element.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+
+        if (unlockedCategories.has(category)) {
+          // Already unlocked, toggle normally
+          if (panel.classList.contains('in')) {
+            panel.classList.remove('in');
+          } else {
+            panel.classList.add('in');
+          }
+        } else {
+          // Show password prompt
+          panel.classList.add('in');
+          var passwordInput = panel.querySelector('.password-input');
+          if (passwordInput) {
+            passwordInput.focus();
+          }
+        }
+      });
+    });
+
+    // Handle unlock button clicks
+    document.querySelectorAll('.unlock-btn').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+        var passwordInput = panel.querySelector('.password-input');
+        var password = passwordInput.value;
+
+        if (password === protectedPasswords[category]) {
+          // Correct password
+          unlockedCategories.add(category);
+          panel.querySelector('.password-prompt').style.display = 'none';
+          panel.querySelector('.protected-posts').style.display = 'block';
+
+          // Change icon to unlocked
+          var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+          if (categoryLink) {
+            categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+          }
+
+          // Store unlock status in session
+          sessionStorage.setItem('unlocked_' + category, 'true');
+        } else {
+          // Wrong password
+          passwordInput.value = '';
+          passwordInput.style.borderColor = '#ff6b6b';
+          passwordInput.placeholder = '密码错误，请重试';
+
+          setTimeout(function() {
+            passwordInput.style.borderColor = '';
+            passwordInput.placeholder = '请输入密码';
+          }, 2000);
+        }
+      });
+    });
+
+    // Handle Enter key in password input
+    document.querySelectorAll('.password-input').forEach(function(input) {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          var category = this.closest('.protected-content').getAttribute('data-category');
+          var unlockBtn = document.querySelector('.unlock-btn[data-category="' + category + '"]');
+          if (unlockBtn) {
+            unlockBtn.click();
+          }
+        }
+      });
+    });
+
+    // Restore unlock status from session
+    document.querySelectorAll('.protected-content').forEach(function(panel) {
+      var category = panel.getAttribute('data-category');
+      if (sessionStorage.getItem('unlocked_' + category) === 'true') {
+        unlockedCategories.add(category);
+        panel.querySelector('.password-prompt').style.display = 'none';
+        panel.querySelector('.protected-posts').style.display = 'block';
+
+        var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+        if (categoryLink) {
+          categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+        }
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProtectedCategories);
+  } else {
+    initProtectedCategories();
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+</body>
+</html>

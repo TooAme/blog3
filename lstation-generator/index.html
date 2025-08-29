@@ -1,0 +1,547 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>L站头像生成器 | 遠雨</title>
+  <meta name="author" content="TooAme">
+  
+  <meta name="description" content="L站头像生成器选择你喜欢的角色，输入昵称，生成专属的动态头像！">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="L站头像生成器"/>
+  <meta property="og:site_name" content="遠雨"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="遠雨" type="application/atom+xml">
+  
+  
+    <link href="/favicon.ico" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <!-- 合并的页面头部 -->
+<div class="page-header">
+  <h1><a class="brand" href="/">遠雨</a></h1>
+  <h2><span class="title">乐队头像生成器</span></h2>
+</div>
+
+<div class="row page">
+  <div class="col-md-12">
+
+    <div class="lstation-generator-container">
+      <!-- 左侧面板：参数设置 -->
+      <div class="generator-left-panel">
+        <!-- 参数选择区域 -->
+        <div id="parameter-section">
+        <!-- 角色选择 -->
+      <div class="form-group">
+        <label for="character-select">选择预设：</label>
+        <select id="character-select" class="form-control">
+          <option value=""></option>
+          <option value="L站logo">L站logo</option>
+          <option value="小祥">小祥</option>
+          <option value="小祥（联动版）">小祥 - 联动</option>
+          <option value="soyorin1">素世 - 竖屏</option>
+          <option value="soyorin2">素世 - 横屏</option>
+          <option value="乐奈">乐奈</option>
+          <option value="偷摸零">偷摸零</option>
+          <option value="喵梦">喵梦</option>
+          <option value="墨提斯1">墨提斯 - 竖屏</option>
+          <option value="墨提斯2">墨提斯 - 横屏</option>
+          <option value="爱音1">爱音 - 竖屏</option>
+          <option value="爱音2">爱音 - 横屏</option>
+          <option value="爱音3">爱音 - 校服横屏</option>
+          <option value="睦子米1">睦子米 - 横屏</option>
+          <option value="睦子米2">睦子米 - 竖屏</option>
+          <option value="立希">立希</option>
+          <option value="黄毛大狗">黄毛大狗</option>
+          <option value="波奇">波奇</option>
+          <option value="虹夏">虹夏</option>
+          <option value="糖糖">糖糖</option>
+          <option value="仓田真白">仓田真白</option>
+          <option value="赛飞儿">赛飞儿</option>
+          <option value="流萤">流萤</option>
+          <option value="圣园未花">圣园未花</option>
+          <option value="魔理沙">魔理沙</option>
+          <option value="藤田琴音">藤田琴音</option>
+          <option value="安和昂">安和昂</option>
+          <option value="薇薇安">薇薇安</option>
+          <option value="立华奏">立华奏</option>
+          <option value="八奈见杏菜">八奈见杏菜</option>
+          <option value="琪露诺">琪露诺</option>
+          <option value="塔菲">塔菲</option>
+          <option value="丛雨">丛雨</option>
+          <option value="喜多">喜多</option>
+          <option value="雫るる">雫るる</option>
+          <option value="荧">荧</option>
+          <option value="平泽唯">平泽唯</option>
+          <option value="凉宫春日">凉宫春日</option>
+        </select>
+      </div>
+
+      <!-- 昵称输入 -->
+      <div class="form-group">
+        <label for="nickname-input">输入昵称：</label>
+        <input type="text" id="nickname-input" class="form-control nickname-bar" placeholder="" maxlength="20">
+      </div>
+
+        <!-- 字体选择 -->
+      <div class="form-group">
+        <label for="font-select">昵称字体：</label>
+        <select id="font-select" class="form-control">
+          <option value="Microsoft YaHei">微软雅黑</option>
+          <option value="YouYuan">幼圆</option>
+          <option value="SimSun">宋体</option>
+          <option value="KaiTi">楷体</option>
+          <option value="FangSong">仿宋</option>
+          <option value="Arial">Arial</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Tahoma">Tahoma</option>
+        </select>
+      </div>
+
+      <!-- 颜色选择器 -->
+      <div class="form-group">
+        <label>昵称颜色：</label>
+        <div class="color-selector">
+          <!-- 颜色模式选择 -->
+          <div class="color-mode-selector">
+            <label class="radio-label">
+              <input type="radio" name="color-mode" value="single" checked>
+              <span>单色</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="color-mode" value="gradient">
+              <span>渐变</span>
+            </label>
+          </div>
+
+          <!-- 颜色选择区域 -->
+          <div class="color-picker-container">
+            <div class="color-picker-group">
+              <label for="color1">颜色1：</label>
+              <input type="color" id="color1" value="#25A5D0" class="color-input">
+            </div>
+            <div class="color-picker-group" id="color2-group" style="display: none;">
+              <label for="color2">颜色2：</label>
+              <input type="color" id="color2" value="#88D5FB" class="color-input">
+            </div>
+            <!-- 渐变角度选择 -->
+            <div class="gradient-angle-group" id="gradient-angle-group" style="display: none;">
+              <label for="gradient-angle">角度：</label>
+              <div class="angle-input-container" id="angle-input-container">
+                <div class="angle-track">
+                  <div class="angle-indicator" id="angle-indicator"></div>
+                </div>
+                <input type="text" class="angle-value" id="angle-value" value="90" readonly>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 生成按钮 -->
+        <div class="form-group">
+          <button id="generate-btn" class="btn btn-primary btn-lg generate-btn">开始生成</button>
+        </div>
+        </div> <!-- 关闭parameter-section -->
+      </div> <!-- 关闭generator-left-panel -->
+    </div>
+
+      <!-- 右侧面板：预览与布局调整 -->
+      <div class="generator-right-panel">
+        <!-- 布局预览 -->
+        <div class="form-group preview-section">
+          <label>预览与布局调整：</label>
+          <div class="layout-preview-container">
+            <canvas id="layout-preview-canvas" width="400" height="400"></canvas>
+            <div class="preview-controls">
+              <button type="button" id="custom-bg-btn" class="btn btn-info btn-sm">自选背景</button>
+              <button type="button" id="add-sticker-btn" class="btn btn-success btn-sm">添加贴图</button>
+              <button type="button" id="reset-layout-btn" class="btn btn-secondary btn-sm">重置布局</button>
+              <input type="file" id="bg-file-input" accept="image/*" style="display: none;">
+              <input type="file" id="sticker-file-input" accept="image/*" style="display: none;">
+
+              <!-- 背景透明度调整 -->
+              <div id="bg-opacity-control" style="display: none; margin-top: 10px;">
+                <label for="bg-opacity-slider" style="font-size: 12px; color: #666;">背景透明度：</label>
+                <input type="range" id="bg-opacity-slider" min="0" max="100" value="100" style="width: 100px;">
+                <span id="bg-opacity-value" style="font-size: 12px; color: #666;">100%</span>
+              </div>
+              <small class="help-text" id="help-text">单击选中 Q/E旋转 +/-缩放 R重置 Delete删除</small>
+            </div>
+          </div>
+        </div> <!-- 关闭form-group preview-section -->
+      </div> <!-- 关闭右侧面板 -->
+    </div> <!-- 关闭主容器 -->
+
+    <!-- 预览区域（居中显示） -->
+    <div id="preview-container" style="display: none;">
+      <p class="preview-text">预览</p>
+      <div id="preview-area">
+        <div class="preview-wrapper">
+          <canvas id="preview-canvas" width="400" height="400" style="display: none;"></canvas>
+          <img id="preview-gif" style="display: none;" />
+        </div>
+      </div>
+      <div class="preview-controls">
+        <button id="download-gif-btn" class="btn btn-success">下载GIF</button>
+        <button id="regenerate-btn" class="btn btn-secondary">重新生成</button>
+      </div>
+    </div>
+
+    <!-- 加载动画 -->
+    <div id="loading-container" style="display: none;">
+      <div class="loading-wrapper">
+        <div class="loader">
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+          <div class="loader-square"></div>
+        </div>
+        <div id="loading-text">准备中...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 隐藏的canvas用于处理 -->
+<canvas id="hidden-canvas" style="display: none;"></canvas>
+
+<!-- GIF生成库 -->
+<script src="/js/gif.js"></script>
+
+<!-- L站生成器专用脚本 -->
+<script src="/js/lstation-generator.js?v=1756494270346"></script>
+
+	</div>
+  </div>
+  
+<a id="gotop" href="#">
+  <span>▲</span>
+</a>
+
+<!-- Music Player Button -->
+<button id="music-player" type="button">
+  <span id="music-icon">▶</span>
+</button>
+
+<!-- Hidden Audio Element -->
+<audio id="background-music" loop preload="auto">
+  <source src="/src/lovesakisong.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.tableofcontents.min.js"></script>
+<script src="/js/tocgenerator.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+<!-- Music Player Script -->
+<script type="text/javascript">
+(function() {
+  var musicPlayer = document.getElementById('music-player');
+  var backgroundMusic = document.getElementById('background-music');
+  var musicIcon = document.getElementById('music-icon');
+  var isPlaying = false;
+
+  // 音乐状态管理
+  var MUSIC_STATE_KEY = 'hexo_music_state';
+  var MUSIC_TIME_KEY = 'hexo_music_time';
+
+  // 保存音乐状态到localStorage
+  function saveMusicState() {
+    try {
+      localStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
+        isPlaying: isPlaying,
+        currentTime: backgroundMusic.currentTime,
+        volume: backgroundMusic.volume
+      }));
+    } catch (e) {
+      console.log('无法保存音乐状态:', e);
+    }
+  }
+
+  // 从localStorage恢复音乐状态
+  function restoreMusicState() {
+    try {
+      var savedState = localStorage.getItem(MUSIC_STATE_KEY);
+      if (savedState) {
+        var state = JSON.parse(savedState);
+        backgroundMusic.volume = state.volume || 0.3;
+
+        // 恢复播放位置
+        if (state.currentTime) {
+          backgroundMusic.currentTime = state.currentTime;
+        }
+
+        // 恢复播放状态
+        if (state.isPlaying) {
+          // 延迟一点再播放，确保音频已加载
+          setTimeout(function() {
+            playMusic();
+          }, 100);
+        }
+      }
+    } catch (e) {
+      console.log('无法恢复音乐状态:', e);
+    }
+  }
+
+  // Initialize music player
+  function initMusicPlayer() {
+    // Set initial volume
+    backgroundMusic.volume = 0.3;
+
+    // 定期保存播放进度
+    setInterval(function() {
+      if (isPlaying) {
+        saveMusicState();
+      }
+    }, 5000); // 每5秒保存一次
+
+    // 页面卸载时保存状态
+    window.addEventListener('beforeunload', function() {
+      saveMusicState();
+    });
+
+    // Music player click event
+    musicPlayer.addEventListener('click', function() {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+
+    // Handle music ended event (though it's set to loop)
+    backgroundMusic.addEventListener('ended', function() {
+      isPlaying = false;
+      musicIcon.innerHTML = '▶';
+      musicIcon.classList.remove('pause-icon');
+      musicPlayer.classList.remove('playing');
+      saveMusicState();
+    });
+
+    // Handle music error
+    backgroundMusic.addEventListener('error', function() {
+      console.log('Error loading music file');
+      musicPlayer.style.display = 'none';
+    });
+
+    // 音频加载完成后恢复状态
+    backgroundMusic.addEventListener('loadedmetadata', function() {
+      restoreMusicState();
+    });
+  }
+
+  function playMusic() {
+    backgroundMusic.play().then(function() {
+      isPlaying = true;
+      musicIcon.innerHTML = '⏸';
+      musicIcon.classList.add('pause-icon');
+      musicPlayer.classList.add('playing');
+      saveMusicState();
+    }).catch(function(error) {
+      console.log('Error playing music:', error);
+    });
+  }
+
+  function pauseMusic() {
+    backgroundMusic.pause();
+    isPlaying = false;
+    musicIcon.innerHTML = '▶';
+    musicIcon.classList.remove('pause-icon');
+    musicPlayer.classList.remove('playing');
+    saveMusicState();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicPlayer);
+  } else {
+    initMusicPlayer();
+  }
+})();
+</script>
+
+<!-- Protected Category Script -->
+<script type="text/javascript">
+(function() {
+  // 受保护分类的密码配置
+  var protectedPasswords = {
+    
+      
+        '项目记录': 'www778899',
+      
+        '开发学习': 'www778899',
+      
+        '旅行摄影': 'www778899',
+      
+        '日常唠叨': 'www778899',
+      
+        '杂七杂八': 'www778899',
+      
+        '游戏记录': 'www778899'
+      
+    
+  };
+  var unlockedCategories = new Set();
+
+  // Initialize protected category functionality
+  function initProtectedCategories() {
+    // Handle protected category clicks
+    document.querySelectorAll('.protected-category').forEach(function(element) {
+      element.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+
+        if (unlockedCategories.has(category)) {
+          // Already unlocked, toggle normally
+          if (panel.classList.contains('in')) {
+            panel.classList.remove('in');
+          } else {
+            panel.classList.add('in');
+          }
+        } else {
+          // Show password prompt
+          panel.classList.add('in');
+          var passwordInput = panel.querySelector('.password-input');
+          if (passwordInput) {
+            passwordInput.focus();
+          }
+        }
+      });
+    });
+
+    // Handle unlock button clicks
+    document.querySelectorAll('.unlock-btn').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+        var passwordInput = panel.querySelector('.password-input');
+        var password = passwordInput.value;
+
+        if (password === protectedPasswords[category]) {
+          // Correct password
+          unlockedCategories.add(category);
+          panel.querySelector('.password-prompt').style.display = 'none';
+          panel.querySelector('.protected-posts').style.display = 'block';
+
+          // Change icon to unlocked
+          var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+          if (categoryLink) {
+            categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+          }
+
+          // Store unlock status in session
+          sessionStorage.setItem('unlocked_' + category, 'true');
+        } else {
+          // Wrong password
+          passwordInput.value = '';
+          passwordInput.style.borderColor = '#ff6b6b';
+          passwordInput.placeholder = '密码错误，请重试';
+
+          setTimeout(function() {
+            passwordInput.style.borderColor = '';
+            passwordInput.placeholder = '请输入密码';
+          }, 2000);
+        }
+      });
+    });
+
+    // Handle Enter key in password input
+    document.querySelectorAll('.password-input').forEach(function(input) {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          var category = this.closest('.protected-content').getAttribute('data-category');
+          var unlockBtn = document.querySelector('.unlock-btn[data-category="' + category + '"]');
+          if (unlockBtn) {
+            unlockBtn.click();
+          }
+        }
+      });
+    });
+
+    // Restore unlock status from session
+    document.querySelectorAll('.protected-content').forEach(function(panel) {
+      var category = panel.getAttribute('data-category');
+      if (sessionStorage.getItem('unlocked_' + category) === 'true') {
+        unlockedCategories.add(category);
+        panel.querySelector('.password-prompt').style.display = 'none';
+        panel.querySelector('.protected-posts').style.display = 'block';
+
+        var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+        if (categoryLink) {
+          categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+        }
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProtectedCategories);
+  } else {
+    initProtectedCategories();
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+</body>
+</html>

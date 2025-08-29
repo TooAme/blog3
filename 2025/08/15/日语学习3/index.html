@@ -1,0 +1,553 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>【对日开发】仕様書（1） | 遠雨</title>
+  <meta name="author" content="TooAme">
+  
+  <meta name="description" content="仕様書（1）在实际工作中，一开始最常接触到的应该就是仕様書。不过仕様書的格式各日企都会有其固定写法和样式，我们就从一些基础的词汇和例句开始吧～
+【语法】（1）～とする　以～为，设～为，把～作为　　バージョンを1.0とする。　把版本号设为1.0。　　テスト対象外とする。　作为非测试对象。　　サービスを">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="【对日开发】仕様書（1）"/>
+  <meta property="og:site_name" content="遠雨"/>
+
+  
+    <meta property="og:image" content=""/>
+  
+
+  
+    <link rel="alternative" href="/atom.xml" title="遠雨" type="application/atom+xml">
+  
+  
+    <link href="/favicon.ico" rel="icon">
+  
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/highlight.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/google-fonts.css" media="screen" type="text/css">
+  <link rel="stylesheet" href="/css/responsive.css" media="screen" type="text/css">  
+  <link rel="stylesheet" href="/css/sidenav.css" media="screen" type="text/css">  
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  <script src="/js/jquery-2.0.3.min.js"></script>
+
+  <!-- analytics -->
+  
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body id="body" data-spy="scroll" data-target=".toc">
+  <div class="container" id="container">
+	<div class="content">
+	  <div class="page-header">		
+  <h1><a class="brand" href="/">遠雨</a><span class="split"></span><span class="title">【对日开发】仕様書（1）</span><span class="date" id="title-date"><i class="fa fa-clock-o"></i> 2025-08-15</span></h1>
+</div>		
+
+<div class="row page">
+  <!-- cols -->	
+  
+  
+
+  
+	<div class="col-md-12">
+	  
+
+	  <!-- content -->
+	  <h1 id="仕様書（1）"><a href="#仕様書（1）" class="headerlink" title="仕様書（1）"></a>仕様書（1）</h1><p>在实际工作中，一开始最常接触到的应该就是仕様書。不过仕様書的格式各日企都会有其固定写法和样式，我们就从一些基础的词汇和例句开始吧～</p>
+<h2 id="【语法】"><a href="#【语法】" class="headerlink" title="【语法】"></a><strong>【语法】</strong></h2><p>（1）～とする　以～为，设～为，把～作为<br>　　<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3">バージョン</a>を1.0とする。　把版本号设为1.0。<br>　　<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%86%E3%82%B9%E3%83%88">テスト</a>対象外とする。　作为非测试对象。<br>　　<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%B5%E3%83%BC%E3%83%93%E3%82%B9">サービス</a>を提供可能とする。　可提供服务。</p>
+<p>（2）～で～　在～（后接具“行为意义”的动词，如する、ひらく等）<br>　　WEBで<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E7%A8%BC%E5%8B%95">稼動</a>している。　在WEB上运行。<br>　　テスト環境で<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF">チェック</a>する。　在测试环境下检查。<br>　　画面で表示する。　在画面上显示。</p>
+<p>（3）～や～　～和～（列举一些事项并类推其他）<br>　　Web<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC">サーバー</a>はNetscapeやapacheを使用します。　Web服务器将使用Netscape、apache等。<br>　　秋葉原の店には<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%AB%E3%83%A1%E3%83%A9">デジタルカメラ</a>や<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%8E%E3%83%BC%E3%83%88%E3%83%91%E3%82%BD%E3%82%B3%E3%83%B3">ノートパソコン</a>など色々な電化製品が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E9%99%B3%E5%88%97">陳列</a>されています。　秋叶原的商店陈列着数码相机、笔记本电脑等各种各样的电器产品。</p>
+<p>※用～や～涉及到言外事项，常和など前后呼应；而用～と～就不涉及言外事项。</p>
+<h2 id="【实例】"><a href="#【实例】" class="headerlink" title="【实例】"></a><strong>【实例】</strong></h2><p>（1）<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%87%A6%E7%90%86">処理</a><a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%A6%82%E8%A6%81">概要</a>についてですが、機種マスタ·耐久<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E9%80%B1%E5%A0%B1">週報</a><a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB">テーブル</a>より、画面にて指定された<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%B7%E3%83%A3%E3%82%B7%E3%83%BC">シャシー</a>番号または機種略称に対して<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%87%E3%83%BC%E3%82%BF">データ</a>を<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%8F%96%E5%BE%97">取得</a>します。</p>
+<p>　　关于处理概要，是从机种master·耐久周报表中，取得画面指定的底盘号码或对应于机种简称的数据。</p>
+<p>（2）耐久距離&#x2F;年月<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%B0%E3%83%A9%E3%83%95">グラフ</a>用のCSV<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%87%E3%83%BC%E3%82%BF%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB">データファイル</a>を作成し、CSVファイル<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E4%BD%9C%E6%88%90">作成</a>後に耐久距離&#x2F;年月グラフ作成<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%9E%E3%82%AF%E3%83%AD">マクロ</a>の<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E5%91%BC%E3%81%B3%E5%87%BA%E3%81%97">呼び出し</a>を行います。</p>
+<p>　　制作耐久距离&#x2F;年月图表用的CSV数据文件，并在制作CSV文件后调用耐久距离&#x2F;年月图表制作宏。</p>
+<p>（3）機種略称が<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E6%9C%AA%E5%85%A5%E5%8A%9B">未入力</a>の場合には<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%A8%E3%83%A9%E3%83%BC">エラー</a>（ERR_No.20）を表示し、シャシー番号に<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%95%E3%82%A9%E3%83%BC%E3%82%AB%E3%82%B9">フォーカス</a>を戻して処理終了します。</p>
+<p>　　未输入机种简称时显示错误（ERR_No.20），并将光标移回到底盘号码后结束处理。</p>
+<h2 id="【作业】"><a href="#【作业】" class="headerlink" title="【作业】"></a><strong>【作业】</strong></h2><p>第一次简单点吧，中日单词互译^^</p>
+<p>ユーザー（　　　）　　プログラム（　　　）　せつぞく（　　　）<br>ディレクトリー（　　　）　　テンプレート（　　　）</p>
+<p>客户端（　　　）　　菜单（　　　）　　密码（　　　）　　<br>下载（　　　）　　启动（　　　）　　</p>
+<h2 id="【答案】"><a href="#【答案】" class="headerlink" title="【答案】"></a>【答案】</h2><p><a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%A6%E3%83%BC%E3%82%B6%E3%83%BC">ユーザー</a>（user，用户）　　<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">プログラム</a>（program，程序）　<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%81%9B%E3%81%A4%E3%81%9E%E3%81%8F">せつぞく</a>（连接）<br><a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%87%E3%82%A3%E3%83%AC%E3%82%AF%E3%83%88%E3%83%AA%E3%83%BC">ディレクトリー</a>（directory，目录）　　<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88">テンプレート</a>（template，模板）</p>
+<p>客户端（<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%82%AF%E3%83%A9%E3%82%A4%E3%82%A2%E3%83%B3%E3%83%88">クライアント</a>）　　菜单（<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%A1%E3%83%8B%E3%83%A5%E3%83%BC">メニュー</a>）　　密码（<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89">パスワード</a>）　　<br>下载（<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89">ダウンロード</a>）　　启动（<a target="_blank" rel="noopener" href="http://dict.hjenglish.com/jp/w/%E8%B5%B7%E5%8B%95">起動</a>）</p>
+<h2 id="【每期一句】"><a href="#【每期一句】" class="headerlink" title="【每期一句】"></a><strong>【每期一句】</strong></h2><p>  明日があるさ。　总有明天。  《乱世佳人》结尾时斯佳丽说过，“After all, tomorrow is another day”，不管怎样，明天就是另外一天了。不论今天如何，总有明天，但是不能因为总有明天，今天就不干活哦，呵呵～</p>
+	  
+
+	  <div>
+  		<center>
+		  <div class="pagination">
+<ul class="pagination">
+	
+	
+	
+	
+	
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+			
+		
+	
+		
+			
+			
+			
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+			
+		
+	
+		
+	
+		
+	
+	
+	
+		<li class="prev"><a href="/2025/08/15/%E6%97%A5%E8%AF%AD%E5%AD%A6%E4%B9%A01/" class="alignleft prev"><i class="fa fa-arrow-circle-o-left"></i>上一篇</a></li>
+	
+	<li><a href="/"><i class="fa fa-archive"></i>回家</a></li>
+	
+		<li class="next"><a href="/2025/08/15/%E5%AE%B9%E6%98%93%E7%94%A8%E9%94%99%E7%9A%84%E6%97%A5%E8%AF%AD%EF%BC%882%EF%BC%89/" class="alignright next">下一篇<i class="fa fa-arrow-circle-o-right"></i></a></li>
+	
+</ul>
+</div>
+
+		</center>
+	  </div>
+	  
+	</div> <!-- col-md-9/col-md-12 -->
+	
+  </div><!-- row -->
+
+	</div>
+  </div>
+  
+<a id="gotop" href="#">
+  <span>▲</span>
+</a>
+
+<!-- Music Player Button -->
+<button id="music-player" type="button">
+  <span id="music-icon">▶</span>
+</button>
+
+<!-- Hidden Audio Element -->
+<audio id="background-music" loop preload="auto">
+  <source src="/src/lovesakisong.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.tableofcontents.min.js"></script>
+<script src="/js/tocgenerator.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+<!-- Music Player Script -->
+<script type="text/javascript">
+(function() {
+  var musicPlayer = document.getElementById('music-player');
+  var backgroundMusic = document.getElementById('background-music');
+  var musicIcon = document.getElementById('music-icon');
+  var isPlaying = false;
+
+  // 音乐状态管理
+  var MUSIC_STATE_KEY = 'hexo_music_state';
+  var MUSIC_TIME_KEY = 'hexo_music_time';
+
+  // 保存音乐状态到localStorage
+  function saveMusicState() {
+    try {
+      localStorage.setItem(MUSIC_STATE_KEY, JSON.stringify({
+        isPlaying: isPlaying,
+        currentTime: backgroundMusic.currentTime,
+        volume: backgroundMusic.volume
+      }));
+    } catch (e) {
+      console.log('无法保存音乐状态:', e);
+    }
+  }
+
+  // 从localStorage恢复音乐状态
+  function restoreMusicState() {
+    try {
+      var savedState = localStorage.getItem(MUSIC_STATE_KEY);
+      if (savedState) {
+        var state = JSON.parse(savedState);
+        backgroundMusic.volume = state.volume || 0.3;
+
+        // 恢复播放位置
+        if (state.currentTime) {
+          backgroundMusic.currentTime = state.currentTime;
+        }
+
+        // 恢复播放状态
+        if (state.isPlaying) {
+          // 延迟一点再播放，确保音频已加载
+          setTimeout(function() {
+            playMusic();
+          }, 100);
+        }
+      }
+    } catch (e) {
+      console.log('无法恢复音乐状态:', e);
+    }
+  }
+
+  // Initialize music player
+  function initMusicPlayer() {
+    // Set initial volume
+    backgroundMusic.volume = 0.3;
+
+    // 定期保存播放进度
+    setInterval(function() {
+      if (isPlaying) {
+        saveMusicState();
+      }
+    }, 5000); // 每5秒保存一次
+
+    // 页面卸载时保存状态
+    window.addEventListener('beforeunload', function() {
+      saveMusicState();
+    });
+
+    // Music player click event
+    musicPlayer.addEventListener('click', function() {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+
+    // Handle music ended event (though it's set to loop)
+    backgroundMusic.addEventListener('ended', function() {
+      isPlaying = false;
+      musicIcon.innerHTML = '▶';
+      musicIcon.classList.remove('pause-icon');
+      musicPlayer.classList.remove('playing');
+      saveMusicState();
+    });
+
+    // Handle music error
+    backgroundMusic.addEventListener('error', function() {
+      console.log('Error loading music file');
+      musicPlayer.style.display = 'none';
+    });
+
+    // 音频加载完成后恢复状态
+    backgroundMusic.addEventListener('loadedmetadata', function() {
+      restoreMusicState();
+    });
+  }
+
+  function playMusic() {
+    backgroundMusic.play().then(function() {
+      isPlaying = true;
+      musicIcon.innerHTML = '⏸';
+      musicIcon.classList.add('pause-icon');
+      musicPlayer.classList.add('playing');
+      saveMusicState();
+    }).catch(function(error) {
+      console.log('Error playing music:', error);
+    });
+  }
+
+  function pauseMusic() {
+    backgroundMusic.pause();
+    isPlaying = false;
+    musicIcon.innerHTML = '▶';
+    musicIcon.classList.remove('pause-icon');
+    musicPlayer.classList.remove('playing');
+    saveMusicState();
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicPlayer);
+  } else {
+    initMusicPlayer();
+  }
+})();
+</script>
+
+<!-- Protected Category Script -->
+<script type="text/javascript">
+(function() {
+  // 受保护分类的密码配置
+  var protectedPasswords = {
+    
+      
+        '项目记录': 'www778899',
+      
+        '开发学习': 'www778899',
+      
+        '旅行摄影': 'www778899',
+      
+        '日常唠叨': 'www778899',
+      
+        '杂七杂八': 'www778899',
+      
+        '游戏记录': 'www778899'
+      
+    
+  };
+  var unlockedCategories = new Set();
+
+  // Initialize protected category functionality
+  function initProtectedCategories() {
+    // Handle protected category clicks
+    document.querySelectorAll('.protected-category').forEach(function(element) {
+      element.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+
+        if (unlockedCategories.has(category)) {
+          // Already unlocked, toggle normally
+          if (panel.classList.contains('in')) {
+            panel.classList.remove('in');
+          } else {
+            panel.classList.add('in');
+          }
+        } else {
+          // Show password prompt
+          panel.classList.add('in');
+          var passwordInput = panel.querySelector('.password-input');
+          if (passwordInput) {
+            passwordInput.focus();
+          }
+        }
+      });
+    });
+
+    // Handle unlock button clicks
+    document.querySelectorAll('.unlock-btn').forEach(function(button) {
+      button.addEventListener('click', function() {
+        var category = this.getAttribute('data-category');
+        var panel = document.getElementById(category);
+        var passwordInput = panel.querySelector('.password-input');
+        var password = passwordInput.value;
+
+        if (password === protectedPasswords[category]) {
+          // Correct password
+          unlockedCategories.add(category);
+          panel.querySelector('.password-prompt').style.display = 'none';
+          panel.querySelector('.protected-posts').style.display = 'block';
+
+          // Change icon to unlocked
+          var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+          if (categoryLink) {
+            categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+          }
+
+          // Store unlock status in session
+          sessionStorage.setItem('unlocked_' + category, 'true');
+        } else {
+          // Wrong password
+          passwordInput.value = '';
+          passwordInput.style.borderColor = '#ff6b6b';
+          passwordInput.placeholder = '密码错误，请重试';
+
+          setTimeout(function() {
+            passwordInput.style.borderColor = '';
+            passwordInput.placeholder = '请输入密码';
+          }, 2000);
+        }
+      });
+    });
+
+    // Handle Enter key in password input
+    document.querySelectorAll('.password-input').forEach(function(input) {
+      input.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          var category = this.closest('.protected-content').getAttribute('data-category');
+          var unlockBtn = document.querySelector('.unlock-btn[data-category="' + category + '"]');
+          if (unlockBtn) {
+            unlockBtn.click();
+          }
+        }
+      });
+    });
+
+    // Restore unlock status from session
+    document.querySelectorAll('.protected-content').forEach(function(panel) {
+      var category = panel.getAttribute('data-category');
+      if (sessionStorage.getItem('unlocked_' + category) === 'true') {
+        unlockedCategories.add(category);
+        panel.querySelector('.password-prompt').style.display = 'none';
+        panel.querySelector('.protected-posts').style.display = 'block';
+
+        var categoryLink = document.querySelector('.protected-category[data-category="' + category + '"]');
+        if (categoryLink) {
+          categoryLink.innerHTML = '<i class="fa fa-folder-open"></i> ' + category;
+        }
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProtectedCategories);
+  } else {
+    initProtectedCategories();
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+   <script type="text/javascript">      
+     var search_path = "search.xml";
+	 if (search_path.length == 0) {
+	 	search_path = "search.xml";
+	 }
+	 var path = "/" + search_path;
+     searchFunc(path, 'local-search-input', 'local-search-result');
+   </script>
+
+
+</body>
+</html>

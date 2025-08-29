@@ -47,6 +47,7 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
     const bgOpacityControl = document.getElementById('bg-opacity-control');
     const bgOpacitySlider = document.getElementById('bg-opacity-slider');
     const bgOpacityValue = document.getElementById('bg-opacity-value');
+    const helpText = document.getElementById('help-text');
 
     // 颜色相关变量
     let colorMode = 'single'; // 'single' 或 'gradient'
@@ -104,6 +105,7 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
             selectedCharacter = this.value;
             updateSelectionStatus();
             checkInputs();
+            handleLogoModeToggle();
         });
 
         nicknameInput.addEventListener('input', function() {
@@ -181,9 +183,9 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
 
         // 更新按钮文本提示
         if (!selectedCharacter && !trimmedNickname) {
-            generateBtn.title = '请选择角色并输入昵称';
+            generateBtn.title = '请选择预设并输入昵称';
         } else if (!selectedCharacter) {
-            generateBtn.title = '请选择角色';
+            generateBtn.title = '请选择预设';
         } else if (!trimmedNickname) {
             generateBtn.title = '请输入昵称';
         } else {
@@ -194,6 +196,65 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
     // 初始化颜色选择器
     function initializeColorSelector() {
         updateColorMode();
+        updateLayoutPreview();
+    }
+
+    // 处理L站logo模式切换
+    function handleLogoModeToggle() {
+        const isLogoMode = selectedCharacter === 'L站logo';
+
+        // 隐藏或显示自选背景、添加贴图和重置布局按钮
+        if (customBgBtn) customBgBtn.style.display = isLogoMode ? 'none' : 'inline-block';
+        if (addStickerBtn) addStickerBtn.style.display = isLogoMode ? 'none' : 'inline-block';
+        if (resetLayoutBtn) resetLayoutBtn.style.display = isLogoMode ? 'none' : 'inline-block';
+        if (bgOpacityControl) bgOpacityControl.style.display = 'none'; // L站logo模式下隐藏背景透明度控制
+
+        // 修改help-text内容
+        if (helpText) {
+            helpText.textContent = isLogoMode ? '单击昵称 +/-缩放' : '单击选中 Q/E旋转 +/-缩放 R重置 Delete删除';
+        }
+
+        if (isLogoMode) {
+            // L站logo模式：设置固定背景为logo.png
+            customBackground = logoImage;
+            backgroundOpacity = 1.0;
+
+            // 清除所有贴图
+            stickers = [];
+
+            // 设置L站logo模式的默认颜色
+            nicknameColor1 = '#1c1c1e'; // rgb(28,28,30)
+            nicknameColor2 = '#ffb003'; // rgb(255,176,3)
+            if (color1Input) color1Input.value = nicknameColor1;
+            if (color2Input) color2Input.value = nicknameColor2;
+
+            // 重置布局元素，L站logo模式下只显示昵称，且垂直居中
+            layoutElements = {
+                logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false, visible: false },
+                linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false, visible: false },
+                nickname: { x: 200, y: 207, width: 200, height: 40, rotation: 0, scale: 1.3, dragging: false, visible: true }
+            };
+        } else {
+            // 普通模式：恢复正常功能
+            customBackground = null;
+            backgroundOpacity = 1.0;
+            if (bgOpacitySlider) bgOpacitySlider.value = 100;
+            if (bgOpacityValue) bgOpacityValue.textContent = '100%';
+
+            // 恢复默认颜色
+            nicknameColor1 = '#25A5D0';
+            nicknameColor2 = '#88D5FB';
+            if (color1Input) color1Input.value = nicknameColor1;
+            if (color2Input) color2Input.value = nicknameColor2;
+
+            // 恢复所有元素的可见性
+            layoutElements = {
+                logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false, visible: true },
+                linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false, visible: true },
+                nickname: { x: 202, y: 275, width: 200, height: 40, rotation: 0, scale: 1, dragging: false, visible: true }
+            };
+        }
+
         updateLayoutPreview();
     }
 
@@ -217,6 +278,10 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
             // 检查点击的是哪个元素
             let clickedElement = null;
             for (const [key, element] of Object.entries(layoutElements)) {
+                // 跳过不可见的元素（L站logo模式下的logo和linuxdo）
+                if (element.visible === false) {
+                    continue;
+                }
                 if (isPointInElement(x, y, element, key)) {
                     clickedElement = key;
                     isDragging = true;
@@ -254,8 +319,13 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
                     hasMoved = true;
 
                     const element = layoutElements[dragElement];
-                    element.x = x - dragOffset.x;
-                    element.y = y - dragOffset.y;
+
+                    // L站logo模式下，昵称元素不能移动
+                    const isLogoMode = selectedCharacter === 'L站logo';
+                    if (!(isLogoMode && dragElement === 'nickname')) {
+                        element.x = x - dragOffset.x;
+                        element.y = y - dragOffset.y;
+                    }
 
                     // 根据元素类型设置边界限制
                     // if (dragElement === 'nickname') {
@@ -274,6 +344,10 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
                 // 检查鼠标悬停
                 let hovering = false;
                 for (const [key, element] of Object.entries(layoutElements)) {
+                    // 跳过不可见的元素
+                    if (element.visible === false) {
+                        continue;
+                    }
                     if (isPointInElement(x, y, element, key)) {
                         hovering = true;
                         break;
@@ -345,14 +419,22 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
                 case 'q':
                 case 'Q':
                     // Q键：逆时针旋转15度
-                    element.rotation = (element.rotation - 1.5) % 360;
-                    updated = true;
+                    // L站logo模式下，昵称元素不能旋转
+                    const isLogoMode = selectedCharacter === 'L站logo';
+                    if (!(isLogoMode && selectedElement === 'nickname')) {
+                        element.rotation = (element.rotation - 1.5) % 360;
+                        updated = true;
+                    }
                     break;
                 case 'e':
                 case 'E':
                     // E键：顺时针旋转15度
-                    element.rotation = (element.rotation + 1.5) % 360;
-                    updated = true;
+                    // L站logo模式下，昵称元素不能旋转
+                    const isLogoModeE = selectedCharacter === 'L站logo';
+                    if (!(isLogoModeE && selectedElement === 'nickname')) {
+                        element.rotation = (element.rotation + 1.5) % 360;
+                        updated = true;
+                    }
                     break;
                 case '=':
                 case '+':
@@ -658,6 +740,11 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
     function drawLayoutElement(ctx, elementType) {
         const element = layoutElements[elementType];
 
+        // 检查元素是否可见（L站logo模式下logo和linuxdo不可见）
+        if (element && element.visible === false) {
+            return;
+        }
+
         if (elementType === 'logo') {
             ctx.save();
 
@@ -923,7 +1010,7 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
         // 验证输入
         const trimmedNickname = nickname.trim();
         if (!selectedCharacter) {
-            alert('请先选择角色！');
+            alert('请先选择预设！');
             return;
         }
         if (!trimmedNickname) {
@@ -946,12 +1033,20 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
             showLoading('准备生成图片...');
             previewContainer.style.display = 'none';
 
-            // 生成静态图片
-            const staticImage = await generateStaticImage();
-            updateLoading('检查角色视频...');
+            // 检查是否为L站logo模式
+            if (selectedCharacter === 'L站logo') {
+                // L站logo模式：使用特殊的生成逻辑
+                updateLoading('生成L站logo动画...');
+                generatedGif = await generateLogoAnimation();
+                updateLoading('生成完成！');
+            } else {
+                // 普通模式：原有逻辑
+                // 生成静态图片
+                const staticImage = await generateStaticImage();
+                updateLoading('检查角色视频...');
 
-            // 尝试加载角色视频
-            const characterVideoBlob = await loadCharacterVideo();
+                // 尝试加载角色视频
+                const characterVideoBlob = await loadCharacterVideo();
 
             if (characterVideoBlob) {
                 console.log('检测到角色视频，开始合并流程');
@@ -976,6 +1071,7 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
                     updateLoading('生成完成（静态图片）！');
                 }
             }
+            }
 
             // 显示预览，保持参数区域隐藏
             hideLoading();
@@ -989,7 +1085,280 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
             alert(`生成失败: ${error.message || '未知错误'}，请检查输入并重试`);
         }
     }
-    
+
+    // 生成L站logo动画（使用无字logo视频，前三秒嵌入昵称渐显渐隐）
+    async function generateLogoAnimation() {
+        try {
+            // 加载无字logo视频
+            const logoVideoBlob = await loadLogoVideo();
+            if (!logoVideoBlob) {
+                throw new Error('无法加载无字logo视频');
+            }
+
+            // 创建昵称渐显渐隐的静态图片序列
+            const nicknameFrames = await generateNicknameFrames();
+
+            // 合并logo视频和昵称动画
+            return await mergeLogoVideoWithNickname(logoVideoBlob, nicknameFrames);
+
+        } catch (error) {
+            console.error('L站logo动画生成失败:', error);
+            throw error;
+        }
+    }
+
+    // 加载无字logo视频
+    async function loadLogoVideo() {
+        return new Promise((resolve) => {
+            const videoUrl = '/mp4/无字logo.mp4';
+            console.log('尝试加载无字logo视频:', videoUrl);
+
+            fetch(videoUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        console.log('无字logo视频不存在:', response.status);
+                        resolve(null);
+                        return;
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    if (blob) {
+                        console.log('无字logo视频加载成功，大小:', blob.size);
+                        resolve(blob);
+                    } else {
+                        resolve(null);
+                    }
+                })
+                .catch(error => {
+                    console.log('无字logo视频加载失败:', error);
+                    resolve(null);
+                });
+        });
+    }
+
+    // 生成昵称渐显渐隐帧序列
+    async function generateNicknameFrames() {
+        const frames = [];
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        canvas.width = 400;
+        canvas.height = 400;
+
+        // 动画参数（3秒，30fps）
+        const totalFrames = 90;
+        const fadeInFrames = 15; // 0.5秒渐显
+        const holdFrames = 60; // 2秒保持
+        const fadeOutFrames = 15; // 0.5秒渐隐
+
+        for (let i = 0; i < totalFrames; i++) {
+            // 清除画布（透明背景）
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 计算昵称透明度
+            let nicknameAlpha = 0;
+            if (i < fadeInFrames) {
+                nicknameAlpha = i / (fadeInFrames - 1);
+            } else if (i < fadeInFrames + holdFrames) {
+                nicknameAlpha = 1.0;
+            } else {
+                const fadeProgress = (i - fadeInFrames - holdFrames) / (fadeOutFrames - 1);
+                nicknameAlpha = 1.0 - fadeProgress;
+            }
+
+            // 绘制昵称
+            if (nicknameAlpha > 0) {
+                ctx.globalAlpha = nicknameAlpha;
+                drawNicknameText(ctx);
+                ctx.globalAlpha = 1.0;
+            }
+
+            // 保存帧
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            frames.push(imageData);
+        }
+
+        return frames;
+    }
+
+    // 合并logo视频和昵称动画
+    async function mergeLogoVideoWithNickname(logoVideoBlob, nicknameFrames) {
+        return new Promise((resolve, reject) => {
+            if (typeof GIF === 'undefined') {
+                reject(new Error('GIF.js未加载'));
+                return;
+            }
+
+            const gif = new GIF({
+                workers: 1,
+                quality: 15,
+                width: 400,
+                height: 400,
+                workerScript: '/js/gif.worker.js'
+            });
+
+            const video = document.createElement('video');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+            canvas.width = 400;
+            canvas.height = 400;
+
+            video.onloadeddata = function() {
+                const duration = video.duration;
+                const fps = 30;
+                const totalFrames = Math.floor(duration * fps);
+                const frameDelay = 1000 / fps;
+
+                console.log(`合并logo视频: 时长${duration}秒, ${totalFrames}帧`);
+
+                // 先收集所有合并后的帧
+                const allFrames = [];
+                let currentFrame = 0;
+
+                const collectFrame = () => {
+                    if (currentFrame >= totalFrames) {
+                        // 所有帧收集完成，重新排序并添加到GIF
+                        reorderAndAddFrames();
+                        return;
+                    }
+
+                    const time = currentFrame / fps;
+                    video.currentTime = time;
+
+                    video.onseeked = () => {
+                        // 创建临时画布收集这一帧
+                        const tempCanvas = document.createElement('canvas');
+                        const tempCtx = tempCanvas.getContext('2d');
+                        tempCanvas.width = 400;
+                        tempCanvas.height = 400;
+
+                        // 绘制视频帧
+                        tempCtx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                        // 保存视频帧和昵称帧分别存储，稍后重排时一起处理
+                        const frameData = {
+                            videoFrame: tempCtx.getImageData(0, 0, 400, 400),
+                            nicknameFrame: currentFrame < nicknameFrames.length ? nicknameFrames[currentFrame] : null
+                        };
+
+                        allFrames.push(frameData);
+
+                        currentFrame++;
+                        setTimeout(collectFrame, 10); // 小延迟避免阻塞
+                    };
+                };
+
+                const reorderAndAddFrames = () => {
+                    const framesPerSecond = fps;
+                    const firstSecondFrames = allFrames.slice(0, framesPerSecond);
+                    const remainingFrames = allFrames.slice(framesPerSecond);
+
+                    // 重新排序视频帧：将第一秒移到最后
+                    const reorderedVideoFrames = [...remainingFrames, ...firstSecondFrames];
+
+                    console.log(`重新排序帧: 总共${allFrames.length}帧, 第一秒${firstSecondFrames.length}帧移到最后`);
+
+                    // 重新安排昵称动画：
+                    // 原来前3秒有昵称动画，现在要让昵称动画出现在：
+                    // 1. 第1秒开始（对应原来第2秒的昵称动画）
+                    // 2. 最后1秒（对应原来第1秒的昵称动画）
+                    const newNicknameFrames = new Array(totalFrames).fill(null);
+
+                    // 将原来第2-3秒的昵称动画放到新的第1-2秒
+                    for (let i = framesPerSecond; i < nicknameFrames.length && i < framesPerSecond * 3; i++) {
+                        const newIndex = i - framesPerSecond; // 第2秒的帧 -> 第1秒的帧
+                        if (newIndex < totalFrames) {
+                            newNicknameFrames[newIndex] = nicknameFrames[i];
+                        }
+                    }
+
+                    // 将原来第1秒的昵称动画放到最后1秒
+                    for (let i = 0; i < framesPerSecond && i < nicknameFrames.length; i++) {
+                        const newIndex = totalFrames - framesPerSecond + i; // 最后1秒
+                        if (newIndex < totalFrames) {
+                            newNicknameFrames[newIndex] = nicknameFrames[i];
+                        }
+                    }
+
+                    // 添加重新排序后的帧到GIF
+                    reorderedVideoFrames.forEach((frameData, index) => {
+                        // 绘制视频帧
+                        ctx.putImageData(frameData.videoFrame, 0, 0);
+
+                        // 如果有对应的昵称动画帧，叠加它
+                        if (newNicknameFrames[index]) {
+                            const nicknameCanvas = document.createElement('canvas');
+                            const nicknameCtx = nicknameCanvas.getContext('2d');
+                            nicknameCanvas.width = 400;
+                            nicknameCanvas.height = 400;
+                            nicknameCtx.putImageData(newNicknameFrames[index], 0, 0);
+
+                            // 叠加昵称
+                            ctx.drawImage(nicknameCanvas, 0, 0);
+                        }
+
+                        gif.addFrame(ctx, {
+                            delay: frameDelay,
+                            copy: true
+                        });
+                    });
+
+                    gif.render();
+                };
+
+                collectFrame();
+            };
+
+            gif.on('finished', function(blob) {
+                console.log('L站logo动画合并完成');
+                resolve(blob);
+            });
+
+            gif.on('progress', function(p) {
+                const progress = Math.round(p * 100);
+                updateLoading(`合并L站logo动画... ${progress}%`);
+            });
+
+            video.src = URL.createObjectURL(logoVideoBlob);
+        });
+    }
+
+    // 绘制昵称文字（用于L站logo模式）
+    function drawNicknameText(ctx) {
+        const nicknameLayout = layoutElements.nickname;
+
+        ctx.save();
+
+        // 应用变换（旋转和缩放）
+        ctx.translate(nicknameLayout.x, nicknameLayout.y);
+        ctx.rotate((nicknameLayout.rotation * Math.PI) / 180);
+        ctx.scale(nicknameLayout.scale, nicknameLayout.scale);
+
+        // 应用颜色
+        if (colorMode === 'gradient') {
+            const angleRad = (gradientAngle * Math.PI) / 180;
+            const x1 = -Math.cos(angleRad) * 100;
+            const y1 = -Math.sin(angleRad) * 30;
+            const x2 = Math.cos(angleRad) * 100;
+            const y2 = Math.sin(angleRad) * 30;
+
+            const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+            gradient.addColorStop(0, nicknameColor1);
+            gradient.addColorStop(1, nicknameColor2);
+            ctx.fillStyle = gradient;
+        } else {
+            ctx.fillStyle = nicknameColor1;
+        }
+
+        // 设置字体和绘制文字
+        ctx.font = `bold ${Math.round(32 * 1.5)}px "${selectedFont}", Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(nickname, 0, 0);
+
+        ctx.restore();
+    }
+
     // 生成静态图片
     function generateStaticImage() {
         return new Promise((resolve) => {
@@ -1013,27 +1382,36 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
 
             // 使用布局位置绘制元素
 
-            // 绘制logo - 使用布局位置
-            if (logoImage && logoImage.complete) {
+            // 绘制logo - 使用布局位置（L站logo模式下不绘制）
+            if (logoImage && logoImage.complete && layoutElements.logo.visible !== false) {
                 const logoLayout = layoutElements.logo;
                 ctx.drawImage(logoImage, logoLayout.x, logoLayout.y, logoLayout.width, logoLayout.height);
             }
 
-            // 绘制LINUX DO文字 - 使用布局位置
-            const linuxdoLayout = layoutElements.linuxdo;
-            drawElementWithClipping(ctx, 'linuxdo', linuxdoLayout);
+            // 绘制LINUX DO文字 - 使用布局位置（L站logo模式下不绘制）
+            if (layoutElements.linuxdo.visible !== false) {
+                const linuxdoLayout = layoutElements.linuxdo;
+                drawElementWithClipping(ctx, 'linuxdo', linuxdoLayout);
+            }
 
             // 绘制用户昵称 - 使用布局位置和选择的颜色
             const nicknameLayout = layoutElements.nickname;
+
+            ctx.save();
+
+            // 应用变换（旋转和缩放）
+            ctx.translate(nicknameLayout.x, nicknameLayout.y);
+            ctx.rotate((nicknameLayout.rotation * Math.PI) / 180);
+            ctx.scale(nicknameLayout.scale, nicknameLayout.scale);
 
             // 根据颜色模式设置填充样式
             if (colorMode === 'gradient') {
                 // 创建带角度的渐变
                 const angleRad = (gradientAngle * Math.PI) / 180;
-                const x1 = nicknameLayout.x - Math.cos(angleRad) * 100;
-                const y1 = nicknameLayout.y - Math.sin(angleRad) * 30;
-                const x2 = nicknameLayout.x + Math.cos(angleRad) * 100;
-                const y2 = nicknameLayout.y + Math.sin(angleRad) * 30;
+                const x1 = -Math.cos(angleRad) * 100;
+                const y1 = -Math.sin(angleRad) * 30;
+                const x2 = Math.cos(angleRad) * 100;
+                const y2 = Math.sin(angleRad) * 30;
 
                 const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
                 gradient.addColorStop(0, nicknameColor1);
@@ -1044,9 +1422,12 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
                 ctx.fillStyle = nicknameColor1;
             }
 
-            ctx.font = `bold ${Math.round(32 * 1.6)}px "${selectedFont}", YaHei`; // 使用选择的字体
+            ctx.font = `bold ${Math.round(32 * 1.5)}px "${selectedFont}", Arial`; // 与预览保持一致
             ctx.textAlign = 'center';
-            ctx.fillText(nickname, nicknameLayout.x, nicknameLayout.y + 25);
+            ctx.textBaseline = 'middle'; // 与预览保持一致
+            ctx.fillText(nickname, 0, 0); // 与预览保持一致
+
+            ctx.restore();
 
             // 绘制所有贴图（在最上层）
             stickers.forEach(sticker => {

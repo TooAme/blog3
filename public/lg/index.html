@@ -44,10 +44,189 @@
 <body id="body" data-spy="scroll" data-target=".toc">
   <div class="container" id="container">
 	<div class="content">
-	  <!-- 合并的页面头部 -->
+	  <style>
+  /* 预设选择器样式 */
+  .character-selector {
+    position: relative;
+    width: 100%;
+  }
+
+  .character-selector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: white;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .character-selector-header:hover {
+    border-color: #007bff;
+  }
+
+  .dropdown-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .character-selector.open .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .character-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+  }
+
+  .character-selector.open .character-dropdown {
+    display: block;
+  }
+
+  .character-card {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .character-card:hover {
+    background-color: #f8f9fa;
+  }
+
+  .character-card:last-child {
+    border-bottom: none;
+  }
+
+  .character-preview {
+    width: 60px;
+    height: 60px;
+    margin-right: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    /* background: #f0f0f0; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .character-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .character-name {
+    font-weight: 500;
+    color: #333;
+  }
+
+  /* L站logo迷你动画 */
+  .logo-animation-mini {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mini-logo-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 50%;
+    border: 2px solid rgb(240,240,240);
+    overflow: hidden;
+    background-color: rgb(240,240,240);
+    animation: miniContainerRotate 5s ease-in-out infinite;
+  }
+
+  .mini-top-section {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgb(255,176,3);
+    animation: miniTopSection 5s ease-in-out infinite;
+  }
+
+  .mini-bottom-section {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(28,28,30);
+    animation: miniBottomSection 5s ease-in-out infinite;
+  }
+
+  .mini-white-divider {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 100%;
+    height: 0%;
+    background-color: rgb(240,240,240);
+    z-index: 10;
+    animation: miniWhiteDivider 5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+  }
+
+  @keyframes miniContainerRotate {
+    0%, 20% { transform: rotate(0deg); }
+    30% { transform: rotate(180deg); }
+    70% { transform: rotate(180deg); }
+    80%, 100% { transform: rotate(360deg); }
+  }
+
+  @keyframes miniTopSection {
+    0% { height: 50%; }
+    10% { height: 25%; }
+    20% { height: 75%; }
+    30% { height: 50%; }
+    40% { height: 30%; }
+    60% { height: 30%; }
+    70% { height: 50%; }
+    80% { height: 75%; }
+    90% { height: 25%; }
+    100% { height: 50%; }
+  }
+
+  @keyframes miniBottomSection {
+    0% { height: 50%; }
+    10% { height: 75%; }
+    20% { height: 25%; }
+    30% { height: 50%; }
+    40% { height: 30%; }
+    60% { height: 30%; }
+    70% { height: 50%; }
+    80% { height: 25%; }
+    90% { height: 75%; }
+    100% { height: 50%; }
+  }
+
+  @keyframes miniWhiteDivider {
+    0%, 30% { height: 0%; top: 50%; }
+    40% { height: 40%; top: 30%; }
+    60% { height: 40%; top: 30%; }
+    70% { height: 0%; top: 50%; }
+    100% { height: 0%; top: 50%; }
+  }
+</style>
+
+<!-- 合并的页面头部 -->
 <div class="page-header">
   <h1><a class="brand" href="/">遠雨</a></h1>
-  <h2><span class="title">乐队头像生成器</span></h2>
+  <h2><span class="title">动态头像生成器</span></h2>
 </div>
 
 <div class="row page">
@@ -58,10 +237,327 @@
       <div class="generator-left-panel">
         <!-- 参数选择区域 -->
         <div id="parameter-section">
-        <!-- 角色选择 -->
+        <!-- 预设选择 -->
       <div class="form-group">
         <label for="character-select">选择预设：</label>
-        <select id="character-select" class="form-control">
+        <div class="character-selector">
+          <div class="character-selector-header" id="character-selector-header">
+            <span class="selected-character-name">请选择预设</span>
+            <span class="dropdown-arrow">▼</span>
+          </div>
+          <div class="character-dropdown" id="character-dropdown">
+            <div class="character-card" data-value="L站logo">
+              <div class="character-preview">
+                <div class="logo-animation-mini">
+                  <div class="mini-logo-container">
+                    <div class="mini-top-section"></div>
+                    <div class="mini-bottom-section"></div>
+                    <div class="mini-white-divider"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="character-name">L站logo</div>
+            </div>
+            <div class="character-card" data-value="小祥">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/小祥.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">小祥</div>
+            </div>
+            <div class="character-card" data-value="小祥（联动版）">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/小祥（联动版）.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">小祥 - 联动</div>
+            </div>
+            <div class="character-card" data-value="soyorin1">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/soyorin1.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">素世 - 竖屏</div>
+            </div>
+            <div class="character-card" data-value="soyorin2">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/soyorin2.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">素世 - 横屏</div>
+            </div>
+            <div class="character-card" data-value="乐奈">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/乐奈.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">乐奈</div>
+            </div>
+            <div class="character-card" data-value="偷摸零">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/偷摸零.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">偷摸零</div>
+            </div>
+            <div class="character-card" data-value="喵梦">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/喵梦.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">喵梦</div>
+            </div>
+            <div class="character-card" data-value="墨提斯1">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/墨提斯1.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">墨提斯 - 竖屏</div>
+            </div>
+            <div class="character-card" data-value="墨提斯2">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/墨提斯2.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">墨提斯 - 横屏</div>
+            </div>
+            <div class="character-card" data-value="爱音1">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/爱音1.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">爱音 - 竖屏</div>
+            </div>
+            <div class="character-card" data-value="爱音2">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/爱音2.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">爱音 - 横屏</div>
+            </div>
+            <div class="character-card" data-value="爱音3">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/爱音3.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">爱音 - 校服横屏</div>
+            </div>
+            <div class="character-card" data-value="睦子米1">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/睦子米1.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">睦子米 - 横屏</div>
+            </div>
+            <div class="character-card" data-value="睦子米2">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/睦子米2.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">睦子米 - 竖屏</div>
+            </div>
+            <div class="character-card" data-value="立希">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/立希.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">立希</div>
+            </div>
+            <div class="character-card" data-value="黄毛大狗">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/黄毛大狗.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">黄毛大狗</div>
+            </div>
+            <div class="character-card" data-value="波奇">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/波奇.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">波奇</div>
+            </div>
+            <div class="character-card" data-value="虹夏">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/虹夏.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">虹夏</div>
+            </div>
+            <div class="character-card" data-value="糖糖">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/糖糖.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">糖糖</div>
+            </div>
+            <div class="character-card" data-value="仓田真白">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/仓田真白.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">仓田真白</div>
+            </div>
+            <div class="character-card" data-value="赛飞儿">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/赛飞儿.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">赛飞儿</div>
+            </div>
+            <div class="character-card" data-value="流萤">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/流萤.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">流萤</div>
+            </div>
+            <div class="character-card" data-value="圣园未花">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/圣园未花.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">圣园未花</div>
+            </div>
+            <div class="character-card" data-value="魔理沙">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/魔理沙.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">魔理沙</div>
+            </div>
+            <div class="character-card" data-value="藤田琴音">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/藤田琴音.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">藤田琴音</div>
+            </div>
+            <div class="character-card" data-value="安和昂">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/安和昂.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">安和昂</div>
+            </div>
+            <div class="character-card" data-value="薇薇安">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/薇薇安.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">薇薇安</div>
+            </div>
+            <div class="character-card" data-value="立华奏">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/立华奏.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">立华奏</div>
+            </div>
+            <div class="character-card" data-value="八奈见杏菜">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/八奈见杏菜.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">八奈见杏菜</div>
+            </div>
+            <div class="character-card" data-value="琪露诺">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/琪露诺.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">琪露诺</div>
+            </div>
+            <div class="character-card" data-value="塔菲">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/塔菲.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">塔菲</div>
+            </div>
+            <div class="character-card" data-value="丛雨">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/丛雨.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">丛雨</div>
+            </div>
+            <div class="character-card" data-value="喜多">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/喜多.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">喜多</div>
+            </div>
+            <div class="character-card" data-value="雫るる">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/雫るる.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">雫るる</div>
+            </div>
+            <div class="character-card" data-value="荧">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/荧.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">荧</div>
+            </div>
+            <div class="character-card" data-value="平泽唯">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/平泽唯.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">平泽唯</div>
+            </div>
+            <div class="character-card" data-value="凉宫春日">
+              <div class="character-preview">
+                <video class="character-video" muted loop>
+                  <source src="/mp4/凉宫春日.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="character-name">凉宫春日</div>
+            </div>
+          </div>
+        </div>
+        <!-- 隐藏的原始select，用于兼容现有JavaScript -->
+        <select id="character-select" class="form-control" style="display: none;">
           <option value=""></option>
           <option value="L站logo">L站logo</option>
           <option value="小祥">小祥</option>
@@ -241,7 +737,7 @@
 <script src="/js/gif.js"></script>
 
 <!-- L站生成器专用脚本 -->
-<script src="/js/lstation-generator.js?v=1756499806258"></script>
+<script src="/js/lstation-generator.js?v=1756693634021"></script>
 
 	</div>
   </div>

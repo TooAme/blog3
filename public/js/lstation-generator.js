@@ -49,6 +49,11 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
     const bgOpacityValue = document.getElementById('bg-opacity-value');
     const helpText = document.getElementById('help-text');
 
+    // 新的预设选择器元素
+    const characterSelectorHeader = document.getElementById('character-selector-header');
+    const characterDropdown = document.getElementById('character-dropdown');
+    const characterSelector = document.querySelector('.character-selector');
+
     // 颜色相关变量
     let colorMode = 'single'; // 'single' 或 'gradient'
     let nicknameColor1 = '#25A5D0'; // 默认蓝色 (37, 165, 208)
@@ -58,9 +63,9 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
 
     // 布局相关变量
     let layoutElements = {
-        logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false },
-        linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false },
-        nickname: { x: 202, y: 275, width: 200, height: 40, rotation: 0, scale: 1, dragging: false }
+        logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false, visible: true },
+        linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false, visible: true },
+        nickname: { x: 202, y: 275, width: 200, height: 40, rotation: 0, scale: 1, dragging: false, visible: true }
     };
     let dragOffset = { x: 0, y: 0 };
     let isDragging = false;
@@ -107,6 +112,9 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
             checkInputs();
             handleLogoModeToggle();
         });
+
+        // 新的预设选择器事件处理
+        initializeCharacterSelector();
 
         nicknameInput.addEventListener('input', function() {
             nickname = this.value; // 保存原始值，在检查时再trim
@@ -197,6 +205,62 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
     function initializeColorSelector() {
         updateColorMode();
         updateLayoutPreview();
+    }
+
+    // 初始化预设选择器
+    function initializeCharacterSelector() {
+        if (!characterSelectorHeader || !characterDropdown || !characterSelector) {
+            return; // 如果元素不存在，直接返回
+        }
+
+        // 点击头部切换下拉状态
+        characterSelectorHeader.addEventListener('click', function() {
+            characterSelector.classList.toggle('open');
+        });
+
+        // 点击外部关闭下拉
+        document.addEventListener('click', function(e) {
+            if (!characterSelector.contains(e.target)) {
+                characterSelector.classList.remove('open');
+            }
+        });
+
+        // 处理预设卡片点击
+        const characterCards = characterDropdown.querySelectorAll('.character-card');
+        characterCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const value = this.getAttribute('data-value');
+                const name = this.querySelector('.character-name').textContent;
+
+                // 更新显示的选中项
+                characterSelectorHeader.querySelector('.selected-character-name').textContent = name;
+
+                // 更新隐藏的select元素
+                characterSelect.value = value;
+
+                // 触发change事件
+                const changeEvent = new Event('change', { bubbles: true });
+                characterSelect.dispatchEvent(changeEvent);
+
+                // 关闭下拉
+                characterSelector.classList.remove('open');
+            });
+
+            // 处理视频预览
+            const video = card.querySelector('.character-video');
+            if (video) {
+                // 鼠标悬停时播放视频
+                card.addEventListener('mouseenter', function() {
+                    video.play().catch(e => console.log('视频播放失败:', e));
+                });
+
+                // 鼠标离开时暂停视频
+                card.addEventListener('mouseleave', function() {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            }
+        });
     }
 
     // 处理L站logo模式切换
@@ -385,11 +449,11 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
 
         // 重置布局按钮
         resetLayoutBtn.addEventListener('click', function() {
-            // 重置基本布局元素
+            // 重置基本布局元素，恢复所有元素的可见性
             layoutElements = {
-                logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false },
-                linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false },
-                nickname: { x: 202, y: 275, width: 200, height: 40, rotation: 0, scale: 1, dragging: false }
+                logo: { x: 50, y: 105, width: 112, height: 112, rotation: 0, scale: 1, dragging: false, visible: true },
+                linuxdo: { x: 189, y: 152, width: 145, height: 30, rotation: 0, scale: 1, dragging: false, visible: true },
+                nickname: { x: 202, y: 275, width: 200, height: 40, rotation: 0, scale: 1, dragging: false, visible: true }
             };
 
             // 清除背景和贴图
@@ -469,9 +533,12 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
                     break;
                 case 'Delete':
                 case 'Backspace':
-                    // Delete/Backspace键：删除贴图
+                    // Delete/Backspace键：删除元素
                     if (selectedElement.startsWith('sticker')) {
                         deleteSticker(selectedElement);
+                        return; // 删除后直接返回，不需要更新预览
+                    } else if (selectedElement === 'logo' || selectedElement === 'linuxdo' || selectedElement === 'nickname') {
+                        deleteLayoutElement(selectedElement);
                         return; // 删除后直接返回，不需要更新预览
                     }
                     break;
@@ -687,6 +754,25 @@ console.log('L站头像生成器加载 - 贴图无限制缩放版本 v15.0');
         updateLayoutPreview();
 
         console.log('贴图已删除:', stickerId);
+    }
+
+    // 删除布局元素函数（logo、linuxdo、nickname）
+    function deleteLayoutElement(elementType) {
+        if (!elementType || !layoutElements[elementType]) {
+            console.warn('无效的元素类型:', elementType);
+            return;
+        }
+
+        // 设置元素为不可见而不是真正删除，这样可以通过重置布局恢复
+        layoutElements[elementType].visible = false;
+
+        // 清除选中状态
+        selectedElement = null;
+
+        // 更新预览
+        updateLayoutPreview();
+
+        console.log(`元素 ${elementType} 已隐藏`);
     }
 
     // 更新颜色模式显示
